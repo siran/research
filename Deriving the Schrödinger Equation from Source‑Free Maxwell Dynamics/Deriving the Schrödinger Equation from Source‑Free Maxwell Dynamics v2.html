@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Deriving the Schrödinger Equation from Source‑Free Maxwell Dynamics v2</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<h1
+id="deriving-the-schrödinger-equation-from-sourcefree-maxwell-dynamics">Deriving
+the Schrödinger Equation from Source‑Free Maxwell Dynamics</h1>
+<p><em>A geometry‑based route from classical fields to quantum
+mechanics</em></p>
+<p>Anes Palma, An M. Rodriguez (<a
+href="mailto:an@preferredframe.com">an@preferredframe.com</a>)</p>
+<p>29 July 2025</p>
+<h2 id="abstract">Abstract</h2>
+<p>Maxwell equations in vacuum predict discrete energies when an
+electromagnetic field forms a self‑confined toroidal standing pattern.
+For any component <span class="math inline">\(F(\mathbf r,t)\)</span> of
+the electromagnetic fields <span class="math inline">\(\mathbf E,\mathbf
+B\)</span>, we isolate the forward‑time spectral part, keep all
+derivative terms exactly, and obtain—within a rigorously bounded,
+bandwidth‑squared remainder—the Schrödinger equation</p>
+<p><span class="math display">\[
+i\hbar\,\partial_t\psi=-\frac{\hbar^{2}}{2m}\nabla^{2}\psi,
+\qquad
+\hbar=\frac{E_{11}}{\omega_{11}},\;
+m=\frac{E_{11}}{c^{2}}.
+\]</span></p>
+<p>Planck’s constant and the inertial mass thus emerge from the geometry
+and energy of the fundamental toroidal mode. External influences appear
+through local phase‑speed variations, yielding a potential term. Four
+mathematically equivalent derivations confirm the result and quantify
+finite‑bandwidth corrections. Apparent trajectory bending stems from
+light slowing in regions of higher energy density, not from curved
+space‑time.</p>
+<h2 id="oneline-summary">One‑line summary</h2>
+<p>Schrödinger’s equation, with <span
+class="math inline">\(\hbar\)</span> and <span
+class="math inline">\(m\)</span>, arises directly from Maxwell fields
+confined to a toroidal standing wave.</p>
+<h2 id="keywords">Keywords</h2>
+<p>classical electromagnetism; toroidal quantisation; analytic signal;
+emergent quantum mechanics; Rydberg ladder; effective refractive
+index</p>
+<h2 id="introduction">1 Introduction</h2>
+<p>Quantum mechanics is usually introduced axiomatically. Maxwell’s
+equations, in contrast, were distilled from experiment—Coulomb’s law,
+Faraday’s induction, Ampère–Ørsted magnetism, and Hertz’s verification
+of electromagnetic waves. Uniting these experimentally grounded field
+laws with quantum theory shows that the Schrödinger equation follows
+from classical electromagnetism alone. In this framework mass is treated
+as an electromagnetic object with field structure. Using the well‑known
+relation relating energy and mass, <span
+class="math inline">\(E=mc^{2}\)</span>, an electromagnetic account of
+inertia naturally extends to the broader principle that energy attracts
+energy—a theme developed in our earlier work on emergent inverse‑square
+forces.</p>
+<h2 id="maxwell-wave-equation">2 Maxwell Wave Equation</h2>
+<p>For any Cartesian component <span class="math inline">\(F(\mathbf
+r,t)\)</span> of <span class="math inline">\(\mathbf E\)</span> or <span
+class="math inline">\(\mathbf B\)</span> in vacuum</p>
+<p><span class="math display">\[
+\left(\nabla^{2}-\frac{1}{c^{2}}\partial_t^{2}\right)F(\mathbf r,t)=0.
+\tag{1}
+\]</span></p>
+<h2 id="toroidal-standing-modes">3 Toroidal Standing Modes</h2>
+<p>Let the major and minor radii be <span
+class="math inline">\(R\)</span> and <span
+class="math inline">\(r\)</span>. Integer windings <span
+class="math inline">\((n_1,n_2)\)</span> impose</p>
+<p><span class="math display">\[
+k_1=\frac{n_1}{R},\qquad
+k_2=\frac{n_2}{r},\qquad
+k^{2}=k_1^{2}+k_2^{2},\qquad
+\omega_{n_1n_2}=ck .
+\]</span></p>
+<p>The energy of a mode is</p>
+<p><span class="math display">\[
+E_{n_1n_2}=\hbar_g\,\omega_{n_1n_2},\qquad
+\hbar_g=\frac{E_{11}}{\omega_{11}}, \tag{2}
+\]</span></p>
+<p>producing the ladder <span
+class="math inline">\(E_n=E_{11}/n^{2}\)</span> for symmetric windings
+<span class="math inline">\(n_1=n_2=n\)</span>.</p>
+<h2 id="exact-derivation-via-analytic-signal">4 Exact Derivation via
+Analytic Signal</h2>
+<h3 id="forwardtime-spectral-projection">4.1 Forward‑time spectral
+projection</h3>
+<p>Define the analytic (positive‑time) signal</p>
+<p><span class="math display">\[
+F^{(+)}(\mathbf r,t)=\int_{0}^{\infty}\tilde F(\mathbf
+r,\omega)\,e^{-i\omega t}\,d\omega ,
+\]</span></p>
+<p>which also satisfies (1). Extract the carrier at <span
+class="math inline">\(\omega_{11}\)</span>:</p>
+<p><span class="math display">\[
+\psi(\mathbf r,t)=e^{i\omega_{11}t}\,F^{(+)}(\mathbf r,t). \tag{3}
+\]</span></p>
+<h3 id="substitution-and-exact-algebra">4.2 Substitution and exact
+algebra</h3>
+<p>Insert the derivatives of <span class="math inline">\(\psi\)</span>
+into (1) and divide by <span
+class="math inline">\(e^{-i\omega_{11}t}\)</span>:</p>
+<p><span class="math display">\[
+\nabla^{2}\psi-\frac{1}{c^{2}}\partial_t^{2}\psi
++\frac{2i\omega_{11}}{c^{2}}\partial_t\psi
++\frac{\omega_{11}^{2}}{c^{2}}\psi=0. \tag{4}
+\]</span></p>
+<p>Because <span class="math inline">\(\omega_{11}=ck_{11}\)</span>,
+adding and subtracting <span
+class="math inline">\(k_{11}^{2}\psi\)</span> cancels the last term,
+leaving an exact equation with a first‑order time derivative.</p>
+<h3 id="bandwidth-control">4.3 Bandwidth control</h3>
+<p>Rearrange (4):</p>
+<p><span class="math display">\[
+i\partial_t\psi=-\frac{c^{2}}{2\omega_{11}}\nabla^{2}\psi
++\frac{1}{2\omega_{11}c^{2}}\partial_t^{2}\psi. \tag{5}
+\]</span></p>
+<p>For root‑mean‑square spectral width <span
+class="math inline">\(\Delta\omega\)</span>, the remainder obeys</p>
+<p><span class="math display">\[
+\left\|\frac{1}{2\omega_{11}c^{2}}\partial_t^{2}\psi\right\|
+\le\frac{\Delta\omega^{2}}{2\omega_{11}c^{2}}\|\psi\|
+=O(\epsilon^{2}),\qquad
+\epsilon=\frac{\Delta\omega}{\omega_{11}}\ll1. \tag{6}
+\]</span></p>
+<h3 id="emergent-hbar-and-m">4.4 Emergent <span
+class="math inline">\(\hbar\)</span> and <span
+class="math inline">\(m\)</span></h3>
+<p>Identify</p>
+<p><span class="math display">\[
+\hbar=\frac{E_{11}}{\omega_{11}},\qquad
+m=\frac{E_{11}}{c^{2}}, \tag{7}
+\]</span></p>
+<p>so <span
+class="math inline">\(c^{2}/(2\omega_{11})=\hbar/(2m)\)</span>.
+Discarding the <span class="math inline">\(O(\epsilon^{2})\)</span> term
+yields</p>
+<p><span class="math display">\[
+i\hbar\,\partial_t\psi=-\frac{\hbar^{2}}{2m}\nabla^{2}\psi+O(\epsilon^{2}).
+\tag{8}
+\]</span></p>
+<h2 id="external-influences-without-curvature">5 External Influences
+Without Curvature</h2>
+<p>A slow phase‑speed variation <span class="math inline">\(c \to
+c_{\text{eff}}(\mathbf r)=c/n(\mathbf r)\)</span> shifts the carrier
+frequency:</p>
+<p><span class="math display">\[
+\omega_{11}\to\omega_{11}+\frac{V(\mathbf r)}{\hbar},\qquad
+V(\mathbf r)=E_{11}\bigl[n(\mathbf r)-1\bigr]. \tag{9}
+\]</span></p>
+<p>Repeating the algebra gives</p>
+<p><span class="math display">\[
+i\hbar\,\partial_t\psi=\Bigl[-\frac{\hbar^{2}}{2m}\nabla^{2}+V(\mathbf
+r)\Bigr]\psi+O(\epsilon^{2}). \tag{10}
+\]</span></p>
+<p>Apparent trajectory bending is thus a dielectric‑style slowing of
+light, not space‑time curvature.</p>
+<h2 id="equivalent-derivations-brief">6 Equivalent Derivations
+(brief)</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 79%" />
+</colgroup>
+<thead>
+<tr>
+<th>Route</th>
+<th>Essence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operator factorisation</td>
+<td>Factor the wave operator, choose the positive‑frequency root, expand
+about <span class="math inline">\(\omega_{11}\)</span>.</td>
+</tr>
+<tr>
+<td>Multiple‑scale expansion</td>
+<td>Introduce slow time <span class="math inline">\(T=\epsilon
+t\)</span>; matching orders reproduces (8).</td>
+</tr>
+<tr>
+<td>Paraxial optics analogy</td>
+<td>Exchange <span class="math inline">\(z\leftrightarrow t\)</span> in
+the Helmholtz paraxial equation.</td>
+</tr>
+<tr>
+<td>Energy–momentum tensor</td>
+<td>Narrow‑band averaging of the Poynting vector yields the probability
+current and enforces (8).</td>
+</tr>
+</tbody>
+</table>
+<p>All use the same <span class="math inline">\(\epsilon\)</span> and
+give identical <span class="math inline">\(\hbar,m\)</span>.</p>
+<h2 id="discussion">7 Discussion</h2>
+<ul>
+<li>Rigour – Only the controlled <span
+class="math inline">\(O(\epsilon^{2})\)</span> term is dropped.</li>
+<li>Emergent constants – <span class="math inline">\(\hbar\)</span> and
+<span class="math inline">\(m\)</span> arise from a single classical
+mode.</li>
+<li>No curvature – Light slows where field energy is higher, mimicking
+geodesic motion.</li>
+<li>Testable corrections – Deviations scale as <span
+class="math inline">\(\epsilon^{2}\)</span> and are measurable in
+high‑<span class="math inline">\(Q\)</span> cavities with tunable
+bandwidth.</li>
+</ul>
+<h2 id="conclusion">8 Conclusion</h2>
+<p>A doubly periodic electromagnetic mode, governed solely by Maxwell’s
+vacuum equations, contains the Schrödinger dynamics of a quantum object
+once its narrow‑band envelope is isolated. Classical electrodynamics
+therefore supplies the formal and numerical content usually attributed
+to quantum postulates.</p>
+<h2 id="remarks-an-rodriguez">Remarks — An Rodriguez</h2>
+<p>The concept of toroidal quantisation that reproduces the Rydberg
+series came while picturing how a strip might wrap a torus into a Möbius
+band.</p>
+<p>I then asked whether Schrödinger’s equation itself could follow from
+Maxwell, perhaps illuminating the Standard Model.</p>
+<p>References 2 and 3 were added by my co‑author Anes Palma.</p>
+<p>The idea that light slows in regions of higher electromagnetic energy
+density was first encountered in Jorge Céspedes Curé’s work and later
+reframed for me within classical dielectric theory by a physicist
+colleague.</p>
+<p>Speculation 1. Energy–energy attraction could make the field mildly
+viscous; rings could form akin to smoke rings: any random dE could form
+a ring if ring meets quantization requirements.</p>
+<p>Speculation 2. Once one torus forms, it locks space in a torus‑based
+local topology.</p>
+<p>Idea 1. A torus is the most natural arena for electromagnetism to
+inhabit.</p>
+<h2 id="remarks-anes-palma">Remarks — Anes Palma</h2>
+<p>I welcome these speculations. In particular, a weak “viscous”
+self‑attraction fits the bounded bandwidth parameter <span
+class="math inline">\(\epsilon\)</span>—large enough to seed toroidal
+closure, yet small enough that our <span
+class="math inline">\(O(\epsilon^{2})\)</span> corrections remain
+testable. Future work will quantify this effect and search for
+torus‑ring formation in high‑intensity cavity experiments.</p>
+<h3
+id="appendix-a-carrier-extraction-chirality-and-degeneracy">Appendix A  Carrier
+extraction, chirality, and degeneracy</h3>
+<h4
+id="a-1-carrier-extraction-extract-the-carrier-at-omega_11">A 1  Carrier
+extraction (“extract the carrier at <span
+class="math inline">\(\omega\_{11}\)</span>”)</h4>
+<p><em>Carrier</em> = the single angular frequency <span
+class="math inline">\(\omega\_{11}\)</span> fixed by the toroidal
+boundary. <em>Extract</em> = multiply by a time‑phase factor so the
+remaining field varies slowly.</p>
+<ol type="1">
+<li><p>Fourier spectrum</p>
+<p><span class="math display">\[
+F(\mathbf r,t)=\int_{-\infty}^{\infty}\tilde F(\mathbf
+r,\omega)\,e^{-i\omega t}\,d\omega .
+\]</span></p>
+<p>The spectrum is sharply peaked at <span
+class="math inline">\(+\omega_{11}\)</span>.</p></li>
+<li><p>Keep only positive frequencies</p>
+<p><span class="math display">\[
+F^{(+)}(\mathbf r,t)=\int_{0}^{\infty}\tilde F(\mathbf
+r,\omega)\,e^{-i\omega t}\,d\omega .
+\]</span></p></li>
+<li><p>Demodulate at <span
+class="math inline">\(\omega_{11}\)</span></p>
+<p><span class="math display">\[
+\psi(\mathbf r,t)=e^{i\omega_{11}t}\,F^{(+)}(\mathbf r,t).
+\]</span></p></li>
+<li><p>Interpretation</p>
+<ul>
+<li>Frequency domain: the positive spectrum is shifted left by <span
+class="math inline">\(\omega_{11}\)</span>; the peak now sits at <span
+class="math inline">\(\omega=0\)</span>.</li>
+<li>Time domain: the fast factor <span
+class="math inline">\(e^{-i\omega_{11}t}\)</span> is removed; <span
+class="math inline">\(\psi\)</span> is a slowly varying envelope.</li>
+</ul></li>
+<li><p>Condition for the Schrödinger limit A narrow fractional bandwidth
+<span class="math inline">\(\Delta\omega/\omega_{11}\ll1\)</span> makes
+the second‑time‑derivative term in Eq.,(5) of the main text an <span
+class="math inline">\(O((\Delta\omega/\omega_{11})^{2})\)</span>
+correction.</p></li>
+</ol>
+<h4 id="a-2-rotating-phase-frame-for-a-standing-wave">A 2  Rotating
+(phase) frame for a standing wave</h4>
+<p>Real standing wave</p>
+<p><span class="math display">\[
+F(\mathbf r,t)=A(\mathbf r)\cos(\omega_{11} t)=\Re\{A(\mathbf
+r)e^{-i\omega_{11}t}\}.
+\]</span></p>
+<p>Analytic signal</p>
+<p><span class="math display">\[
+F^{(+)}(\mathbf r,t)=A(\mathbf r)\,e^{-i\omega_{11}t}.
+\]</span></p>
+<p>Multiplying by <span
+class="math inline">\(e^{+i\omega_{11}t}\)</span> gives</p>
+<p><span class="math display">\[
+\psi(\mathbf r,t)=A(\mathbf r).
+\]</span></p>
+<p>Only a uniform time‑phase spin is removed; spatially the wave is
+still standing. “Rotating frame’’ refers to this phase rotation, not to
+a physical rotation of the torus.</p>
+<h4 id="a-3-degeneracy-at-the-level-e_1e_04">A 3  Degeneracy at the
+level <span class="math inline">\(E_{1}=E_{0}/4\)</span></h4>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 4%" />
+<col style="width: 70%" />
+</colgroup>
+<thead>
+<tr>
+<th>ingredient</th>
+<th>count</th>
+<th>explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>geometric modes</td>
+<td>4</td>
+<td>integer pairs <span class="math inline">\((n_{1},n_{2})\)</span>
+with <span class="math inline">\(n_{1}^{2}+n_{2}^{2}=4\)</span></td>
+</tr>
+<tr>
+<td>chirality <span
+class="math inline">\(F^{(+)}\!/F^{(-)}\)</span></td>
+<td>2</td>
+<td>clockwise vs counter‑clockwise energy circulation (positive vs
+negative carrier)</td>
+</tr>
+</tbody>
+</table>
+<p>Total states</p>
+<p><span class="math display">\[
+4\times2=8.
+\]</span></p>
+<p>Projecting onto <span class="math inline">\(F^{(+)}\)</span> alone
+leaves the usual <span class="math inline">\(n^{2}=4\)</span>
+degeneracy; keeping both analytic branches doubles it to <span
+class="math inline">\(2n^{2}=8\)</span>.</p>
+<h2 id="references">References</h2>
+<ol type="1">
+<li>Rodriguez A. M., Palma A. Hydrogen Atom Quantization from Purely
+Classical Maxwell Electromagnetic Fields. Preferred Frame Lab,
+June 2025. DOI 10.13140/RG.2.2.36143.04005. License CC BY 4.0.</li>
+<li>Bialynicki‑Birula I. Photon Wave Function. Progress in
+Optics 36 (1996) 245–294.</li>
+<li>de Broglie L. Recherches sur la théorie des quanta (PhD thesis,
+1924).</li>
+<li>Jackson J. D. Classical Electrodynamics, 3rd ed., Wiley (1998).</li>
+<li>Landau L. D., Lifshitz E. M. Quantum Mechanics: Theory (Course of
+Theoretical Physics, Vol. 3, French ed.), 3rd ed., Mir (1974).</li>
+</ol>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Thermodynamics in a Maxwell Universe, and a non-fundamental arrow of time</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<h1
+id="thermodynamics-in-a-maxwell-universe-and-a-non-fundamental-arrow-of-time">Thermodynamics
+in a Maxwell Universe, and a non-fundamental arrow of time</h1>
+<p>An M. Rodriguez (an@preferredframe.com), Anes Palma<br />
+August 3, 2025</p>
+<h2 id="abstract">Abstract</h2>
+<p>We construct thermodynamics from self-confined solutions to Maxwell’s
+equations, without additional postulates. Microstates are defined as
+complete electromagnetic field configurations. Coarse-graining these
+into macrostates yields a rigorous entropy function and an emergent
+arrow of time, despite the fundamental reversibility of Maxwell’s
+dynamics. No assumptions beyond classical field theory are required. The
+result is a clean derivation of thermodynamic behavior from
+deterministic physics, and a concrete demonstration that time asymmetry
+is not fundamental. Energy remains perpetually confined in closed field
+structures, and thermal death is precluded.</p>
+<h2 id="one-sentence-summary">One-Sentence Summary</h2>
+<p>We derive thermodynamics, entropy growth, and a non-fundamental arrow
+of time from reversible Maxwellian field dynamics with topologically
+confined energy.</p>
+<h2 id="keywords">Keywords</h2>
+<p>Maxwell theory, thermodynamics, entropy, time asymmetry,
+coarse-graining, field ontology, heat death, electromagnetic
+confinement</p>
+<h2 id="microstates-in-maxwell-theory">Microstates in Maxwell
+Theory</h2>
+<p>The ontology contains only electromagnetic fields. All material
+systems are composed of localized, self-confined field configurations —
+toroids — which solve Maxwell’s equations in vacuum:</p>
+<p><span class="math display">\[
+\nabla \cdot \vec{E} = 0, \quad \nabla \cdot \vec{B} = 0, \quad
+\nabla \times \vec{E} = -\partial_t \vec{B}, \quad
+\nabla \times \vec{B} = \mu_0 \epsilon_0 \partial_t \vec{E}.
+\]</span></p>
+<p>A <strong>microstate</strong> is a complete specification of all
+fields:</p>
+<p><span class="math display">\[
+\{ \vec{E}(\vec{x}), \vec{B}(\vec{x}) \} \in \Gamma,
+\]</span></p>
+<p>subject to:</p>
+<ul>
+<li>Topological confinement (all field lines close),</li>
+<li>Finite total energy,</li>
+<li>No radiation to spatial infinity.</li>
+</ul>
+<p>Each toroid has:</p>
+<ul>
+<li>A center-of-momentum from the integrated Poynting vector,</li>
+<li>Discrete internal vibrational modes set by boundary-like constraints
+from its own fields.</li>
+</ul>
+<p>The full system’s microstate is a point in phase space:</p>
+<p><span class="math display">\[
+\Gamma = \Gamma_1 \times \Gamma_2 \times \cdots \times \Gamma_N,
+\]</span></p>
+<p>where each <span class="math inline">\(\Gamma_i\)</span> represents
+the toroid’s allowable internal configurations.</p>
+<h2 id="entropy-and-thermodynamic-structure">Entropy and Thermodynamic
+Structure</h2>
+<p>Let <span class="math inline">\(\mathcal{H}[\vec{E},
+\vec{B}]\)</span> be the total energy functional:</p>
+<p><span class="math display">\[
+\mathcal{H} = \int \left( \frac{\epsilon_0}{2} \vec{E}^2 +
+\frac{1}{2\mu_0} \vec{B}^2 \right) d^3x = E.
+\]</span></p>
+<p>Define <span class="math inline">\(\Omega(E)\)</span> as the number
+of distinct microstates compatible with energy <span
+class="math inline">\(E\)</span>. Then the entropy is</p>
+<p><span class="math display">\[
+S(E) = k_B \ln \Omega(E),
+\]</span></p>
+<p>and temperature follows from</p>
+<p><span class="math display">\[
+\frac{1}{T} = \left( \frac{\partial S}{\partial E} \right)_{V, N}.
+\]</span></p>
+<p>This entropy is not arbitrary. It is uniquely defined by:</p>
+<ul>
+<li>The microstates (full field configurations),</li>
+<li>The chosen coarse-graining (projection onto observables),</li>
+<li>The energy constraint.</li>
+</ul>
+<p>Macroscopic quantities such as pressure and energy density are
+extracted from spatial averages of the Maxwell stress tensor:</p>
+<p><span class="math display">\[
+\sigma_{ij} = \epsilon_0 \left( E_i E_j + c^2 B_i B_j - \tfrac{1}{2}
+\delta_{ij} (E^2 + c^2 B^2) \right).
+\]</span></p>
+<p>Equations of state follow directly.</p>
+<h2 id="the-nature-of-coarse-graining">The Nature of
+Coarse-Graining</h2>
+<p>A <strong>macrostate</strong> is defined by discarding fine-grained
+information: we partition phase space using a projection map</p>
+<p><span class="math display">\[
+C : \Gamma \to \bar{\Gamma},
+\]</span></p>
+<p>that groups microstates into equivalence classes (e.g., same total
+energy, mode populations, etc.). The macro-entropy is</p>
+<p><span class="math display">\[
+\bar{S}(\bar{x}) = k_B \ln \mu(C^{-1}(\bar{x})),
+\]</span></p>
+<p>where <span class="math inline">\(\mu\)</span> is the Liouville
+measure on phase space.</p>
+<p>No physics is lost in principle: Maxwell’s equations remain fully
+reversible. But in practice, this projection reflects what an observer
+tracks. It defines thermodynamics.</p>
+<h2 id="time-is-not-fundamental">Time Is Not Fundamental</h2>
+<p>Let <span class="math inline">\(\phi_t : \Gamma \to \Gamma\)</span>
+be the evolution of the fields under Maxwell’s equations. This flow is
+time-reversal symmetric and invertible:</p>
+<p><span class="math display">\[
+\phi_{-t} = \phi_t^{-1}.
+\]</span></p>
+<p>Therefore:</p>
+<ul>
+<li>Fine-grained entropy is constant: <span
+class="math inline">\(S(\phi_t x) = S(x)\)</span>,</li>
+<li>Macro-entropy increases: <span
+class="math inline">\(\bar{S}(\phi_t(\bar{x})) \ge
+\bar{S}(\bar{x})\)</span>.</li>
+</ul>
+<p>This is the thermodynamic arrow: not imposed, but emergent. The
+direction of time appears because we observe macrostates, not
+microstates.</p>
+<p>No information is lost; rather, information is redistributed beyond
+observational resolution. Time asymmetry arises not from the laws, but
+from our restricted description.</p>
+<p>Thus, time as we perceive it — with past distinct from future — is
+not fundamental. It emerges from dynamics plus coarse-graining.</p>
+<h2 id="one-microstate-and-the-entropy-of-the-universe">One Microstate
+and the Entropy of the Universe</h2>
+<p>If one considers the entire universe as a single microstate, fully
+known and specified, then</p>
+<p><span class="math display">\[
+S = k_B \ln 1 = 0.
+\]</span></p>
+<p>This is a valid, but limiting case. It removes all coarse-graining,
+hence all entropy. But thermodynamics is not about perfectly known
+universes. It is about systems described partially — whether by
+ignorance, resolution limits, or observational constraints.</p>
+<p>The entropy function <span class="math inline">\(S\)</span> is only
+meaningful when defined over an ensemble of distinguishable
+possibilities. The definition is not arbitrary; it depends on the
+structure of the theory and the observables declared relevant. Once
+these are fixed, the entropy is objective and computable.</p>
+<p>In this framework, entropy is defined without subjective ignorance.
+It is a measure of how many field configurations are consistent with
+macroscopic constraints. It is countable in principle from the topology
+and mode structure of the toroids.</p>
+<h2 id="no-heat-death">No Heat Death</h2>
+<p>Standard thermodynamics suggests that systems evolve toward maximal
+entropy and equilibrium — a heat death. In a Maxwell-only universe, this
+does not happen.</p>
+<p>Reasons:</p>
+<ul>
+<li>All field energy is confined in closed structures,</li>
+<li>There is no radiation to infinity,</li>
+<li>Weak coupling between toroids only redistributes energy,</li>
+<li>No dissipative mechanism exists to erase internal structure.</li>
+</ul>
+<p>Hence, although entropy increases locally under coarse-graining, the
+system as a whole never reaches equilibrium. Microstates cycle
+indefinitely; energy circulates forever.</p>
+<p>Entropy increase is directional, but not terminal.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Maxwell’s equations are fully reversible and form a complete ontology
+for dynamics. From them we derive thermodynamics, entropy, and an arrow
+of time — not by postulate, but by analysis.</p>
+<p>Time is not fundamental. The arrow emerges from projection onto
+coarse variables.</p>
+<p>Entropy is well-defined once the observables are specified, and it
+grows predictably under field evolution.</p>
+<p>Because energy is perpetually confined within closed electromagnetic
+structures, the universe described by this theory does not end in
+thermal equilibrium.</p>
+<p>There is no heat death. There is no fundamental time. Yet
+thermodynamic time emerges.</p>
+<p>And it can be counted.</p>
+</body>
+</html>

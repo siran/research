@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Emergence of Self-Awareness from a Cause–Effect Loop v2</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<h1 id="emergence-of-self-awareness-from-a-cause-effect-loop">Emergence
+of Self-Awareness from a Cause-Effect Loop</h1>
+<p>An Rodriguez and Anes Palma<br />
+July 2025</p>
+<h2 id="abstract">Abstract</h2>
+<p>Living systems can be described as self-sustaining cause-effect loops
+(autopoiesis, “self-generation”). When such a loop forms an internal
+imprint of its own activity and later modifies its dynamics in response
+to that imprint, a minimal form of self-awareness appears. We formalise
+this idea, relate it to autopoiesis, Markov blankets, integrated
+information, and self-model theories, and sketch an empirical program
+for testing it. The framework defines consciousness, qualia, free-will,
+and self-awareness in purely causal terms that are, in principle,
+measurable.</p>
+<h2 id="introduction">Introduction</h2>
+<p>Autonomous agents maintain themselves through closed causal cycles—a
+property called autopoiesis (Greek <em>auto</em> “self” +
+<em>poiein</em> “to make”). Some agents also construct internal models
+and let those models guide future states. We present a unified
+cause-effect account that quantifies the transition from
+self-maintenance to self-awareness and situates qualia and free-will
+within the same loop.</p>
+<h2 id="historical-background">Historical Background</h2>
+<p>Autopoiesis (Maturana and Varela 1972) portrays life as a network
+that continually recreates itself. Strange-loop and self-model theories
+(Hofstadter 2007; Metzinger 2003) claim consciousness arises when
+feedback circuits represent the system itself. The free-energy principle
+with its Markov-blanket boundary (Friston 2013) shows how such networks
+hold internal and external causes apart while minimising prediction
+error. Integrated Information Theory, IIT (Tononi et al. 2014), attaches
+the scalar <span class="math inline">\(\Phi\)</span> to measure
+irreducible internal causation. We integrate these strands into a single
+causal formalism.</p>
+<h2 id="cause-effect-framework">Cause-Effect Framework</h2>
+<h3 id="system-dynamics">System dynamics</h3>
+<p>Let <span class="math inline">\(x(t) \in \mathbb{R}^n\)</span> be the
+internal state.</p>
+<p><span class="math display">\[
+x(t + \Delta t) = F\bigl(x(t), u(t)\bigr) + \eta(t)
+\]</span></p>
+<p>where <span class="math inline">\(u(t)\)</span> is exogenous input
+and <span class="math inline">\(\eta(t)\)</span> is process noise.</p>
+<h3 id="imprint-and-memory">Imprint and memory</h3>
+<p>Define the imprint:</p>
+<p><span class="math display">\[
+m(t) = f\bigl(x(t - \tau)\bigr)
+\]</span></p>
+<p>where the lag <span class="math inline">\(\tau\)</span> can range
+from milliseconds to years. The imprint is generated by the system
+itself and stored inside the causal loop.</p>
+<h3 id="transition-kernel">Transition kernel</h3>
+<p>The evolution of the system is described by the conditional
+density:</p>
+<p><span class="math display">\[
+P\bigl[x(t + \Delta t) = x&#39; \mid x(t) = x,\; m(t) = m\bigr]
+\]</span></p>
+<p>This is the probability that the state will take the value <span
+class="math inline">\(x&#39;\)</span> after a short interval <span
+class="math inline">\(\Delta t\)</span>, given present state <span
+class="math inline">\(x\)</span> and imprint <span
+class="math inline">\(m\)</span>. We assume <span
+class="math inline">\(P\)</span> is differentiable in <span
+class="math inline">\(m\)</span>. In a Gaussian-noise model, <span
+class="math inline">\(P\)</span> is a Gaussian centered on <span
+class="math inline">\(F\bigl(x(t), u(t)\bigr)\)</span>.</p>
+<h3 id="reaction-criterion">Reaction criterion</h3>
+<p>Self-awareness is present if some measurable set <span
+class="math inline">\(A \subseteq \mathbb{R}^n\)</span> satisfies:</p>
+<p><span class="math display">\[
+\frac{\partial}{\partial m} \int_A P\bigl[x(t + \Delta t) = x&#39; \mid
+x(t), m\bigr]\,\mathrm{d}x&#39; \neq 0 \quad (1)
+\]</span></p>
+<p>and this dependence vanishes when <span
+class="math inline">\(m\)</span> is replaced by an uncorrelated
+surrogate. Equation (1) formalises recognising itself.</p>
+<h2 id="mathematical-formalism">Mathematical Formalism</h2>
+<h3 id="imprint-influence">Imprint influence</h3>
+<p><span class="math display">\[
+I(m; x&#39;) = I\bigl(m(t); x(t + \Delta t)\bigr)
+\]</span></p>
+<p>measures how much the imprint reduces uncertainty about the future
+state.</p>
+<h3 id="integrated-information-phi">Integrated information <span
+class="math inline">\(\Phi\)</span></h3>
+<p>Let <span class="math inline">\(X_{\text{past}}\)</span> and <span
+class="math inline">\(X_{\text{fut}}\)</span> be two copies of the
+system separated by <span class="math inline">\(\Delta t\)</span>:</p>
+<p><span class="math display">\[
+\Phi = \min_{\text{bipartitions}} \Bigl[I\bigl(X_{\text{past}};
+X_{\text{fut}}\bigr) - I_{\text{partitioned}}\Bigr]
+\]</span></p>
+<p><span class="math inline">\(\Phi\)</span> captures the irreducible
+causal power of the whole.</p>
+<h2 id="qualia">Qualia</h2>
+<p>Qualia are recognised imprints tagged as originating outside the core
+loop. The experience of red, for instance, arises when the imprint
+produced by 700 nm light is later recognised as external to the self.
+Qualia can be removed (e.g. by sensory loss) while the primary
+autopoietic loop continues to run.</p>
+<h2 id="freewill">Free‑will</h2>
+<p>Free‑will is the capacity of internal imprints to bias future actions
+beyond what external inputs dictate. It has a measurable component:</p>
+<p><span class="math display">\[
+W = I\bigl(m(t); a(t + \Delta t) \mid u(t)\bigr)
+\]</span></p>
+<p>but also encompasses higher‑order selection among action plans when
+multiple internally generated imprints compete.</p>
+<h3 id="thresholds">Thresholds</h3>
+<p>Self‑awareness emerges when both conditions hold:</p>
+<ul>
+<li>Imprint relevance: <span class="math inline">\(I &gt; 0\)</span>
+(the imprint carries predictive information).</li>
+<li>Integration: <span class="math inline">\(\Phi &gt; \Phi_c\)</span>
+(the system’s self‑influence cannot be factorised across any
+bipartition).</li>
+</ul>
+<p>Free‑will is present when <span class="math inline">\(W &gt;
+0\)</span> and at least two actionable alternatives exist whose
+probabilities shift as a function of <span
+class="math inline">\(m(t)\)</span>.</p>
+<h2 id="predictions">Predictions</h2>
+<ul>
+<li>Agents with <span class="math inline">\(\Phi &lt; \Phi_c\)</span>
+fail self‑recognition tasks and yield negligible <span
+class="math inline">\(I\)</span>.</li>
+<li>Maximising <span class="math inline">\(I\)</span> and <span
+class="math inline">\(\Phi\)</span> during evolution or learning
+produces meta‑learning and self‑report.</li>
+<li>Lesioning nodes that encode <span
+class="math inline">\(m(t)\)</span> abolishes self‑recognition yet
+leaves homeostasis intact.</li>
+<li>The free‑will measure <span class="math inline">\(W\)</span> drops
+to zero when <span class="math inline">\(m(t)\)</span> is experimentally
+overwritten.</li>
+</ul>
+<h2 id="relation-to-existing-theories">Relation to Existing
+Theories</h2>
+<p>Autopoiesis supplies the loop; the Markov blanket supplies the
+boundary; free‑energy minimisation explains why storing <span
+class="math inline">\(m(t)\)</span> reduces surprise; IIT supplies <span
+class="math inline">\(\Phi\)</span> as a cross‑architecture yardstick.
+Our additions of <span class="math inline">\(I\)</span>, <span
+class="math inline">\(W\)</span>, and criterion (1) unify these
+elements.</p>
+<h2 id="discussion">Discussion</h2>
+<p>The framework employs only loop, imprint, and reaction, yet
+accommodates consciousness, qualia, and free‑will in measurable terms.
+Modern neural recording, causal perturbation, and deep reinforcement
+learning sandboxes can estimate <span class="math inline">\(I\)</span>,
+<span class="math inline">\(\Phi\)</span>, and <span
+class="math inline">\(W\)</span>.</p>
+<p>A deeper mystery remains: why a cause brings about an effect at all.
+The framework presupposes causal regularities but does not explain their
+ultimate origin; addressing that question may require new physics or
+metaphysical insight beyond present scope.</p>
+<h2 id="glossary-of-terms">Glossary of Terms</h2>
+<ul>
+<li><strong>Autopoiesis</strong>: Greek <em>auto</em> “self” +
+<em>poiein</em> “to make”; the property of a network that continuously
+regenerates its own components.</li>
+<li><strong>Imprint</strong>: internally generated record <span
+class="math inline">\(m(t)\)</span> derived from a past state.</li>
+<li><strong>Markov blanket</strong>: statistical boundary separating
+internal states from external causes.</li>
+<li><strong>Transition kernel <span
+class="math inline">\(P\)</span></strong>: probability that state <span
+class="math inline">\(x\)</span> becomes <span
+class="math inline">\(x&#39;\)</span> after <span
+class="math inline">\(\Delta t\)</span> given imprint <span
+class="math inline">\(m\)</span>.</li>
+<li><strong>Mutual information <span
+class="math inline">\(I\)</span></strong>: reduction in uncertainty of
+one variable given another.</li>
+<li><strong>Integrated information <span
+class="math inline">\(\Phi\)</span></strong>: irreducible causal
+influence of the whole system over its own future.</li>
+<li><strong>Free‑will measure <span
+class="math inline">\(W\)</span></strong>: conditional mutual
+information between imprint and future action.</li>
+<li><strong>Qualia</strong>: recognised imprints tagged as originating
+outside the core loop.</li>
+<li><strong>Self‑awareness</strong>: fulfilled when derivative (1) is
+non‑zero and <span class="math inline">\(\Phi &gt; \Phi_c\)</span>.</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Self‑awareness, qualia, and free‑will emerge as quantifiable phases
+in a cause‑effect loop. Life is self‑causal; awareness is self‑modelled
+causality.</p>
+<h2 id="references">References</h2>
+<p>[1] H. Maturana and F. Varela, <em>Autopoiesis and Cognition</em>,
+1972.<br />
+[2] K. Friston, <em>Life as we know it</em>, <em>Journal of the Royal
+Society Interface</em>, 2013.<br />
+[3] D. Hofstadter, <em>I Am a Strange Loop</em>, 2007.<br />
+[4] T. Metzinger, <em>Being No One</em>, 2003.<br />
+[5] G. Tononi et al., <em>Integrated information theory 3.0</em>,
+<em>PLoS Computational Biology</em>, 2014.</p>
+</body>
+</html>

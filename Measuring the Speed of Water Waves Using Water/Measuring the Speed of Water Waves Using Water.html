@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Measuring the Speed of Water Waves Using Water</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<h1
+id="measuring-the-speed-of-water-waves-using-water-why-only-differences-in-the-speed-of-light-are-observable-in-a-maxwell-universe">Measuring
+the Speed of Water Waves Using Water: Why Only Differences in the Speed
+of Light Are Observable in a Maxwell Universe</h1>
+<p>An M. Rodriguez (an@preferredframe.com), Anes Palma<br />
+31 July 2025</p>
+<h2 id="abstract">Abstract</h2>
+<p>Observers composed entirely of electromagnetic (EM) fields cannot
+determine the absolute speed of light <span
+class="math inline">\(c\)</span>. Clocks count field cycles and rulers
+register field nodes; both rescale with any local change in the vacuum
+parameters <span class="math inline">\(\varepsilon(x)\)</span> and <span
+class="math inline">\(\mu(x)\)</span>. Every laboratory therefore
+self-calibrates to the value <span class="math inline">\(c_0 =
+1/\sqrt{\mu_0\,\varepsilon_0}\)</span> even if the underlying light
+speed <span class="math inline">\(c(x)\)</span> varies from place to
+place. Using elementary Maxwell theory and a water-wave analogy, we show
+why present-day cavity experiments can constrain only differences <span
+class="math inline">\(\Delta c/c\)</span>, not the absolute magnitude of
+<span class="math inline">\(c\)</span>.</p>
+<h3 id="one-sentence-summary">One-sentence summary</h3>
+<p>Because laboratory rulers and clocks are built from electromagnetic
+fields, Maxwell theory allows detection of only spatial or temporal
+<em>variations</em> in the speed of light—never its absolute value.</p>
+<h3 id="keywords">Keywords</h3>
+<p>Maxwell electrodynamics; metrology; speed of light; Lorentz
+invariance; Fabry–Pérot cavity.</p>
+<h2 id="introduction">Introduction</h2>
+<p>Michelson–Morley-type experiments and modern optical cavities show no
+sign of a preferred frame. While special relativity explains this by
+postulating a universal <span class="math inline">\(c\)</span>,
+classical Maxwell theory offers a simpler reading: when measuring tools
+are built from the very field whose speed is sought, only differences in
+that speed can ever be observed.</p>
+<h2 id="operational-definition-of-c-in-maxwell-theory">Operational
+Definition of <span class="math inline">\(c\)</span> in Maxwell
+Theory</h2>
+<p>In vacuum the fields satisfy<br />
+<span class="math display">\[
+\nabla^{2}\mathbf{E} = \mu_0 \varepsilon_0 \,\partial_t^{2}\mathbf{E},
+\]</span><br />
+which fixes the characteristic speed<br />
+<span class="math display">\[
+c_0 = \frac{1}{\sqrt{\mu_0 \varepsilon_0}} .
+\]</span></p>
+<p>A Fabry–Pérot cavity of fixed length <span
+class="math inline">\(L\)</span> enforces <span
+class="math inline">\(n\lambda_n = 2L\)</span>. For the fundamental mode
+(<span class="math inline">\(n = 1\)</span>) the wavelength is <span
+class="math inline">\(\lambda_1 = 2L\)</span>. Using <span
+class="math inline">\(c = \lambda/T\)</span>, the same mode provides the
+period <span class="math inline">\(T_1 = \lambda_1/c\)</span>. If the
+local vacuum parameters shift to new values <span
+class="math inline">\((\mu,\varepsilon)\)</span>, both <span
+class="math inline">\(\lambda_1\)</span> and <span
+class="math inline">\(T_1\)</span> are multiplied by the same factor
+<span class="math inline">\(\sqrt{\mu\varepsilon}\)</span>; their ratio
+<span class="math inline">\(\lambda_1/T_1\)</span> is unchanged, so any
+measurement of <span class="math inline">\(c\)</span> still returns
+<span class="math inline">\(c_0\)</span>.</p>
+<h2 id="blindness-of-em-based-metrology">Blindness of EM-Based
+Metrology</h2>
+<h3 id="water-wave-analogy">Water-Wave Analogy</h3>
+<p>A fish tries to measure the speed <span
+class="math inline">\(v\)</span> of surface waves. Its rulers
+(successive crests) and clocks (periods between crests) both stretch if
+the surface tension varies. Absolute speed is invisible; only relative
+differences appear. EM observers face the same limitation.</p>
+<h3 id="interferometer-logic">Interferometer logic</h3>
+<p>Most laboratory searches for anisotropy compare two orthogonal
+high-<span class="math inline">\(Q\)</span> Fabry–Pérot cavities on a
+slowly rotating stage. For the <span class="math inline">\(m\)</span>-th
+longitudinal mode in arm <span class="math inline">\(i\)</span><br />
+<span class="math display">\[
+\nu_i \;=\; \frac{m\,c(x_i)}{2L_i},\qquad i = x,y ,
+\]</span><br />
+so a directional dependence of <span class="math inline">\(c(x)\)</span>
+would modulate the beat note <span
+class="math inline">\(\nu_x-\nu_y\)</span> once per turn. Experiments
+find no such modulation down to <span class="math inline">\(|\Delta c|/c
+\le 10^{-18}\)</span>. In our framework the setup samples the vacuum
+scaling factor <em>differentially</em>: it measures <span
+class="math inline">\(c(x)\)</span> <strong>relative to</strong> <span
+class="math inline">\(f(p_x)\)</span> versus <span
+class="math inline">\(f(p_y)\)</span> (see next section for <span
+class="math inline">\(f(p)\)</span>). If <span
+class="math inline">\(f\)</span> were uniform the two arms would differ
+only by construction tolerances, and constant-velocity motion would be
+completely invisible—precisely the conclusion of special relativity.
+Orthogonal cavities are therefore sensitive only to a gradient <span
+class="math inline">\(f(p_x) - f(p_y)\)</span>; a uniform offset
+cancels.</p>
+<p>Detecting an <em>absolute</em> shift in <span
+class="math inline">\(f(p)\)</span> instead requires a one-arm,
+time-of-flight technique—e.g. sending a light pulse through a long fiber
+or free-space delay line and comparing the round-trip time against an
+independent clock. Such single-path measurements would respond directly
+to the optical length<br />
+<span class="math display">\[
+\mathcal{L}(x) = \int n_{\text{eff}}(x)\, \mathrm dx \;=\; \int
+f(p)\,\mathrm dx,
+\]</span><br />
+and could, in principle, reveal a uniform change in <span
+class="math inline">\(f(p)\)</span> rather than just a transverse
+gradient.</p>
+<h2 id="formal-derivation-with-variable-vacuum-parameters">Formal
+Derivation with Variable Vacuum Parameters</h2>
+<p>Let a scalar background <span class="math inline">\(p(x)\)</span>—a
+proxy for local energy density—multiply both permittivity and
+permeability by the same positive factor <span
+class="math inline">\(f(p)\)</span>:<br />
+<span class="math display">\[
+\varepsilon(x) = \varepsilon_0 f(p), \qquad
+\mu(x)        = \mu_0 f(p).
+\]</span><br />
+The local wave speed is<br />
+<span class="math display">\[
+c(x) = \frac{1}{\sqrt{\mu(x)\varepsilon(x)}} = \frac{c_0}{f(p)} .
+\]</span></p>
+<h3 id="constructing-a-ruler">Constructing a ruler</h3>
+<p>The cavity’s fundamental frequency becomes<br />
+<span class="math display">\[
+\nu_{\text{ref}}(x) = \frac{c(x)}{2L} = \frac{c_0}{2L\,f(p)} .
+\]</span><br />
+The associated wavelength is<br />
+<span class="math display">\[
+\lambda_{\text{ref}}(x) = \frac{c(x)}{\nu_{\text{ref}}(x)} = 2L ,
+\]</span><br />
+independent of <span class="math inline">\(p(x)\)</span>. A rod made
+from <span class="math inline">\(N\)</span> such wavelengths has
+length<br />
+<span class="math display">\[
+L_{\text{rod}} = N\lambda_{\text{ref}} = 2NL ,
+\]</span><br />
+also independent of <span class="math inline">\(p(x)\)</span>.</p>
+<h3 id="constructing-a-clock">Constructing a clock</h3>
+<p>The period of one oscillation is<br />
+<span class="math display">\[
+T_{\text{ref}}(x) = \frac{1}{\nu_{\text{ref}}(x)} =
+\frac{2L\,f(p)}{c_0}.
+\]</span><br />
+Combining ruler and clock gives<br />
+<span class="math display">\[
+\frac{L_{\text{rod}}}{T_{\text{ref}}(x)} = c_0 ,
+\]</span><br />
+showing that absolute variations in <span
+class="math inline">\(c(x)\)</span> remain hidden; only gradients in
+<span class="math inline">\(f(p)\)</span> could, in principle, be
+detected.</p>
+<h2 id="relation-to-general-relativity">Relation to General
+Relativity</h2>
+<p>General relativity expresses the same idea geometrically. A perturbed
+metric<br />
+<span class="math display">\[
+g_{\mu\nu} = \eta_{\mu\nu} + h_{\mu\nu}(p)
+\]</span><br />
+gives local null cones identical to those of special relativity, while
+global geodesics reproduce light-bending through an effective refractive
+index<br />
+<span class="math display">\[
+n_{\text{eff}}(\mathbf{x}) \simeq 1 + \frac{2\Phi(\mathbf{x})}{c_0^{2}}
+.
+\]</span><br />
+The optical-metric formalism is therefore algebraically equivalent to
+Maxwell with variable <span
+class="math inline">\((\varepsilon,\mu)\)</span>.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Maxwell electrodynamics implies that laboratories built from EM
+fields cannot measure the absolute speed of light. Their rulers and
+clocks scale together with any local change in <span
+class="math inline">\(\varepsilon\)</span> and <span
+class="math inline">\(\mu\)</span>, leaving only spatial or temporal
+differences observable. The water-wave analogy captures the point: one
+cannot determine the speed of water waves using only water.</p>
+<h2 id="note-from-a.-m.-rodriguez">Note from A. M. Rodriguez</h2>
+<p>The geometrical argument linking Maxwell theory to general relativity
+was developed entirely by Anes Palma.</p>
+<h2 id="suggested-references">Suggested References</h2>
+<ol type="1">
+<li>A. M. Rodriguez and A. Palma, <em>Hydrogen Atom Quantization from
+Purely Classical Maxwell Electromagnetic Fields</em>, Research Gate DOI
+10.13140/RG.2.2.36143.04005 (2025)</li>
+<li>A. Palma and A. M. Rodriguez, <em>Deriving the Schrödinger Equation
+from Source-Free Maxwell Dynamics</em>, Research Gate DOI
+10.13140/RG.2.2.19900.76167 (2025)</li>
+<li>A. Palma and A. M. Rodriguez, <em>Emergent <span
+class="math inline">\(-1/L^2\)</span> Interaction Force in a Pure
+Maxwell Universe from Constant-Energy and Wave-Like Interactions</em>,
+Research Gate DOI 10.13140/RG.2.2.16128.14085 (2025)</li>
+<li>R. Te Winkel and A. M. Rodriguez, <em>Daily Variations of the
+Amplitude of the Fringe Shifts Observed When an Air-Glass Mach–Zehnder
+Type Interferometer Is Rotated</em>, Research Gate DOI
+10.13140/RG.2.2.16800.90886 (2024)</li>
+<li>D. Mattingly, <em>Modern Tests of Lorentz Invariance</em>, Living
+Reviews in Relativity 8 (2005) 5</li>
+<li>H. Müller et al., <em>Modern Michelson–Morley Experiment Using
+Cryogenic Optical Resonators</em>, Physical Review Letters 91 (2003)
+020401</li>
+<li>M. E. Tobar and P. Wolf, <em>Gravitational Wave Detection Using
+Electromagnetic Cavities</em>, Physical Review D 66 (2002) 024017</li>
+<li>R. M. Wald, <em>General Relativity</em>, University of Chicago Press
+(1984)</li>
+<li>J. D. Jackson, <em>Classical Electrodynamics</em>, 3rd ed., Wiley
+(1999)</li>
+</ol>
+</body>
+</html>

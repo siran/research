@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Defining Topological Charge in a Source-Free Maxwell Universe</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<h1
+id="defining-topological-charge-in-a-source-free-maxwell-universe">Defining
+Topological Charge in a Source-Free Maxwell Universe</h1>
+<p>Anes Palma, An M. Rodriguez (an@preferredframe.com)<br />
+August 2025</p>
+<h2 id="abstract">Abstract</h2>
+<p>We explore the concept of “topological charge” in a universe governed
+solely by source-free Maxwell equations. Without invoking mass,
+particles, or source terms, we show that quantized circulation of
+electromagnetic fields in bounded configurations—particularly toroidal
+standing waves—leads to stable, conserved quantities analogous to
+electric charge. These topological charges arise from the global
+structure and coherence of the fields, especially the integral
+properties of their curls. We analyze the nature of these quantities,
+derive their conservation laws, and show how they lead to interactions,
+inertia, and quantization within a classical field ontology. This
+formulation offers a geometric, source-free foundation for understanding
+charge as a consequence of topological field structure rather than
+point-like sources.</p>
+<h2 id="introduction">Introduction</h2>
+<p>The standard Maxwell equations in vacuum describe the behavior of
+electric and magnetic fields in the absence of charges and currents.
+These are:</p>
+<p><span class="math display">\[
+\nabla \cdot \vec{E} = 0, \qquad
+\nabla \cdot \vec{B} = 0, \qquad
+\nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}, \qquad
+\nabla \times \vec{B} = \mu_0 \varepsilon_0 \frac{\partial
+\vec{E}}{\partial t}
+\]</span></p>
+<p>These equations form a self-consistent system supporting propagating
+waves at the speed</p>
+<p><span class="math display">\[
+c = \frac{1}{\sqrt{\mu_0 \varepsilon_0}}.
+\]</span></p>
+<p>In this framework, there are no explicit sources. Nevertheless,
+structured field configurations such as toroidal standing waves exhibit
+behaviors analogous to particles with charge: they are localized,
+stable, interact at a distance, and exhibit inertia. In this paper, we
+formalize the notion of topological charge as a quantized, conserved
+quantity arising purely from the geometry and coherence of source-free
+electromagnetic fields.</p>
+<h2 id="standing-waves-and-toroidal-confinement">Standing Waves and
+Toroidal Confinement</h2>
+<p>To examine how field structures can be confined and stabilized, we
+consider electromagnetic fields forming standing waves on a toroidal
+manifold. Let <span class="math inline">\(R\)</span> and <span
+class="math inline">\(r\)</span> be the major and minor radii of the
+torus. The geometry has two independent angular directions:</p>
+<ul>
+<li>The toroidal direction (around the large circle), parameterized by a
+winding number <span class="math inline">\(n_1\)</span></li>
+<li>The poloidal direction (around the small circle), parameterized by
+<span class="math inline">\(n_2\)</span></li>
+</ul>
+<p>For a stable, periodic standing wave, the wavelengths must fit
+integer multiples in each direction. The allowed wavelengths are:</p>
+<p><span class="math display">\[
+\lambda_1 = \frac{2\pi R}{n_1}, \qquad
+\lambda_2 = \frac{2\pi r}{n_2}
+\]</span></p>
+<p>The spatial wavenumbers are:</p>
+<p><span class="math display">\[
+k_1 = \frac{n_1}{R}, \qquad
+k_2 = \frac{n_2}{r}, \qquad
+k^2 = k_1^2 + k_2^2
+\]</span></p>
+<p>The angular frequency is related by the dispersion relation:</p>
+<p><span class="math display">\[
+\omega = c \sqrt{k_1^2 + k_2^2}
+\]</span></p>
+<p>The corresponding energy of the mode is:</p>
+<p><span class="math display">\[
+E_{n_1 n_2} = \hbar_g \omega = \hbar_g c \sqrt{k_1^2 + k_2^2}
+\]</span></p>
+<p>where <span class="math inline">\(\hbar_g\)</span> is an emergent
+constant defined by the lowest mode:</p>
+<p><span class="math display">\[
+\hbar_g = \frac{E_{11}}{\omega_{11}}
+\]</span></p>
+<p>These toroidal modes are characterized by their winding numbers <span
+class="math inline">\((n_1, n_2) \in \mathbb{Z}^2\)</span>, which cannot
+change continuously. This is the origin of topological quantization.</p>
+<h2 id="circulation-and-curl-based-modes">Circulation and Curl-Based
+Modes</h2>
+<p>In classical electromagnetism, the curl of a field indicates local
+rotation. For a vector field <span
+class="math inline">\(\vec{F}\)</span>, the circulation around a closed
+loop <span class="math inline">\(C\)</span> is:</p>
+<p><span class="math display">\[
+\oint_C \vec{F} \cdot d\vec{\ell}
+= \iint_S (\nabla \times \vec{F}) \cdot d\vec{S}
+\]</span></p>
+<p>This integral depends only on the curl of the field over the surface
+bounded by <span class="math inline">\(C\)</span>. In regions where
+<span class="math inline">\(\nabla \cdot \vec{F} = 0\)</span> and <span
+class="math inline">\(\vec{F}\)</span> is continuous, the circulation is
+conserved under smooth deformations of <span
+class="math inline">\(C\)</span>.</p>
+<p>In a toroidal field configuration, the electric and magnetic fields
+are constructed from curls:</p>
+<p><span class="math display">\[
+\vec{E} = \nabla \times \vec{A}_E, \qquad
+\vec{B} = \nabla \times \vec{A}_B
+\]</span></p>
+<p>where <span class="math inline">\(\vec{A}_E\)</span> and <span
+class="math inline">\(\vec{A}_B\)</span> are vector potentials. Because
+the field lines form closed loops on the torus, the integral of the curl
+over these loops is quantized:</p>
+<p><span class="math display">\[
+\oint \vec{E} \cdot d\vec{\ell} = 2\pi n_1 E_0, \qquad
+\oint \vec{B} \cdot d\vec{\ell} = 2\pi n_2 B_0
+\]</span></p>
+<p>for some constants <span class="math inline">\(E_0, B_0\)</span> set
+by the amplitude of the fundamental mode. These quantized circulations
+are preserved as long as the field configuration remains continuous and
+confined.</p>
+<p>We define the topological charge <span
+class="math inline">\(Q\)</span> as a pair of integers:</p>
+<p><span class="math display">\[
+Q = (n_1, n_2)
+\]</span></p>
+<p>corresponding to the winding numbers of the electric and magnetic
+fields. These charges are topologically invariant: they cannot change
+unless the field is discontinuous or escapes the torus.</p>
+<h2 id="helicity-and-field-knottedness">Helicity and Field
+Knottedness</h2>
+<p>Helicity is a scalar measure of the linkage or knottedness of field
+lines. For a magnetic field <span class="math inline">\(\vec{B}\)</span>
+with vector potential <span class="math inline">\(\vec{A}\)</span> (such
+that <span class="math inline">\(\vec{B} = \nabla \times
+\vec{A}\)</span>), the helicity is defined as:</p>
+<p><span class="math display">\[
+\mathcal{H} = \int \vec{A} \cdot \vec{B} \, d^3x
+\]</span></p>
+<p>This quantity is gauge-invariant under appropriate boundary
+conditions and is conserved in source-free Maxwell dynamics. In toroidal
+configurations, helicity is directly related to the product of the
+winding numbers:</p>
+<p><span class="math display">\[
+\mathcal{H} \propto n_1 n_2
+\]</span></p>
+<p>A nonzero helicity implies a nontrivial topological structure in the
+field: the field lines are linked or twisted in a way that cannot be
+undone by smooth deformations. This reinforces the interpretation of
+<span class="math inline">\(Q = (n_1, n_2)\)</span> as a topological
+invariant.</p>
+<h2 id="conservation-of-topological-charge">Conservation of Topological
+Charge</h2>
+<p>We now show that topological charge is conserved under Maxwell
+dynamics. The relevant conservation law is the evolution of the field
+momentum:</p>
+<p><span class="math display">\[
+\vec{g} = \varepsilon_0 \vec{E} \times \vec{B}
+\]</span></p>
+<p>The momentum density evolves according to:</p>
+<p><span class="math display">\[
+\frac{\partial \vec{g}}{\partial t} + \nabla \cdot \mathbf{T} = 0
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{T}\)</span> is the Maxwell
+stress tensor:</p>
+<p><span class="math display">\[
+T_{ij} = \varepsilon_0 \left( E_i E_j + c^2 B_i B_j - \frac{1}{2}
+\delta_{ij} \left( |\vec{E}|^2 + c^2 |\vec{B}|^2 \right) \right)
+\]</span></p>
+<p>Integrating over a volume <span class="math inline">\(V\)</span>
+bounded by a surface <span class="math inline">\(\partial V\)</span>,
+the total field momentum evolves as:</p>
+<p><span class="math display">\[
+\frac{d}{dt} \int_V \vec{g} \, d^3x = - \int_{\partial V} \mathbf{T}
+\cdot d\vec{A}
+\]</span></p>
+<p>If the fields are confined (i.e., vanish on the boundary), then the
+right-hand side is zero and the total momentum is conserved. Since the
+topological charge is defined via integrals over loops inside <span
+class="math inline">\(V\)</span>, and the field topology does not change
+under continuous Maxwell evolution, the charge <span
+class="math inline">\(Q\)</span> is also conserved.</p>
+<h2 id="emergence-of-charge-like-behavior">Emergence of Charge-like
+Behavior</h2>
+<p>The topological charge <span class="math inline">\(Q\)</span>
+manifests physically in several ways:</p>
+<ol type="1">
+<li><p><strong>Long-range interaction</strong>: Toroidal modes with
+nonzero <span class="math inline">\(Q\)</span> interact via
+standing-wave modes between them. The allowed energy of these modes
+scales as <span class="math inline">\(1/r\)</span>, and differentiation
+yields a <span class="math inline">\(-1/r^2\)</span> force between field
+structures. This mimics Coulomb attraction.</p></li>
+<li><p><strong>Inertia</strong>: The internal circulation of momentum
+inside the toroidal field leads to resistance to acceleration. The
+object exhibits effective mass:</p></li>
+</ol>
+<p><span class="math display">\[
+m_{\text{eff}} = \frac{U}{c^2}, \qquad
+U = \int u \, d^3x
+\]</span></p>
+<ol start="3" type="1">
+<li><p><strong>Quantization</strong>: The allowed values of <span
+class="math inline">\(Q\)</span> are discrete, imposing quantization on
+energy levels, sizes, and allowed states—similar to the energy spectrum
+of the hydrogen atom.</p></li>
+<li><p><strong>Persistence</strong>: These configurations are
+topologically stable. A toroidal mode with <span class="math inline">\(Q
+\ne 0\)</span> cannot decay continuously into the vacuum.</p></li>
+</ol>
+<p>This reinterprets “charge” as a manifestation of topological
+circulation, rather than the divergence of a field. In conventional
+terms, electric charge satisfies:</p>
+<p><span class="math display">\[
+\nabla \cdot \vec{E} = \frac{\rho}{\varepsilon_0}
+\]</span></p>
+<p>In the source-free framework, <span class="math inline">\(\rho =
+0\)</span> everywhere, yet stable field objects with nontrivial <span
+class="math inline">\(Q\)</span> behave as if they carry effective
+“charge”.</p>
+<h3
+id="energyenergy-attraction-and-variable-propagation-speed">Energy–Energy
+Attraction and Variable Propagation Speed</h3>
+<p>The standing-wave derivation gives a <span
+class="math inline">\(1/r^2\)</span> force between two toroidal charges
+because each shared normal mode carries an energy<br />
+<span class="math inline">\(W_m(r) \propto 1/r\)</span>. Differentiating
+yields<br />
+<span class="math inline">\(F = -\partial_r W \propto
+-1/r^2\)</span>.</p>
+<p>In our separate analysis of variable vacuum parameters, we showed
+that a <strong>local increase in electromagnetic energy density</strong>
+<span class="math inline">\(u\)</span> multiplies both<br />
+<span class="math inline">\(\varepsilon_0\)</span> and <span
+class="math inline">\(\mu_0\)</span> by the same factor <span
+class="math inline">\(f(p)\)</span>, where <span
+class="math inline">\(p\)</span> stands for energy density:</p>
+<p><span class="math display">\[
+\varepsilon(x) = \varepsilon_0 f(p), \qquad
+\mu(x) = \mu_0 f(p)
+\]</span></p>
+<p>The local wave speed becomes:</p>
+<p><span class="math display">\[
+c_{\text{eff}}(x) = \frac{1}{\sqrt{\mu(x)\varepsilon(x)}} =
+\frac{c}{f(p)}
+\]</span></p>
+<p>A spatial gradient of <span class="math inline">\(f(p)\)</span>—hence
+of energy density—acts as an <strong>effective refractive-index
+gradient</strong>. Light (and any confined field structure) drifts
+toward higher-<span class="math inline">\(f\)</span> regions just as
+rays bend toward higher optical index in geometrical optics.
+Writing<br />
+<span class="math inline">\(f(p) = 1 + \delta f\)</span> with <span
+class="math inline">\(\delta f \ll 1\)</span>, the effective potential
+for a slowly varying envelope is:</p>
+<p><span class="math display">\[
+V(\mathbf{x}) = \hbar_g \, \omega_{11} \, \delta f(\mathbf{x})
+\]</span></p>
+<p>So a gradient in <span class="math inline">\(u\)</span> produces a
+force<br />
+<span class="math inline">\(\vec{F}_{\text{eff}} = -\nabla
+V\)</span>.</p>
+<p>Putting the pieces together:</p>
+<ul>
+<li><strong>Topological charge</strong> fixes the integer windings <span
+class="math inline">\((n_1, n_2)\)</span> and therefore the baseline
+energy density inside a torus.</li>
+<li>Higher windings raise <span class="math inline">\(u\)</span> and
+thus the local <span class="math inline">\(f(p)\)</span>, reducing <span
+class="math inline">\(c_{\text{eff}}\)</span> inside the core.</li>
+<li>Two distant tori therefore see each other as regions of elevated
+<span class="math inline">\(f(p)\)</span>; the resulting index gradient
+reproduces the same <span class="math inline">\(-1/r^2\)</span> pull
+derived from the standing-wave argument, but now framed as
+<strong>energy attracting energy</strong>.</li>
+<li>Because inertial mass in this ontology is simply <span
+class="math inline">\(m_{\text{eff}} = U / c^2\)</span>, the interaction
+couples proportional to “mass” as well—mirroring the equivalence of mass
+and energy without invoking separate gravitational or electric
+charges.</li>
+</ul>
+<p>Hence the Coulomb-like force and the energy–energy attraction are two
+views of the same underlying mechanism: variations in field energy
+density modify the local propagation speed and generate a stress-tensor
+gradient that pulls coherent structures together.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In a source-free Maxwell universe, electromagnetic fields can
+organize into confined, coherent structures with nontrivial topology.
+These structures are characterized by winding numbers <span
+class="math inline">\((n_1, n_2)\)</span>, which remain invariant under
+smooth field evolution. We interpret these integers as topological
+charges.</p>
+<p>These charges correspond to quantized circulation of the electric and
+magnetic fields. They generate conserved quantities such as energy,
+momentum, angular momentum, and helicity. Field configurations with
+nonzero topological charge interact, resist acceleration, and form
+discrete energy levels—exhibiting all the classical properties of
+particles with charge.</p>
+<p>This formulation provides a purely geometric and field-theoretic
+origin for charge, independent of point particles or source terms. It
+shows that Maxwell’s equations, when combined with global topology and
+boundary coherence, are sufficient to generate the rich structure of
+matter and interaction from fields alone.</p>
+<h2 id="references">References</h2>
+<ol type="1">
+<li>Rodriguez A. M., Palma A., Hydrogen Atom Quantization from Purely
+Classical Maxwell Electromagnetic Fields, 2025<br />
+</li>
+<li>Palma A., Rodriguez A. M., Deriving the Schrödinger Equation from
+Source-Free Maxwell Dynamics, 2025<br />
+</li>
+<li>Palma A., Rodriguez A. M., Emergent -1/L² Interaction Force in a
+Pure Maxwell Universe, 2025<br />
+</li>
+<li>Palma A., Rodriguez A. M., Explaining Conservation Laws in a Maxwell
+Universe Ontology, 2025<br />
+</li>
+<li>Jackson J. D., Classical Electrodynamics, 3rd ed., Wiley, 1999</li>
+</ol>
+</body>
+</html>

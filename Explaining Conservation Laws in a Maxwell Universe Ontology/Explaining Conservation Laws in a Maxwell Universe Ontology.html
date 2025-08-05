@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Explaining Conservation Laws in a Maxwell Universe Ontology</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<h1
+id="explaining-conservation-laws-in-a-maxwell-universe-ontology">Explaining
+Conservation Laws in a Maxwell Universe Ontology</h1>
+<p>By: Anes Palma, An Rodriguez (an@preferredframe.com)<br />
+Aug 2025</p>
+<h2 id="abstract">Abstract</h2>
+<p>We derive the fundamental conservation laws of linear and angular
+momentum in a universe governed solely by source-free Maxwell equations.
+In this ontology, all matter consists of self-confined, structured
+electromagnetic fields. Without invoking particles, masses, or
+mechanical axioms, we demonstrate how momentum and angular momentum
+emerge directly from Maxwell dynamics. We show how their conservation
+arises under symmetry and closure conditions, and how deviations result
+from stress redistribution. This paper provides a complete mechanical
+foundation for conservation laws in a purely electromagnetic
+universe.</p>
+<h2 id="summary">Summary</h2>
+<p>All classical mechanical behavior — including inertia, motion, and
+conservation laws — is shown to emerge rigorously from source-free
+Maxwell field dynamics alone.</p>
+<h2 id="keywords">Keywords</h2>
+<p>Maxwell equations; electromagnetic ontology; momentum conservation;
+angular momentum; stress tensor; inertia; field mechanics; emergent
+motion; pure electromagnetism</p>
+<h2 id="introduction">Introduction</h2>
+<p>Conservation laws form the foundation of classical mechanics,
+typically derived from Newton’s axioms or Noether’s theorem applied to
+action principles. However, in a universe where the only ontology is the
+electromagnetic field governed by source-free Maxwell equations in
+vacuum, there are no particles or external axioms. All physical entities
+are structured field configurations, such as standing waves or localized
+toroidal modes. The central question becomes: how do conservation laws
+such as linear and angular momentum emerge purely from field
+dynamics?</p>
+<p>We approach this by analyzing the field-theoretic quantities that
+represent momentum, energy, and angular momentum, and showing their
+conservation follows directly from Maxwell’s equations and boundary
+conditions.</p>
+<h2 id="maxwell-equations-in-vacuum">Maxwell Equations in Vacuum</h2>
+<p>We assume SI units and source-free Maxwell equations:</p>
+<p><span class="math display">\[
+\nabla \cdot \vec{E} = 0, \quad \nabla \cdot \vec{B} = 0, \quad \nabla
+\times \vec{E} = -\frac{\partial \vec{B}}{\partial t}, \quad \nabla
+\times \vec{B} = \mu_0 \epsilon_0 \frac{\partial \vec{E}}{\partial t}
+\]</span></p>
+<p>These are the only laws assumed in this universe. All objects are
+field configurations, and all forces are electromagnetic.</p>
+<h2 id="energy-and-momentum-in-fields">Energy and Momentum in
+Fields</h2>
+<p>The electromagnetic energy density is:</p>
+<p><span class="math display">\[
+u = \frac{1}{2} \left( \epsilon_0 |\vec{E}|^2 + \frac{1}{\mu_0}
+|\vec{B}|^2 \right)
+\]</span></p>
+<p>The Poynting vector is:</p>
+<p><span class="math display">\[
+\vec{S} = \frac{1}{\mu_0} \vec{E} \times \vec{B}
+\]</span></p>
+<p>The momentum density of the field is:</p>
+<p><span class="math display">\[
+\vec{g} = \frac{1}{c^2} \vec{S} = \epsilon_0 \vec{E} \times \vec{B}
+\]</span></p>
+<p>The total linear momentum of the field in a volume <span
+class="math inline">\(V\)</span> is:</p>
+<p><span class="math display">\[
+\vec{P} = \int_V \vec{g} \, d^3x = \epsilon_0 \int_V \vec{E} \times
+\vec{B} \, d^3x
+\]</span></p>
+<p>This expression is exact and requires no particles.</p>
+<h2 id="time-evolution-of-field-momentum">Time Evolution of Field
+Momentum</h2>
+<p>We derive the time evolution using Maxwell’s equations:</p>
+<p><span class="math display">\[
+\frac{\partial \vec{g}}{\partial t} = \epsilon_0 \left( \frac{\partial
+\vec{E}}{\partial t} \times \vec{B} + \vec{E} \times \frac{\partial
+\vec{B}}{\partial t} \right)
+\]</span></p>
+<p>Using:</p>
+<p><span class="math display">\[
+\frac{\partial \vec{E}}{\partial t} = \frac{1}{\mu_0 \epsilon_0} \nabla
+\times \vec{B}, \quad \frac{\partial \vec{B}}{\partial t} = -\nabla
+\times \vec{E}
+\]</span></p>
+<p>we substitute and simplify:</p>
+<p><span class="math display">\[
+\frac{\partial \vec{g}}{\partial t} = \frac{1}{\mu_0} \left[ (\nabla
+\times \vec{B}) \times \vec{B} - \vec{E} \times (\nabla \times \vec{E})
+\right]
+\]</span></p>
+<p>This leads to the conservation equation:</p>
+<p><span class="math display">\[
+\frac{\partial \vec{g}}{\partial t} + \nabla \cdot \mathbf{T} = 0
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{T}\)</span> is the Maxwell
+stress tensor:</p>
+<p><span class="math display">\[
+T_{ij} = \epsilon_0 \left( E_i E_j + c^2 B_i B_j - \frac{1}{2}
+\delta_{ij} (|\vec{E}|^2 + c^2 |\vec{B}|^2) \right)
+\]</span></p>
+<p>This symmetric tensor governs the flow of momentum through space.</p>
+<h2 id="global-momentum-conservation">Global Momentum Conservation</h2>
+<p>Integrating over volume:</p>
+<p><span class="math display">\[
+\frac{d\vec{P}}{dt} = -\int_{\partial V} \mathbf{T} \cdot d\vec{A}
+\]</span></p>
+<p>Therefore, momentum is conserved if:</p>
+<p><span class="math display">\[
+\int_{\partial V} \mathbf{T} \cdot d\vec{A} = 0
+\]</span></p>
+<p>This holds when the region <span class="math inline">\(V\)</span>
+encloses all field energy, and the stress tensor flux across the
+boundary vanishes (e.g., due to symmetry or confinement).</p>
+<p>In a Maxwell universe, field lines are closed and energy circulates
+internally. Thus, momentum conservation holds <strong>locally</strong>
+by construction, and <strong>globally</strong> when configurations are
+symmetric and isolated.</p>
+<h2 id="center-of-energy-and-inertial-motion">Center of Energy and
+Inertial Motion</h2>
+<p>Define total field energy:</p>
+<p><span class="math display">\[
+U = \int_V u \, d^3x
+\]</span></p>
+<p>Define center of energy:</p>
+<p><span class="math display">\[
+\vec{R}(t) = \frac{1}{U} \int_V \vec{r} u(\vec{r}, t) \, d^3x
+\]</span></p>
+<p>Time derivative:</p>
+<p><span class="math display">\[
+\frac{d\vec{R}}{dt} = \frac{1}{U} \int_V \vec{g} \, d^3x =
+\frac{\vec{P}}{U}
+\]</span></p>
+<p>If <span class="math inline">\(\vec{P}\)</span> is constant, then
+<span class="math inline">\(\vec{R}(t)\)</span> moves at constant
+velocity. This is inertial motion <strong>emerging</strong> from
+internal field momentum, without requiring mass.</p>
+<h2 id="angular-momentum-of-fields">Angular Momentum of Fields</h2>
+<p>The angular momentum density is:</p>
+<p><span class="math display">\[
+\vec{\ell} = \vec{r} \times \vec{g} = \epsilon_0 \vec{r} \times (\vec{E}
+\times \vec{B})
+\]</span></p>
+<p>Total angular momentum:</p>
+<p><span class="math display">\[
+\vec{L} = \int_V \vec{\ell} \, d^3x = \epsilon_0 \int_V \vec{r} \times
+(\vec{E} \times \vec{B}) \, d^3x
+\]</span></p>
+<p>Differentiate:</p>
+<p><span class="math display">\[
+\frac{d\vec{L}}{dt} = -\int_V \vec{r} \times (\nabla \cdot \mathbf{T})
+\, d^3x
+\]</span></p>
+<p>Using vector identity and symmetry of <span
+class="math inline">\(\mathbf{T}\)</span>:</p>
+<p><span class="math display">\[
+\frac{d\vec{L}}{dt} = -\int_{\partial V} \vec{r} \times (\mathbf{T}
+\cdot d\vec{A})
+\]</span></p>
+<p>Angular momentum is conserved if the net torque across the boundary
+vanishes:</p>
+<p><span class="math display">\[
+\int_{\partial V} \vec{r} \times (\mathbf{T} \cdot d\vec{A}) = 0
+\]</span></p>
+<p>This is typically satisfied for confined, symmetric field
+configurations (e.g. toroidal modes).</p>
+<h2 id="rotational-inertia-and-the-wheel-analogy">Rotational Inertia and
+the Wheel Analogy</h2>
+<p>A laboratory wheel spins because it stores angular momentum in the
+motion of its mass elements.<br />
+In a Maxwell universe the analogue is a <strong>self-confined field
+structure that carries non-zero</strong></p>
+<p><span class="math display">\[
+\vec{L} = \epsilon_0 \int_V \vec{r}\times(\vec{E}\times\vec{B})\,d^3x \;
+.
+\]</span></p>
+<p><em>Definition of effective moment of inertia</em> <br />
+Let <span class="math inline">\(\omega\)</span> be the uniform
+phase-rotation rate of the internal fields around a fixed axis (e.g. the
+<span class="math inline">\(z\)</span>–axis).<br />
+For a time-stationary configuration one may write</p>
+<p><span class="math display">\[
+\vec{L}=I_{\text{eff}}\;\vec{\omega},\qquad  
+I_{\text{eff}}=\frac{1}{\omega^2}\,
+\epsilon_0\!\int_V\!|\vec{E}\times\vec{B}|_\perp\,d^3x ,
+\]</span></p>
+<p>where the subscript <span class="math inline">\(\perp\)</span>
+selects the component perpendicular to the axis.<br />
+<span class="math inline">\(\,I_{\text{eff}}\,\)</span> plays the role
+of a <strong>moment of inertia</strong>: it depends only on the internal
+energy distribution, not on any postulated mass.</p>
+<p><em>Persistence of rotation</em> <br />
+Because source-free Maxwell equations contain no dissipative term, <span
+class="math inline">\(\partial_t\vec{L}=0\)</span> whenever the boundary
+torque vanishes.<br />
+Thus a “wheel” of electromagnetic energy keeps spinning indefinitely; an
+external torque is required to change <span
+class="math inline">\(\vec{L}\)</span> exactly as in ordinary
+mechanics.</p>
+<h2 id="mechanical-behavior-without-mass">Mechanical Behavior Without
+Mass</h2>
+<p>In a Maxwell universe, all physical structures are electromagnetic
+field configurations with finite energy. These structures — such as
+dipole-like or toroidal standing waves — exhibit behavior commonly
+attributed to “mass”, such as resistance to acceleration and persistent
+motion. We now explain these effects directly from Maxwell’s equations,
+without introducing mass as a fundamental concept.</p>
+<h3 id="definition-of-push">Definition of Push</h3>
+<p>Consider a localized electromagnetic field configuration (the
+“object”) occupying a finite region of space <span
+class="math inline">\(V\)</span>. A <strong>push</strong> is defined as
+the transient application of an additional electromagnetic field <span
+class="math inline">\(\vec{E}_{\text{ext}}(\vec{r}, t),
+\vec{B}_{\text{ext}}(\vec{r}, t)\)</span> that temporarily overlaps and
+interacts with the original fields <span class="math inline">\(\vec{E},
+\vec{B}\)</span> in <span class="math inline">\(V\)</span>.</p>
+<p>Mathematically, this modifies the local fields:</p>
+<p><span class="math display">\[
+\vec{E}_{\text{total}} = \vec{E} + \vec{E}_{\text{ext}}, \quad
+\vec{B}_{\text{total}} = \vec{B} + \vec{B}_{\text{ext}}
+\]</span></p>
+<p>during a time interval <span class="math inline">\(t \in [t_0,
+t_1]\)</span>.</p>
+<p>The total momentum density becomes:</p>
+<p><span class="math display">\[
+\vec{g}_{\text{total}} = \epsilon_0 (\vec{E}_{\text{total}} \times
+\vec{B}_{\text{total}})
+\]</span></p>
+<p>This changes the field’s momentum content and structure.</p>
+<h3 id="definition-of-deformation">Definition of Deformation</h3>
+<p>A <strong>deformation</strong> is the local change in field
+amplitude, phase, or spatial distribution due to the non-uniform overlap
+of the external and internal fields. Unlike a rigid-body response,
+Maxwell fields respond continuously and locally, according to the
+equations:</p>
+<p><span class="math display">\[
+\frac{\partial \vec{g}}{\partial t} = -\nabla \cdot \mathbf{T}, \quad
+\vec{g} = \epsilon_0 \vec{E} \times \vec{B}
+\]</span></p>
+<p>The result is a <strong>redistribution</strong> of energy and
+momentum across the object’s volume <span
+class="math inline">\(V\)</span>.</p>
+<p>In physical terms:<br />
+- The region receiving the strongest field overlap (i.e., “pushed”)
+experiences an increase in local energy density and momentum.<br />
+- Adjacent regions adjust in response, establishing field gradients and
+internal stresses.<br />
+- These internal adjustments propagate at speed <span
+class="math inline">\(c\)</span>, forming an electromagnetic analog of
+mechanical strain.</p>
+<h3 id="redistribution-of-energy-and-momentum">Redistribution of Energy
+and Momentum</h3>
+<p>Let the initial field energy and momentum before the push be:</p>
+<p><span class="math display">\[
+U_0 = \int_V u(\vec{r}, t_0) \, d^3x, \quad \vec{P}_0 = \int_V
+\vec{g}(\vec{r}, t_0) \, d^3x
+\]</span></p>
+<p>After the external field ends (<span class="math inline">\(t &gt;
+t_1\)</span>), the total energy and momentum become:</p>
+<p><span class="math display">\[
+U_1 = \int_V u(\vec{r}, t_1) \, d^3x, \quad \vec{P}_1 = \int_V
+\vec{g}(\vec{r}, t_1) \, d^3x
+\]</span></p>
+<p>The difference:</p>
+<p><span class="math display">\[
+\Delta \vec{P} = \vec{P}_1 - \vec{P}_0
+\]</span></p>
+<p>represents the net momentum transferred into the field configuration
+by the push.</p>
+<p>This momentum is not localized at a point, but distributed across the
+internal field configuration. The original structure adjusts by altering
+the phase and shape of its internal modes — in effect, “absorbing” the
+impulse.</p>
+<h3 id="emergence-of-persistent-motion">Emergence of Persistent
+Motion</h3>
+<p>After the deformation and redistribution settle, the configuration
+possesses:</p>
+<ul>
+<li>A new internal field structure with net momentum <span
+class="math inline">\(\vec{P}_1\)</span></li>
+<li>A shifted center of energy <span
+class="math inline">\(\vec{R}(t)\)</span>, defined by:</li>
+</ul>
+<p><span class="math display">\[
+\vec{R}(t) = \frac{1}{U} \int_V \vec{r} \, u(\vec{r}, t) \, d^3x
+\]</span></p>
+<p>Its velocity is given by:</p>
+<p><span class="math display">\[
+\frac{d\vec{R}}{dt} = \frac{\vec{P}_1}{U_1}
+\]</span></p>
+<p>This motion continues indefinitely (until further interactions), as
+no dissipation mechanism exists in source-free Maxwell equations.</p>
+<h3 id="defining-the-boundary-of-a-field-object">Defining the Boundary
+of a Field Object</h3>
+<p>The volume <span class="math inline">\(V\)</span> of the object is
+defined as the smallest region satisfying:</p>
+<ol type="1">
+<li>The integrals for energy, momentum, and stress converge.</li>
+<li>The energy density <span class="math inline">\(u(\vec{r},
+t)\)</span> outside <span class="math inline">\(V\)</span> is negligible
+(e.g., below a fixed threshold <span
+class="math inline">\(\varepsilon\)</span>).</li>
+<li>The Poynting vector <span class="math inline">\(\vec{S} = \vec{E}
+\times \vec{B} / \mu_0\)</span> is tangential or vanishing at <span
+class="math inline">\(\partial V\)</span>.</li>
+</ol>
+<p>This boundary is <strong>not arbitrary</strong>: it separates the
+dynamically active internal configuration from the rest of space. It is
+the natural field-theoretic analog of a material boundary.</p>
+<h3 id="summary-1">Summary</h3>
+<p>A “push” is a finite-time overlap of external fields with an internal
+configuration. This induces a deformation, meaning a local and
+continuous redistribution of energy and momentum, governed by Maxwell’s
+equations.</p>
+<p>The internal stress balances adjust, storing the impulse as coherent
+internal motion. Once the interaction ends, the structure moves with
+constant velocity determined by its internal momentum content.</p>
+<p>This persistent motion — inertia — is thus fully explained by
+internal field dynamics, with no need to postulate mass or point
+particles.</p>
+<h2 id="emergence-of-f-ma">Emergence of (F = ma)</h2>
+<p>Define the <strong>effective inertial mass</strong></p>
+<p><span class="math display">\[
+m_{\text{eff}} = \frac{U}{c^{2}},\qquad  
+U=\int_V u\,d^3x .
+\]</span></p>
+<p>For any object the <em>field</em> linear momentum is</p>
+<p><span class="math display">\[
+\vec{P}=m_{\text{eff}}\;\vec{v},\qquad   
+\vec{v}=\frac{d\vec{R}}{dt}.
+\]</span></p>
+<p>Taking a total derivative gives</p>
+<p><span class="math display">\[
+\frac{d\vec{P}}{dt}=m_{\text{eff}}\;\frac{d\vec{v}}{dt}
+                 \;=\;m_{\text{eff}}\;\vec{a},
+\]</span></p>
+<p>where <span class="math inline">\(\vec{a}\)</span> is the
+acceleration of the center of energy.<br />
+But Maxwell dynamics already furnishes (section <em>Global Momentum
+Conservation</em>)</p>
+<p><span class="math display">\[
+\frac{d\vec{P}}{dt} = -\!\int_{\partial V}\!\mathbf{T}\cdot
+d\vec{A}\;=\;\vec{F}_{\text{ext}} .
+\]</span></p>
+<p>Hence</p>
+<p><span class="math display">\[
+\boxed{\;\vec{F}_{\text{ext}} = m_{\text{eff}}\;\vec{a}\;}
+\]</span></p>
+<p>with <strong>no additional postulates</strong>: Newton’s second law
+appears as a bookkeeping identity coupling stress-tensor flux to the
+rate of change of field momentum.</p>
+<h2 id="example-dipole-in-a-gradient">Example: Dipole in a Gradient</h2>
+<p>Let us model a dipole-like field configuration aligned along the
+<span class="math inline">\(z\)</span>-axis, consisting of two localized
+electromagnetic lobes separated by distance <span
+class="math inline">\(2d\)</span>, centered at <span
+class="math inline">\(\vec{r}_\pm = (0, 0, \pm d)\)</span>. The total
+field configuration satisfies:</p>
+<p><span class="math display">\[
+\vec{E}(\vec{r}, t) = \vec{E}_+(\vec{r} - \vec{r}_+) + \vec{E}_-(\vec{r}
+- \vec{r}_-), \quad \vec{B}(\vec{r}, t) = \vec{B}_+ + \vec{B}_-
+\]</span></p>
+<p>Now suppose the dipole enters a background field with a gradient in
+energy density along <span class="math inline">\(z\)</span>:</p>
+<p><span class="math display">\[
+u_{\text{bg}}(z) = u_0 + \alpha z
+\]</span></p>
+<p>This modifies the effective stress tensor in space. The net force on
+the structure is:</p>
+<p><span class="math display">\[
+\vec{F} = -\int_{\partial V} \mathbf{T}_{\text{total}} \cdot d\vec{A}
+\]</span></p>
+<p>But we can also write the net <strong>internal field force</strong>
+as:</p>
+<p><span class="math display">\[
+\vec{F}_{\text{eff}} = \int_V \nabla \cdot
+\mathbf{T}_{\text{bg}}(\vec{r}) \, d^3x
+\]</span></p>
+<p>Assuming that the background gradient is slow over the dipole scale
+(<span class="math inline">\(\alpha d \ll u_0\)</span>), we can expand
+<span class="math inline">\(\mathbf{T}_{\text{bg}}\)</span> near the
+center and approximate:</p>
+<p><span class="math display">\[
+\nabla \cdot \mathbf{T}_{\text{bg}} \approx \frac{d\mathbf{T}}{dz}
+\hat{z}
+\]</span></p>
+<p>Therefore:</p>
+<p><span class="math display">\[
+\vec{F}_{\text{eff}} \approx \left( \frac{dT_{zz}}{dz} \right) \int_V
+d^3x \, \hat{z} = \alpha&#39; V_{\text{eff}} \hat{z}
+\]</span></p>
+<p>The dipole drifts along the gradient toward regions of higher <span
+class="math inline">\(u_{\text{bg}}\)</span> if <span
+class="math inline">\(\alpha&#39; &lt; 0\)</span>. The drift velocity is
+given approximately by:</p>
+<p><span class="math display">\[
+\frac{d\vec{R}}{dt} = \frac{\vec{P}_{\text{field}}}{U}
+\]</span></p>
+<p>where <span class="math inline">\(\vec{P}_{\text{field}}\)</span>
+evolves due to asymmetric stress:</p>
+<p><span class="math display">\[
+\frac{d\vec{P}_{\text{field}}}{dt} = -\int_V \nabla \cdot
+\mathbf{T}_{\text{bg}} \, d^3x \approx \alpha&#39; V_{\text{eff}}
+\hat{z}
+\]</span></p>
+<p>This completes the derivation: a dipole in a gradient moves due to
+spatially varying field stresses, not due to an external force. The
+effect is mechanical, electromagnetic, and purely local.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In a universe described solely by source-free Maxwell equations:</p>
+<ul>
+<li>Linear momentum, angular momentum and energy are <strong>field
+integrals</strong>; their local balances follow from <span
+class="math inline">\(\partial_t\vec{g}+\nabla\!\cdot\!\mathbf{T}=0\)</span>
+and Poynting’s theorem.<br />
+</li>
+<li>Inertial <strong>translation</strong> emerges because a confined
+field object with constant <span class="math inline">\(\vec{P}\)</span>
+carries its center of energy at constant velocity.<br />
+</li>
+<li>Inertial <strong>rotation</strong> emerges because a confined object
+with constant <span class="math inline">\(\vec{L}\)</span> maintains a
+fixed angular velocity; <span
+class="math inline">\(I_{\text{eff}}\)</span> is set by the internal
+energy distribution.<br />
+</li>
+<li>The familiar law ( =m ) is recovered with ( m = U/c^{2} ); forces
+are surface fluxes of the Maxwell stress tensor.<br />
+</li>
+<li>Deviations from straight or uniform motion arise only when external
+field gradients inject or extract momentum or torque through <span
+class="math inline">\(\mathbf{T}\)</span>.</li>
+</ul>
+<p>Thus classical mechanics — linear motion, rotational motion, and
+Newton’s second law — is rigorously reproduced from pure electromagnetic
+dynamics, with <strong>no particles, masses, or spacetime curvature
+required</strong>.</p>
+<h2 id="references">References</h2>
+<ol type="1">
+<li>Jackson, J. D., <em>Classical Electrodynamics</em>, 3rd Ed., Wiley,
+1999.<br />
+</li>
+<li>Landau, L. D., Lifshitz, E. M., <em>The Classical Theory of
+Fields</em>, Pergamon Press, 1971.<br />
+</li>
+<li>Rodriguez, A. M., Palma, A., <em>Deriving the Schrödinger Equation
+from Source-Free Maxwell Dynamics</em>, 2025.<br />
+</li>
+<li>Griffiths, D. J., <em>Introduction to Electrodynamics</em>, 4th Ed.,
+Pearson, 2013.</li>
+</ol>
+</body>
+</html>

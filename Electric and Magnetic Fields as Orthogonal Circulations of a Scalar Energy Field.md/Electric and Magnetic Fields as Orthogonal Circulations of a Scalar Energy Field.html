@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Electric and Magnetic Fields as Orthogonal Circulations of a Scalar Energy Field</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<h1
+id="electric-and-magnetic-fields-as-orthogonal-circulations-of-a-scalar-energy-field">Electric
+and Magnetic Fields as Orthogonal Circulations of a Scalar Energy
+Field</h1>
+<p>Anes Palma, An M. Rodriguez (an@preferredframe.com)<br />
+August 3, 2025</p>
+<h2 id="summary">Summary</h2>
+<p>We derive electric and magnetic fields as orthogonal circulations of
+a scalar energy field, with all vector quantities emerging from topology
+and motion. The Lorentz force law is recovered from internal field
+momentum evolution, linking the coupling constant <span
+class="math inline">\(q\)</span> directly to the topological structure
+of the object</p>
+<h2 id="keywords">Keywords</h2>
+<p>scalar field, energy circulation, toroidal topology, Lorentz force,
+Maxwell equations, curl geometry, topological charge, electromagnetic
+interaction</p>
+<h2 id="introduction">Introduction</h2>
+<p>We consider the possibility that all classical electromagnetic fields
+arise from structured flows of a single scalar energy field <span
+class="math inline">\(U(\vec{x}, t)\)</span>. The observed vector
+fields—electric <span class="math inline">\(\vec{E}\)</span> and
+magnetic <span class="math inline">\(\vec{B}\)</span>—are not
+fundamental, but secondary projections from this scalar field.</p>
+<p>In this view, the scalar field supports standing wave solutions on
+closed topologies. Localized, circulating modes—especially toroidal
+ones—can sustain stable energy structures. These standing waves possess
+intrinsic winding numbers, which yield conserved circulation integrals
+and quantized dynamics. From this structure, we show how the full
+Maxwell equations emerge, and how the Lorentz force arises from field
+momentum exchange—without postulating point charges or external
+forces.</p>
+<h2 id="scalar-energy-field-and-derived-vector-fields">Scalar Energy
+Field and Derived Vector Fields</h2>
+<p>We assume a scalar energy field <span
+class="math inline">\(U(\vec{x}, t)\)</span> obeying the wave
+equation:</p>
+<p><span class="math display">\[
+\frac{\partial^2 U}{\partial t^2} = c^2 \nabla^2 U
+\]</span></p>
+<p>Here, <span class="math inline">\(c\)</span> is the local propagation
+speed of energy flow, which may itself vary with energy density, as
+discussed later.</p>
+<p>We define derived vector fields as orthogonal double-curl operations
+on <span class="math inline">\(U\)</span>:</p>
+<p><span class="math display">\[
+\vec{E} := \nabla \times \nabla \times (\hat{z} U), \qquad
+\vec{B} := \nabla \times \nabla \times (\hat{\theta} U)
+\]</span></p>
+<p>These constructions ensure that <span
+class="math inline">\(\vec{E}\)</span> and <span
+class="math inline">\(\vec{B}\)</span> are divergence-free
+(source-free), and inherit wave behavior from <span
+class="math inline">\(U\)</span>.</p>
+<p>The directions <span class="math inline">\(\hat{z}\)</span> and <span
+class="math inline">\(\hat{\theta}\)</span> correspond to distinct
+circulation directions of a toroidal coordinate system. The
+orthogonality of <span class="math inline">\(\vec{E}\)</span> and <span
+class="math inline">\(\vec{B}\)</span> arises directly from orthogonal
+circulations in the scalar field—linked to topologically distinct
+winding numbers.</p>
+<h2 id="toroidal-standing-waves-and-quantization">Toroidal Standing
+Waves and Quantization</h2>
+<p>Let us consider a standing-wave solution confined to a torus, with
+radii <span class="math inline">\(R\)</span> (major) and <span
+class="math inline">\(r\)</span> (minor). The allowed wavelengths along
+toroidal and poloidal loops are:</p>
+<p><span class="math display">\[
+\lambda_1 = \frac{2\pi R}{n_1}, \qquad
+\lambda_2 = \frac{2\pi r}{n_2}
+\]</span></p>
+<p>with integer winding numbers <span class="math inline">\(n_1, n_2 \in
+\mathbb{Z}^+\)</span>. The wavenumbers are:</p>
+<p><span class="math display">\[
+k_1 = \frac{n_1}{R}, \qquad
+k_2 = \frac{n_2}{r}, \qquad
+k = \sqrt{k_1^2 + k_2^2}
+\]</span></p>
+<p>From the dispersion relation of the scalar wave equation, we get:</p>
+<p><span class="math display">\[
+\omega = c k = c \sqrt{\left( \frac{n_1}{R} \right)^2 + \left(
+\frac{n_2}{r} \right)^2}
+\]</span></p>
+<p>The energy associated with the mode is proportional to <span
+class="math inline">\(\omega\)</span>, say:</p>
+<p><span class="math display">\[
+E_{n_1 n_2} = \hbar_g \omega
+\]</span></p>
+<p>with <span class="math inline">\(\hbar_g\)</span> defined as the
+energy-to-frequency ratio for the lowest allowed mode. These
+standing-wave modes are quantized by geometry, not postulates.</p>
+<h2 id="emergence-of-vece-and-vecb-as-circulations">Emergence of <span
+class="math inline">\(\vec{E}\)</span> and <span
+class="math inline">\(\vec{B}\)</span> as Circulations</h2>
+<p>In this model:</p>
+<ul>
+<li><span class="math inline">\(\vec{E}\)</span> arises from toroidal
+circulation: longitudinal wavefronts curling around the large ring of
+the torus.</li>
+<li><span class="math inline">\(\vec{B}\)</span> arises from poloidal
+circulation: wavefronts curling around the small cross-section.</li>
+</ul>
+<p>Their orthogonality is not imposed; it is geometric. If <span
+class="math inline">\(U\)</span> is a circular standing wave with
+winding numbers <span class="math inline">\((n_1, n_2)\)</span>,
+then:</p>
+<p><span class="math display">\[
+\vec{E} = \nabla \times \nabla \times (\hat{z} U) \quad \text{is tangent
+to } n_1
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\vec{B} = \nabla \times \nabla \times (\hat{\theta} U) \quad \text{is
+tangent to } n_2
+\]</span></p>
+<p>Thus, the fields are orthogonal because they result from independent
+rotational projections of the same scalar field.</p>
+<h2 id="motion-and-observer-dependence">Motion and Observer
+Dependence</h2>
+<p>If the object is at rest in the scalar field frame, the field appears
+as a time-stationary standing wave. For a moving observer (or a moving
+wave structure), the fields transform:</p>
+<ul>
+<li>The observer experiences rotation induced by motion across the curl
+patterns.</li>
+<li>A moving object cuts through the standing wave, perceiving phase
+gradients.</li>
+</ul>
+<p>This leads naturally to velocity-dependent interactions, as now
+shown.</p>
+<h2
+id="coupling-to-background-fields-and-the-emergence-of-the-lorentz-force">Coupling
+to Background Fields and the Emergence of the Lorentz Force</h2>
+<p>We now derive the Lorentz force from scalar field dynamics. Let:</p>
+<p><span class="math display">\[
+U(\vec{x}, t) = U_{\text{bg}}(\vec{x}, t) + U_{\text{obj}}(\vec{x}, t)
+\]</span></p>
+<p>where <span class="math inline">\(U_{\text{obj}}\)</span> is a
+localized, toroidal standing wave (representing a “particle”) and <span
+class="math inline">\(U_{\text{bg}}\)</span> is a large-scale,
+approximately uniform background scalar field.</p>
+<p>We define the total electromagnetic field as:</p>
+<p><span class="math display">\[
+\vec{E} = \nabla \times \nabla \times (\hat{z} U), \qquad
+\vec{B} = \nabla \times \nabla \times (\hat{\theta} U)
+\]</span></p>
+<p>Let the object move at constant velocity <span
+class="math inline">\(\vec{v}\)</span> relative to the background. As it
+moves, the <strong>internal energy flow</strong> within the object is
+transported. We define a local <strong>scalar energy current
+density</strong>:</p>
+<p><span class="math display">\[
+\vec{j}_U := \frac{\partial U_{\text{obj}}}{\partial t} \, \vec{v}
+\]</span></p>
+<p>This quantity captures the transport of energy due to motion of the
+object’s standing wave structure. Now, from energy-momentum conservation
+in electromagnetism, the momentum density is:</p>
+<p><span class="math display">\[
+\vec{g} = \varepsilon_0 \vec{E} \times \vec{B}
+\]</span></p>
+<p>We are interested in the <strong>interaction momentum</strong>
+between the object and background fields. Keeping only <strong>cross
+terms</strong> (object–background overlap), we write:</p>
+<p><span class="math display">\[
+\vec{P}_{\text{int}} = \varepsilon_0 \int_V
+\left( \vec{E}_{\text{obj}} \times \vec{B}_{\text{bg}} +
+\vec{E}_{\text{bg}} \times \vec{B}_{\text{obj}} \right) d^3x
+\]</span></p>
+<p>The <strong>rate of change</strong> of this interaction momentum
+gives the force:</p>
+<p><span class="math display">\[
+\vec{F} = \frac{d}{dt} \vec{P}_{\text{int}}
+\]</span></p>
+<p>We now derive expressions for each term. Start with:</p>
+<p><span class="math display">\[
+\vec{F}_E := \frac{d}{dt} \int_V \varepsilon_0 \vec{E}_{\text{obj}}
+\times \vec{B}_{\text{bg}} \, d^3x
+\]</span></p>
+<p>Since <span class="math inline">\(\vec{B}_{\text{bg}}\)</span> is
+assumed time-independent in the object frame (slow variation), we
+write:</p>
+<p><span class="math display">\[
+\vec{F}_E \approx \varepsilon_0 \int_V \frac{\partial
+\vec{E}_{\text{obj}}}{\partial t} \times \vec{B}_{\text{bg}} \, d^3x
+\]</span></p>
+<p>But from Maxwell’s equation:</p>
+<p><span class="math display">\[
+\frac{\partial \vec{E}_{\text{obj}}}{\partial t} = c^2 \nabla \times
+\vec{B}_{\text{obj}} \approx \nabla \times \vec{B}_{\text{obj}} \quad
+\text{(units with } c = 1)
+\]</span></p>
+<p>Hence:</p>
+<p><span class="math display">\[
+\vec{F}_E \approx \varepsilon_0 \int_V (\nabla \times
+\vec{B}_{\text{obj}}) \times \vec{B}_{\text{bg}} \, d^3x
+\]</span></p>
+<p>Now consider the other cross term:</p>
+<p><span class="math display">\[
+\vec{F}_B := \frac{d}{dt} \int_V \varepsilon_0 \vec{E}_{\text{bg}}
+\times \vec{B}_{\text{obj}} \, d^3x
+\]</span></p>
+<p>Here, <span class="math inline">\(\vec{E}_{\text{bg}}\)</span> is
+approximately static in the object frame, so:</p>
+<p><span class="math display">\[
+\vec{F}_B \approx \varepsilon_0 \int_V \vec{E}_{\text{bg}} \times
+\frac{\partial \vec{B}_{\text{obj}}}{\partial t} \, d^3x
+\]</span></p>
+<p>Using:</p>
+<p><span class="math display">\[
+\frac{\partial \vec{B}_{\text{obj}}}{\partial t} = -\nabla \times
+\vec{E}_{\text{obj}}
+\]</span></p>
+<p>We obtain:</p>
+<p><span class="math display">\[
+\vec{F}_B \approx -\varepsilon_0 \int_V \vec{E}_{\text{bg}} \times
+(\nabla \times \vec{E}_{\text{obj}}) \, d^3x
+\]</span></p>
+<p>We now define a <strong>coupling measure</strong> <span
+class="math inline">\(q\)</span> by modeling how internal energy flow
+overlaps with the background fields.</p>
+<p>Assume that internal energy flow in the object follows the energy
+density gradient under motion. Then:</p>
+<p><span class="math display">\[
+\vec{j}_U := \frac{\partial U_{\text{obj}}}{\partial t} \vec{v} \approx
+(\vec{v} \cdot \nabla) U_{\text{obj}}
+\]</span></p>
+<p>We now project this scalar energy current onto the background fields.
+The <strong>electrical-like component</strong> of the interaction
+is:</p>
+<p><span class="math display">\[
+q_E := \int_V \vec{j}_U \cdot \vec{E}_{\text{bg}} \, d^3x
+\]</span></p>
+<p>The <strong>magnetic-like component</strong>, arising from moving
+circulation coupling, is:</p>
+<p><span class="math display">\[
+q_B := \int_V \vec{j}_U \cdot (\vec{v} \times \vec{B}_{\text{bg}}) \,
+d^3x
+\]</span></p>
+<p>These expressions arise naturally: they are the scalar product
+between the moving energy density flow and the effective background
+forces. We then define the total coupling:</p>
+<p><span class="math display">\[
+q := \frac{1}{v^2} (q_E + q_B)
+\]</span></p>
+<p>Note: this normalization ensures correct scaling with velocity.</p>
+<p>The total force from interaction momentum exchange is then:</p>
+<p><span class="math display">\[
+\vec{F} = \frac{d}{dt} \vec{P}_{\text{int}} = q \left(
+\vec{E}_{\text{bg}} + \vec{v} \times \vec{B}_{\text{bg}} \right)
+\]</span></p>
+<p>This is precisely the Lorentz force:</p>
+<p><span class="math display">\[
+\vec{F} = q (\vec{E} + \vec{v} \times \vec{B})
+\]</span></p>
+<p>But it is derived—not postulated—from scalar field overlap and
+motion. The effective charge <span class="math inline">\(q\)</span> is
+<strong>not intrinsic</strong>, but a geometric interaction strength
+arising from internal scalar structure.</p>
+<h2 id="connection-to-topological-charge">Connection to Topological
+Charge</h2>
+<p>In the paper <em>Defining Topological Charge in a Source-Free Maxwell
+Universe</em>, we defined the <strong>topological charge</strong> of a
+confined field structure as the pair:</p>
+<p><span class="math display">\[
+Q := (n_1, n_2) \in \mathbb{Z}^2
+\]</span></p>
+<p>These are the <strong>winding numbers</strong> of the toroidal
+standing wave:</p>
+<ul>
+<li><span class="math inline">\(n_1\)</span>: number of circulations
+along the toroidal direction<br />
+</li>
+<li><span class="math inline">\(n_2\)</span>: number along the poloidal
+(cross-sectional) direction</li>
+</ul>
+<p>Each winding contributes to the internal circulation of energy in
+orthogonal directions. The scalar field <span
+class="math inline">\(U(\vec{x}, t)\)</span> supports such a standing
+wave through two angular coordinates:</p>
+<p><span class="math display">\[
+U(\vec{x}, t) = U_0 \cos(n_1 \phi_1 + n_2 \phi_2 - \omega t)
+\]</span></p>
+<p>Let us now derive how the <strong>scalar energy current</strong>
+<span class="math inline">\(\vec{j}_U\)</span> depends on this
+structure.</p>
+<h3 id="step-1-scalar-gradient-flow-from-toroidal-coordinates">Step 1:
+Scalar Gradient Flow from Toroidal Coordinates</h3>
+<p>From the above, the spatial gradient is:</p>
+<p><span class="math display">\[
+\nabla U \propto -n_1 \sin(\dots) \, \nabla \phi_1 - n_2 \sin(\dots) \,
+\nabla \phi_2
+\]</span></p>
+<p>Thus, the gradient direction combines:</p>
+<p><span class="math display">\[
+\nabla U \propto n_1 \hat{\phi}_1 + n_2 \hat{\phi}_2
+\]</span></p>
+<p>Let the object be moving with external velocity <span
+class="math inline">\(\vec{v}\)</span> (external in the sense that it
+represents the object’s motion relative to the background field
+structure, not part of its intrinsic circulation). Then:</p>
+<p><span class="math display">\[
+\vec{j}_U = \frac{\partial U}{\partial t} \vec{v}
+= \omega U_0 \sin(\dots) \, \vec{v}
+\]</span></p>
+<p>Multiplying out with <span class="math inline">\(\nabla U\)</span>
+implies:</p>
+<p><span class="math display">\[
+\vec{j}_U \propto (n_1 \hat{\phi}_1 + n_2 \hat{\phi}_2) \cdot \vec{v}
+\]</span></p>
+<p>The scalar current carries directional information aligned with:</p>
+<p><span class="math display">\[
+\vec{Q} := n_1 \hat{\phi}_1 + n_2 \hat{\phi}_2
+\]</span></p>
+<p>This is the <strong>vector form of topological charge</strong> in the
+local tangent space of the toroidal mode.</p>
+<h3 id="step-2-coupling-to-background-fields">Step 2: Coupling to
+Background Fields</h3>
+<p>From the Lorentz derivation, the interaction coupling strength <span
+class="math inline">\(q\)</span> is:</p>
+<p><span class="math display">\[
+q := \frac{1}{v^2} \int_V \vec{j}_U \cdot (\vec{E}_{\text{bg}} + \vec{v}
+\times \vec{B}_{\text{bg}}) \, d^3x
+\]</span></p>
+<p>Since <span class="math inline">\(\vec{j}_U\)</span> is parallel to
+<span class="math inline">\(\vec{Q}\)</span> and <span
+class="math inline">\(\vec{v}\)</span>, the integrand simplifies to:</p>
+<p><span class="math display">\[
+\vec{j}_U \cdot \vec{F}_{\text{bg}} \propto
+(\vec{Q} \cdot \vec{F}_{\text{bg}})(\vec{v} \cdot \vec{v})
+\]</span></p>
+<p>Then:</p>
+<p><span class="math display">\[
+q \propto \vec{Q} \cdot \vec{F}_{\text{bg}}
+\]</span></p>
+<p>This shows that the <strong>effective charge</strong> <span
+class="math inline">\(q\)</span> is a <strong>projection of the
+topological vector <span class="math inline">\(\vec{Q}\)</span> onto the
+background field</strong> structure.</p>
+<h3 id="step-3-interpretation">Step 3: Interpretation</h3>
+<p>The object’s internal energy circulation is fixed by its winding
+numbers <span class="math inline">\((n_1, n_2)\)</span>. These define
+the geometry of energy flow within the toroidal scalar configuration.
+When this object moves relative to background <span
+class="math inline">\(\vec{E}\)</span> and <span
+class="math inline">\(\vec{B}\)</span> fields, its coupling strength
+<span class="math inline">\(q\)</span> arises from the directional
+overlap:</p>
+<p><span class="math display">\[
+q = \text{scalar projection} \propto \vec{Q} \cdot \vec{F}_{\text{bg}}
+\]</span></p>
+<p>Hence, charge is topological in origin—not an intrinsic substance,
+but a conserved consequence of energy circulation geometry. It reflects
+the alignment between intrinsic circulation and external field
+structure, rather than being a fixed scalar property.</p>
+<h2 id="discussion-and-implications">Discussion and Implications</h2>
+<ul>
+<li>The Lorentz force is not fundamental, but a consequence of scalar
+energy conservation and curl-coupling geometry.</li>
+<li>The effective charge <span class="math inline">\(q\)</span> is not
+postulated—it is derived from the overlap of energy flow with ambient
+fields.</li>
+<li>Motion across curl structures induces apparent forces, because
+momentum must be conserved.</li>
+<li>The vector fields <span class="math inline">\(\vec{E}\)</span> and
+<span class="math inline">\(\vec{B}\)</span> are geometric projections
+of toroidal scalar field modes.</li>
+<li>This framework unifies electric and magnetic fields as rotational
+symmetries of scalar topology.</li>
+</ul>
+<h2 id="references">References</h2>
+<ol type="1">
+<li>Rodriguez A. M., Palma A., <em>Hydrogen Atom Quantization from
+Purely Classical Maxwell Electromagnetic Fields</em>, 2025<br />
+</li>
+<li>Palma A., Rodriguez A. M., <em>Deriving the Schrödinger Equation
+from Source-Free Maxwell Dynamics</em>, 2025<br />
+</li>
+<li>Palma A., Rodriguez A. M., <em>Emergent -1/L² Interaction Force in a
+Pure Maxwell Universe</em>, 2025<br />
+</li>
+<li>Palma A., Rodriguez A. M., <em>Explaining Conservation Laws in a
+Maxwell Universe Ontology</em>, 2025<br />
+</li>
+<li>Jackson J. D., <em>Classical Electrodynamics</em>, 3rd ed., Wiley,
+1999</li>
+</ol>
+</body>
+</html>

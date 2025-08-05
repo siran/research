@@ -1,0 +1,212 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{cite}
+
+\begin{document}
+
+\title{\textbf{Emergent \texorpdfstring{$-\!1/L^{2}$}{-1/r\^{}2} Interaction Force in a Pure Maxwell Universe from\\
+Constant-Energy and Wave-Like Interactions}}
+\author{
+Anes Palma \and
+An M. Rodriguez\thanks{\texttt{anmichel.rodriguez@gmail.com}}
+}
+\date{}
+\maketitle
+
+\begin{abstract}
+In a purely electromagnetic Maxwell universe (where all matter is electromagnetic in nature), consider two ``lumps'' of energy in \(\mathbb{R}^n\) separated by distance \(r\). We show that standing-wave modes between these lumps, combined with total energy conservation, yield a net \(\propto -1/r^2\) attractive force. This arises from the \(\propto 1/r\) energy scaling of each mode’s spatial profile, reminiscent of nodes on a vibrating string. Differentiating with respect to \(r\) then gives a universal \(\propto -1/r^2\) pull, without requiring mass or curvature.
+\end{abstract}
+
+\section{Introduction}
+Conventional long-range attraction is often attributed to gravity, involving mass or spacetime curvature. By contrast, we consider a ``Maxwell-only'' universe where \emph{all} matter is electromagnetic in nature. In any dimension \(\mathbb{R}^n\), two energy lumps separated by a distance \(r\) can sustain standing-wave interactions with boundary-like conditions fixing node positions along that line of separation. We show that these conditions, combined with a global fixed-energy constraint, lead to an emergent force \(\propto -1/r^2\).
+
+The core reason is that each normal mode’s \emph{spatial} energy scales like \(1/r\). Even though an isolated system with multiple modes allows amplitude readjustments to keep total energy constant, these adjustments do not eliminate the negative slope \(\,-\,d(1/r)/dr \sim +1/r^2\). Thus, a universal \(-1/r^2\) pull emerges purely from wave boundary conditions and energy conservation, without invoking mass or curvature.
+
+\section{Separation of Variables and Energy Summation}
+
+\subsection{Wave Equation Solutions as a Product}
+In many wave equations (e.g.\ a 1D string, electromagnetic cavities in higher dimensions), solutions can be obtained by separating variables:
+\[
+\psi(x,t) \;=\; \Phi(x)\,T(t).
+\]
+The PDE then splits into a spatial ODE for \(\Phi\) and a temporal ODE for \(T\), often yielding standing-wave normal modes. For the \(m\)-th mode in a domain \([0,r]\) along the line between two lumps, one might write
+\[
+\Phi_m(x;r) \;=\; A_m(r)\, f\!\Bigl(\tfrac{m x}{r}\Bigr),
+\]
+where \(f\) vanishes at \(x=0\) and \(x=r\). Multiplying by a time factor \(T_m(t)\) yields \(\psi_m(x,t)\), a complete standing wave.
+
+\subsection{Energy in the Spatial Part}
+Although \(\psi\) is a product of spatial and temporal functions, the wave energy typically involves a sum of squares of derivatives:
+\[
+\mathcal{E}(\psi)
+\;=\;
+\tfrac12 \bigl(\partial_x \psi\bigr)^2
+\;+\;\dots
+\]
+We integrate over \([0,r]\) to get
+\[
+W
+\;=\;
+\int_0^r \!\mathcal{E}(\psi)\,dx.
+\]
+Focusing on the spatial contribution for mode \(m\) at an instant when \(\partial_t \psi_m=0\), we define
+\begin{equation}
+W_m(r;A_m)
+\;=\;
+\int_{0}^{r}
+\Bigl[\partial_x \Phi_m(x;r)\Bigr]^{2}\,dx.
+\label{eq:Wm}
+\end{equation}
+
+\section{Detailed Derivation of the \texorpdfstring{$1/r$}{1/r} Factor}
+
+\subsection{General Change of Variable}
+Plugging \(\Phi_m(x;r)=A_m(r)\,f\!\bigl(\tfrac{m x}{r}\bigr)\) into \eqref{eq:Wm}, we get
+\[
+\partial_x \Phi_m
+\;=\;
+A_m(r)\,\frac{m}{r}\,f'\!\Bigl(\tfrac{m x}{r}\Bigr),
+\]
+so
+\[
+(\partial_x \Phi_m)^2
+=
+\Bigl(\tfrac{m}{r}\Bigr)^2\,[A_m(r)]^2\,\Bigl[f'\!\bigl(\tfrac{m x}{r}\bigr)\Bigr]^2.
+\]
+Hence
+\[
+W_m(r; A_m)
+=
+[A_m(r)]^2\,
+\Bigl(\tfrac{m}{r}\Bigr)^2
+\int_{0}^{r}
+\Bigl[f'\!\Bigl(\tfrac{m x}{r}\Bigr)\Bigr]^2
+dx.
+\]
+Now perform the change of variable
+\[
+u
+\;=\;
+\frac{m x}{r}
+\quad\Longrightarrow\quad
+x=\frac{r}{m}\,u,
+\quad
+dx=\frac{r}{m}\,du.
+\]
+When \(x\) goes from \(0\) to \(r\), \(u\) goes from \(0\) to \(m\). Thus
+\[
+\int_{0}^{r}
+\Bigl[f'\!\bigl(\tfrac{m x}{r}\bigr)\Bigr]^2
+dx
+\;=\;
+\int_{0}^{m}
+\Bigl[f'(u)\Bigr]^2
+\;\frac{r}{m}\;
+du
+\;=\;
+\frac{r}{m}
+\int_{0}^{m}
+\bigl[f'(u)\bigr]^2\,du.
+\]
+Call
+\[
+C_{f,m}
+\;=\;
+\int_{0}^{m}
+\bigl[f'(u)\bigr]^2\,du,
+\]
+a dimensionless constant for that mode shape. Then
+\[
+\int_{0}^{r}
+\Bigl[f'\!\bigl(\tfrac{m x}{r}\bigr)\Bigr]^2
+dx
+\;=\;
+\frac{r}{m}\;C_{f,m}.
+\]
+
+\subsection{Collecting Factors}
+Substitute back:
+\[
+W_m(r; A_m)
+=
+[A_m(r)]^2
+\,
+\Bigl(\tfrac{m}{r}\Bigr)^2
+\,
+\Bigl[\tfrac{r}{m}\,C_{f,m}\Bigr]
+=
+[A_m(r)]^2 \,
+\tfrac{m}{r}\,
+C_{f,m}.
+\]
+Hence, apart from multiplicative constants \(\bigl[A_m(r)\bigr]^2\), \(\,m\), and \(C_{f,m}\), we obtain
+\[
+W_m(r) \;\propto\;\frac{1}{r}.
+\]
+This is the essential reason why standard standing-wave modes (with nodes at 0 and \(r\)) carry a \(\frac{1}{r}\) scaling in their energy, irrespective of amplitude readjustments or the specific function \(f\). 
+
+\paragraph{Example: Sine Function.}
+If \(f(u)=\sin(\pi u)\), then \(f'(u)=\pi\cos(\pi u)\), and
+\[
+C_{f,m}
+=
+\int_{0}^{m}
+\pi^2\,\cos^2(\pi u)\,du
+\]
+is a finite constant \(\propto m\). No extra factors of \(r\) appear beyond the \(\tfrac{1}{r}\) dependence, so \(W_m(r)\propto \tfrac{1}{r}\).
+
+\section{Emergent \texorpdfstring{$-\!1/r^2$}{-1/r\^2} Interaction Force}
+
+\subsection{From \(\tfrac{1}{r}\) Energy to \(\boldsymbol{-\!1/r^2}\) Force}
+Because each mode’s energy scales like \(\tfrac{(A_m)^2}{r}\), a direct derivative w.r.t.\ \(r\) yields
+\[
+\frac{d}{dr}\Bigl(\tfrac{1}{r}\Bigr)
+\;=\;
+-\,\frac{1}{r^{2}},
+\]
+which implies an attractive \(-\,1/r^2\) slope in the energy. In effect,
+\[
+F_{\text{bare}}(r)
+\;\;=\;
+-\,\frac{dW_m}{dr}
+\;\;\propto\;\;\frac{1}{r^2}.
+\]
+
+\subsection{Multiple Modes, Total Energy Conservation}
+In an isolated system, the total energy is
+\[
+\mathcal{W}(r)
+\;=\;
+\sum_{m} W_m\bigl(r, A_m(r)\bigr)
+\;=\;
+\text{constant}.
+\]
+Amplitudes \(\{A_m(r)\}\) can readjust, but each \(W_m\) retains the \(\tfrac{1}{r}\) geometry. Consequently, the derivative \(\tfrac{\partial}{\partial r}\,\mathcal{W}(r)\) remains negative overall, resulting in a universal \(-\,1/r^2\) force between lumps separated by \(r\).  
+
+\section{Poynting Vector and Local Energy Flow}
+In a purely Maxwellian setting, the \emph{local} flow of electromagnetic energy is described by the \textbf{Poynting vector}, 
+\[
+\mathbf{S} \;=\; \frac{1}{\mu_0}\,\mathbf{E}\,\times\,\mathbf{B}.
+\]
+The conservation of total field energy in any region follows from Poynting’s theorem,
+\[
+\frac{\partial u}{\partial t}
+\;+\;
+\nabla \cdot \mathbf{S}
+\;=\;0,
+\]
+where 
+\[
+u \;=\; \tfrac12\bigl(\varepsilon_0|\mathbf{E}|^2 + \tfrac{1}{\mu_0}|\mathbf{B}|^2\bigr)
+\]
+is the electromagnetic energy density. In a standing-wave configuration, the time-averaged net Poynting flux across certain planes can vanish (nodes effectively store energy in place), yet the \emph{local} fields still exchange energy among different sub-regions. 
+
+Thus, when two lumps act as boundary nodes for a standing-wave mode, the constant total energy arises from the fact that any outflow of energy in one section is balanced by inflow elsewhere—there is no net external flow at the node boundaries themselves. This is consistent with our isolated system argument: no net energy is gained or lost, but small rearrangements of field amplitude happen dynamically, ensuring that $u$ remains globally constant while a \(-\,1/r^2\) effective force manifests between the lumps.
+
+\section{Conclusion}
+In a purely electromagnetic Maxwell universe with lumps in \(\mathbb{R}^n\) separated by distance \(r\), standing-wave boundary conditions along that line fix nodes at \(0\) and \(r\). Each mode’s spatial energy scales like \(\tfrac{1}{r}\), as demonstrated by the explicit variable substitution. Under total energy conservation, amplitude readjustments across multiple modes cannot cancel the \(-\,1/r^2\) slope in the global energy. Hence, a net \(-\,1/r^2\) force emerges, obviating the need for mass or spacetime curvature. This purely wave-based mechanism for long-range attraction applies equally in any dimension, since the essential node-to-node separation can always be treated as an interval \([0,r]\). Finally, by viewing local electromagnetic flux via the Poynting vector, one sees how field energy moves within the system without entering or leaving globally, preserving total energy while inducing a universal \(-\,1/r^2\) interaction.
+
+\end{document}
