@@ -145,7 +145,7 @@ This links the bulge–set flux $K$ and the halo profile $u(r)$ via the PNP cons
 
 ---
 
-## 6.1  Example: $n(u)$ from the $O(\epsilon^2)$ Maxwell→Schrödinger term
+## 6.1  Example: $n(u)$ from the $O(\epsilon^2)$ Maxwell $\to$ Schrödinger term
 
 In the PNP derivation of the Schrödinger equation, the $O(\epsilon^2)$ term modifies the dispersion relation as
 
@@ -170,13 +170,13 @@ $$
 Solving:
 
 $$
-u(r) = \frac{K + \sqrt{K^2 + 4\alpha K / r^2}}{2}.
+u(r) = \frac{K + \sqrt{K^2 + 4\alpha K r^2}}{2\,r^2}.
 $$
 
 For $r\gg \sqrt{4\alpha/K}$:
 
 $$
-u(r) \approx \frac{K}{r}.
+u(r) \approx \frac{\sqrt{\alpha K}}{r}.
 $$
 
 Thus the tangential stress scales as $1/r$, giving a constant orbital velocity.
@@ -209,9 +209,47 @@ This derivation uses only:
 1. The PNP scalar formulation of electromagnetism as in [1].
 2. The observed baryonic bulge profile.
 3. Maxwell stress and momentum conservation.
-4. The $O(\epsilon^2)$ dispersion correction from the PNP→Schrödinger link.
+4. The $O(\epsilon^2)$ dispersion correction from the PNP $\to$ Schrödinger link.
 
 No dark matter substance is introduced; no force laws are modified by hand. The halo is an emergent flow of the same scalar field that encodes all electromagnetic structure in PNP. The resulting large–radius acceleration profile matches the observed flat rotation curves.
+
+---
+
+## Addendum — What is $\alpha$ and is the approximation necessary?
+
+We give two closures for $n(u)$ and derive $u(r)$ in each case.
+
+**Closure 1 (weak dispersion)**: from the $O(\epsilon^2)$ envelope term and local ergodicity $\epsilon^2\propto 1/u$,
+
+$$
+n(u)=1+\frac{\alpha}{u},\quad \alpha=\gamma_2\,\chi.
+$$
+
+Inserting into flux continuity yields
+
+$$
+u(r)=\frac{\mathcal K+\sqrt{\mathcal K^2+4\mathcal K\alpha\,r^2}}{2\,r^2}
+\ \xrightarrow[r\to\infty]{}\ \frac{\sqrt{\mathcal K\alpha}}{r}.
+$$
+
+This gives $T_{rr}\sim -1/r$, hence flat curves.
+
+**Closure 2 (transport-limited)**: with $\epsilon\propto 1/(u r^2)$,
+
+$$
+n(u)=1+\beta\,\frac{\mathcal K}{u\,r^2}\quad\Rightarrow\quad u\propto r^{-2},
+$$
+
+recovering the Newtonian decline, not flat curves.
+
+Flat curves require Closure 1 or any law with $n(u)$ increasing fast enough as $u$ decreases.
+
+---
+
+## Short, non-technical ResearchGate description
+
+**Explaining Dark Matter with the Point–Not–Point Framework.**
+We model a galaxy’s luminous bulge in the Point–Not–Point (PNP) framework and show that it naturally generates a halo of electromagnetic energy flow with two components: a weak radial flux and a dominant tangential circulation. Using only Maxwell’s equations (in the PNP form) plus conservation of momentum and energy flux, we derive the halo’s stress profile and the resulting orbital speeds. A simple link between local energy density and transport speed—motivated by our Maxwell $\to$ Schrödinger analysis—produces a $1/r$ tangential stress and thus constant rotation velocities at large radii. The observed “dark matter” effect emerges from energy flow, without new particles or ad-hoc force laws.
 
 ---
 
