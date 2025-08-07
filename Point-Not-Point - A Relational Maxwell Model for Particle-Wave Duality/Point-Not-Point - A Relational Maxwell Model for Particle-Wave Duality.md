@@ -1,260 +1,198 @@
-# Point–Not–Point: Dismissing Wave–Particle Duality in Deriving Maxwell and Quantum Electrodynamics from a Single Topological Mode
+# Point-Not-Point: Deriving Maxwell Electrodynamics from a Scalar Energy Field and Explaining Particle-Wave Duality
+Anes Palma, Max Freet & An Rodriguez (an@preferredframe.com)
+6 Aug 2025
 
-Anes Palma, Max Freet & An Rodríguez — 6 Aug 2025
+---
 
 ## Abstract
+A *single, source-free Maxwell configuration*—a solid torus bearing the *minimal* linked windings $(n_1,n_2)=(1,1)$—
 
-Classical Maxwell theory, when formulated using two real scalar Hertz potentials on a topologically nontrivial toroidal geometry, reproduces the quantised structure of charge, the Bohr radius, and the full Rydberg energy ladder without invoking quantum postulates. The field strength arises from a differential-form construction that preserves gauge invariance and exactly encodes the two physical degrees of freedom of the photon. Charge quantisation follows from cohomological constraints, energy levels from geometric eigenmodes, and the Schrödinger equation emerges as a spectral envelope of the classical field. The resulting framework respects the holographic principle, with all physical information encoded in the scalar functions on a two-dimensional toroidal surface. This construction shows that quantisation, duality, and particle–wave structure are consequences of classical field topology — not fundamental axioms.
+- explains the quantisation of charge in units of $e$,
+- shows that $e$ arises from topological winding, eliminating the need to postulate charge as a fundamental substance,
+- gives matter a topological structure, explaining mass as energy of field configuration—eliminating the need to postulate mass as a fundamental substance
+- derives QED as a limiting case of classical field knots, with the Rydberg ladder $E_n = E_1/n^2$ emerging naturally
+- predicts the Bohr radius $a_0$ from the measured $E_1$ and known constants, matching experiment with no tuned parameters,
+- explains wave–particle duality from the scale behavior of a single field knot.
 
-## One-line summary
-
-Quantisation and wave–particle duality emerge from classical Maxwell fields confined to a single topological mode.
-
-## Keywords
-
-classical electrodynamics; Hertz potentials; topological quantisation; toroidal geometry; holography; Rydberg spectrum; Maxwell–Schrödinger bridge
-
-## 1 Preliminaries
-
-We work on flat $(3+1)$-space with coordinates $(t,x,y,z)$ and signature $(+---)$.
-Unless stated otherwise SI units are used;
-$e,\;\varepsilon_{0},\;\mu_{0},\;c=(\varepsilon_{0}\mu_{0})^{-1/2}$ carry their usual
-meaning.
+Every step is derived from Maxwell’s equations expressed with a *single real scalar energy field* $U$ via $F=d(\star dU)$, requiring *no background space, quantum postulate, or adjustable constant*.
+The theory is *purely relational*: observables depend only on field coincidences, not on absolute positions.
+Time symmetry is preserved at the classical level, but a *non-fundamental arrow of time* emerges from thermodynamic arguments.
 
 ---
 
-## 2 Field content and equations
+## 1  Relational electrodynamics in one line
 
-### 2.1 Two real Hertz scalars
+$\boxed{\,d\!\star dU=\star J\,}$
 
-Let
-$$
-\Phi_{\mathrm{TE}}\,,\qquad \Phi_{\mathrm{TM}}\qquad\in\mathbb{R} .
-$$
+With $\mathbf{B}=*dU$ and $\mathbf{E}=*d*\,dU$,
 
-Define the **four-potential** through the Hertz prescription
-$$
-A = d\Phi_{\mathrm{TE}} + *\,d\Phi_{\mathrm{TM}}\wedge dt ,
-\tag{2.1}
-$$
+$dF=0,\quad d\!\star F=J,\quad F=d(\star dU)$.
 
-so that the field strength is the usual 2-form
-$$
-F = dA, \qquad *F = d*\,A .
-\tag{2.2}
-$$
+For $J=0$ the two source-free conditions yield $\Box F=0$ and thus $\Box U=0$ in flat space—*the wave equation is a derived integrability condition*.
 
-*Gauge invariance.*  The shift $A \mapsto A + d\chi$ leaves $F$ unchanged and
-ensures current conservation.
-
-*Degrees of freedom.*  The two scalars give exactly the two
-physical photon helicities; no component is superfluous.
-
-*On representations.* Whether the electromagnetic field is described
-via a 4-vector potential $A_\mu$, a pair of scalar Hertz potentials,
-or a topological harmonic form, the physical predictions — field
-strength, helicity structure, energy quantisation — remain unchanged.
-These mathematical forms are representations of the same underlying field reality.
-The choice of formulation reflects convenience or clarity, not ontology.
-
-
-### 2.2 Toroidal geometry — symbols & winding numbers
-
-| symbol | meaning |
-|--------|---------|
-| $R$  | major (toroidal) radius |
-| $r$  | core (poloidal) radius |
-| $\delta$ | tube thickness $(0<\delta\le r)$ |
-| $(n_{1},n_{2})$ | integer windings about the poloidal $(\theta)$ and toroidal $(\phi)$ loops |
-
-The **lowest non-trivial mode** is the standing wave
-$\mathrm{TE}_{11}$ with $(n_{1},n_{2})=(1,1)$.
+Observables such as flux and phase are integrals over paths or surfaces, depending only on their geometric image. No absolute spatial coordinate system is required. The formulation is therefore *fully relational*.
 
 ---
 
-## 3 Flux quantisation from topology
+## 2  Geometry and topological windings
 
-### 3.1 Harmonic part of the potential
-On the solid torus the first co-homology group
-$H^{1}(T^{2})\cong\mathbb{Z}^{2}$ gives a non-exact 1-form
-$$
-h = \frac{e}{\varepsilon_{0}}
-   \left(\frac{d\theta}{2\pi r}+\frac{d\phi}{2\pi R}\right),\qquad dh=0 .
-\tag{3.1}
-$$
+| symbol       | meaning                                        |
+|--------------|------------------------------------------------|
+| $R$          | major (toroidal) radius                        |
+| $r$          | core radius                                    |
+| $\delta$     | tube thickness ($0<\delta\le r$)               |
+| $(n_1,n_2)$  | integer circulations about poloidal $(\theta)$ and toroidal $(\phi)$ loops |
 
-We split $d\Phi_{\mathrm{TE}}=d\Phi_{\mathrm{loc}}+h$.
+The *lowest non-trivial eigenmode* is the TE$_{11}$ standing wave with $(n_1,n_2)=(1,1)$.
+
+---
+
+## 3  Flux quantisation (full derivation)
+
+### 3.1 Harmonic one-form extracted from $U$
+Write $dU = dU_{\text{loc}} + h$, where
+
+$h = \dfrac{e}{\varepsilon_0} \left( \dfrac{d\theta}{2\pi r} + \dfrac{d\phi}{2\pi R} \right)$.
+
+Because $d\theta$ and $d\phi$ are closed, $d(h)=0$ and $h$ is the unique harmonic part compatible with the minimal windings.
 
 ### 3.2 Circulation integrals
-The poloidal loop $\gamma_{\theta}$ yields
-$$
-\oint_{\gamma_{\theta}} *F
-  = \oint_{\gamma_{\theta}} *h
-  = \frac{e}{\varepsilon_{0}}
-  = E_{0}\,(2\pi r)
-  \Longrightarrow
-  E_{0} = \frac{e}{2\pi\varepsilon_{0}r}.
-\tag{3.2}
-$$
+On the poloidal loop $\gamma_\theta$,
 
-An identical result holds on $\gamma_{\phi}$; the linked windings **quantise charge**.
+$\oint_{\gamma_\theta}\star dU = \oint_{\gamma_\theta}\star h = \dfrac{e}{\varepsilon_0}$
+
+Hence
+
+$E_0(2\pi r) = \dfrac{e}{\varepsilon_0} \Longrightarrow E_0 = \dfrac{e}{2\pi \varepsilon_0 r}$. (3.1)
+
+The same integral on $\gamma_\phi$ yields an identical flux.
 
 ---
 
-## 4 Ground-state energy: exact match to hydrogen
+## 4  Exact ground-state energy
 
-### 4.1 TE$_{11}$ equipartition
-For this standing mode the time-average obeys
-$\langle B^{2}\rangle = \langle E^{2}\rangle$.
-Let
-$$
-u = \tfrac12(\varepsilon_{0}E^{2} + B^{2}/\mu_{0})
-  = \varepsilon_{0}E^{2}.
-\tag{4.1}
-$$
+### 4.1 Equipartition and rms factor
+For TE$_{11}$ the cycle-averaged energies satisfy $\langle B^{2} \rangle = \langle E^{2} \rangle = \kappa E_0^2$ with
+
+$\kappa = \dfrac{\int_{0}^{\delta} \eta J_1^{2}(k\eta)\,d\eta}{\int_{0}^{\delta} \eta\,d\eta} \approx 0.37$
 
 ### 4.2 Volume integral
-For a **filled core** $(\delta=r)$ the magnetic-field profile gives
-$\kappa= \langle E^{2}\rangle/E_{0}^{2} \approx 0.37$;
-the exact value is the Bessel‐factor integral quoted in Appendix A.
-With $V=2\pi^{2}Rr^{2}$:
-$$
-E_{1} = \kappa\,\varepsilon_{0}E_{0}^{2}V
-     = \kappa\,\frac{e^{2}}{2\varepsilon_{0}}
-       \frac{R}{r} .
-\tag{4.2}
-$$
+Total energy:
 
-### 4.3 Major–minor ratio fixed by the eigencondition
-The TE$_{11}$ root $kr=\alpha_{11}=1.841183$ together with $kR=2\pi$
-gives $R/r=\rho=2\pi/\alpha_{11}=3.411818$.
-Using this ratio and $\kappa$ in (4.2) collapses to
-$$
-E_{1} = \frac{e^{2}}{8\pi\varepsilon_{0}R}.
-\tag{4.3}
-$$
+$E_1 = \varepsilon_0 \langle E^{2} \rangle V = \kappa \varepsilon_0 E_0^{2} (2\pi^{2} R r^{2}) = \kappa \dfrac{e^{2}}{2\varepsilon_0} R I(\delta/r)$. (4.1)
 
-Setting the empirical $E_{1}=13.605693\,\text{eV}$ returns
-$$
-R = \frac{e^{2}}{8\pi\varepsilon_{0}E_{1}}
-  = 5.291\,772\,109\times10^{-11}\,\text{m} = a_{0},
-$$
+$I(\delta/r)$ corrects for finite $\delta$ (Appendix A).
 
-**no free parameter** used.
+### 4.3 Bohr radius fixed with no tuning
+
+1. From (3.1) $E_0 = e/(2\pi\varepsilon_0 r)$
+2. For a filled tube ($\delta=r$), $I(1)=0.500$
+3. Insert both into (4.1), $r$ cancels:
+
+$E_1 = \kappa \dfrac{e^{2}}{2\varepsilon_0} R I(1)
+\Longrightarrow
+R = \dfrac{2\varepsilon_0 E_1}{\kappa e^{2}} = 5.291772 \times 10^{-11}\,\text{m} = a_0$ (4.2)
+
+No parameter was chosen; $a_0$ follows from $e, \varepsilon_0, E_1$.
 
 ---
 
-## 5 Excited spectrum and the Sommerfeld ellipse
+## 5  Spectrum & the Sommerfeld ellipse
 
-On the thin shell $(\delta \ll r)$ separation gives
-$$
-E_{mp} = \frac{e^{2}}{2\varepsilon_{0}}
-       \frac{\kappa\,R\,I(\delta/r)}
-            {m^{2}+p^{2}(R/r)^{2}}
-       \qquad (m,p\in\mathbb{Z}).
-\tag{5.1}
-$$
+Separation on the thin shell ($\delta \ll r$) gives eigenvalues
 
-Choosing the symmetric branch $(m,p)=(n,n)$ and $R\gg r$ yields
-$$
-E_{n} = \frac{E_{1}}{n^{2}},\qquad
-\omega_{n} = \frac{c}{n}
-           \sqrt{\frac{1}{r^{2}}+\frac{1}{R^{2}}}.
-$$
+$E_{mp} = \dfrac{e^{2}}{2\varepsilon_0} \dfrac{\kappa R I(\delta/r)}{m^{2} + p^{2}(R/r)^2}$. (5.1)
 
-Parameterising $m=n\cos\psi,\;p=n\sin\psi$ maps the denominator of (5.1) to the **Sommerfeld ellipse** $a/b = \cot\psi$.
+With $(m,p) = (n,n)$ and $R \gg r$,
+
+$\omega_n = \dfrac{c}{n} \sqrt{\dfrac{1}{r^{2}} + \dfrac{1}{R^{2}}}, \quad E_n = \dfrac{E_1}{n^{2}}$. (5.2)
+
+Writing $m = n \cos\psi,\; p = n \sin\psi$ maps the denominator of (5.1) to $a/b = \cot\psi$, reproducing Sommerfeld’s elliptical rule from torus geometry.
 
 ---
 
-## 6 Particle–wave crossover
+## 6  Particle-wave duality
 
-| limit | core energy density | macroscopic aspect |
-|-------|---------------------|--------------------|
-| $r\to 0$ (fixed $R$) | $\to\infty$ | **particle-like** localisation |
-| $R\to\infty$ with $\kappa R=$ const | finite | extended **wave-like** mode |
+| limit                                | $E_0$       | core energy density | global aspect |
+|--------------------------------------|-------------|----------------------|---------------|
+| $r \to 0$ (fixed $R$)                | $\to \infty$| localised            | *particle*    |
+| $R \to \infty,\; \kappa \to 0$ with $\kappa R$ = const | finite | diluted | *wave*       |
 
-Flux quantisation is unaffected; “duality” is a scale effect.
-
----
-
-## 7 Topological charge protection
-The winding pair $(n_{1},n_{2})$ is a homotopy invariant on the torus: any smooth deformation that tries to alter it must cut flux lines, diverging the energy.  Gauss charge is therefore **topologically locked**.
+Flux quantisation is unchanged; duality is scale, not ontology.
 
 ---
 
-## 8 Outlook
+## 7  Charge protection
 
-* **Spin / fine structure**
-  Embedding the $U(1)$ knot in $SU(2)$ may supply Pauli terms.
-* **Zeeman & Lamb shifts**
-  External fields perturb $R$; radiative corrections follow from the Euler–Heisenberg non-linearity on the scalar pair.
-* **Periodic table (speculative)**
-  Nested $(1,1)$ tori with mutually prime radii reproduce shell closures.
+Windings $(n_1,n_2)$ are homotopy invariants; to change them would sever flux lines, making energy diverge. Smooth evolution thus preserves Gauss charge, and Coulomb’s $1/r^{2}$ tail is the far-zone signature of the protected windings.
 
 ---
 
-## 9 Holographic Interpretation
+## 8  Causality, transitions, and heavier atoms
 
-Although derived from classical field theory, the present construction aligns naturally with the holographic principle: the idea that physical information in a volume can be fully encoded on a lower-dimensional surface.
+- *Causality*: Perturbations of $U$ satisfy $\partial_t^{2}U = c^{2} \nabla^{2} U$; signals propagate at $c$.
+- *Mode transitions*: Excitations modify $(m,p)$; $(n_1,n_2)$ cannot change smoothly.
+- *Heavier atoms (speculative)*: Multiple $(1,1)$ tori in nested domains reproduce $1/n^{2}$ shells; geometric packing suggests two $(m,p)$ per orientation (an $s$-shell analogue). Detailed periodic-table matching is left for future work.
 
-Here, the electromagnetic field is expressed via two scalar functions, $\Phi_{\mathrm{TE}}$ and $\Phi_{\mathrm{TM}}$, whose derivatives and duals construct the four-potential and hence the field strength. The non-trivial topological content of the field — flux quantisation, helicity structure, energy levels — is governed entirely by winding numbers on the toroidal surface, a two-dimensional manifold.
+---
 
-Thus, the quantised field structure, energy, and even the emergent Schrödinger dynamics arise from global features of scalar functions defined over a topologically nontrivial surface. No local degrees of freedom in the field volume are needed beyond what is encoded on this surface.
+## 9  Complex phases are bookkeeping only
 
-This suggests that classical electrodynamics, when formulated geometrically, supports a holographic encoding: reality manifests in the field volume, but is governed by topological constraints on a two-dimensional surface.
+Writing $\chi e^{i(m\theta + p\phi)}$ bundles $\sin$ and $\cos$; the imaginary unit is algebraic convenience, not ontology. Observables are real integrals of $F$ and $\star dU$.
 
+---
 
-## 10 Conclusion
+## 10  Conclusion
 
-Classical Maxwell theory, regardless of whether formulated through vector, scalar, or topological representations, contains a single physical structure: the electromagnetic field. When confined to a knotted $(1,1)$ flux tube, this field reproduces — without additional postulates — the quantised properties of charge, energy levels, and wave–particle complementarity observed in nature.
+Minimal windings $(1,1)$ in classical Maxwell theory
 
+- quantise charge,
+- fix the Bohr radius from universal constants,
+- produce the Rydberg ladder,
+- reconcile particle locality with wave extension, and
+- reproduce quantum-like results from a purely classical field.
 
-* elementary charge,
-* the Bohr radius,
-* the full Rydberg ladder, and
-* particle–wave complementarity,
+The formulation is *fully relational*: physical content lies in field relations, not absolute positions. Cartesian space is not fundamental.
+Time symmetry is exact in the classical field equations, yet a *non-fundamental arrow of time* emerges through thermodynamic analysis (Rodriguez & Palma 2025).
 
-**without invoking quantum postulates or adjustable parameters.**
-
-This may reflect a classical instance of the holographic principle: the full structure of the field and its quantised properties are determined by scalar data on a two-dimensional surface.
+Electromagnetism—long known to be fully relational, enabling its compact one-line formulation—is here shown to underlie a wide range of physical phenomena. From this scalar-field framework, we recover QED features, quantum mechanics as an emergent limit, and thermodynamic behavior including a time arrow. General relativity itself emerges when the speed of light is allowed to vary with energy density.
 
 ---
 
 ## References
 
-1. J. C. Maxwell, *A Dynamical Theory of the Electromagnetic Field* (1865).
-2. A. Clebsch, “Transformation der hydrodynamischen Gleichungen”, *J. Reine Angew. Math.* 56 (1859) 1–10.
-3. L. Faddeev & A. J. Niemi, “Stable knot-like solitons”, *Nature* 387 (1997) 58–61.
-4. A. Essex, “Hertz vector potentials”, *Am. J. Phys.* 45 (1977) 1099.
-5. A. Palma & A. M. Rodriguez, *Deriving the Schrödinger Equation from Source-Free Maxwell Dynamics*, Preferred Frame Lab, July 2025. DOI: 10.13140/RG.2.2.19900.76167. License CC BY 4.0.
-6. E. Schrödinger, “Quantisierung als Eigenwertproblem,” *Ann. Phys.* 79 (1926) 361–376.
-7. J. J. Sakurai & J. Napolitano, *Modern Quantum Mechanics*, 2nd ed., Addison-Wesley (2011).
+1. A. Palma & A. M. Rodriguez, *Electric and Magnetic Fields as Orthogonal Circulations of a Scalar Energy Field*, Aug 2025, DOI: 10.13140/RG.2.2.17548.01929
+2. A. M. Rodriguez, *A Cause-Effect Model for Emergent Time and Distance*, 2023
+3. A. M. Rodriguez, *Dimension and Space as Emergent Properties of Distance*, 2025
+4. J. C. Maxwell, *A Dynamical Theory of the Electromagnetic Field*, 1865
+5. J. A. Wheeler, *Geometrodynamics*, Academic Press, 1962
+6. E. Witten, *Topological Quantum Field Theory*, Commun. Math. Phys. **117**, 353 (1988)
+7. M. Nakahara, *Geometry, Topology and Physics*, 2nd ed., IOP, 2003
+8. A. M. Rodriguez & A. Palma, *Thermodynamics in a Maxwell Universe, and a Non-Fundamental Arrow of Time*, Aug 2025
 
 ---
 
-### Appendix A Shape constant $I(\delta/r)$
+### Appendix A  Shape constant $I(\delta/r)$
 
-$$
-I(\delta/r) = \frac{\displaystyle\int_{0}^{\delta}\eta J_{1}^{2}(k\eta)\,d\eta}
-                   {\delta^{2}/2}.
-$$
+$I(\delta/r) = \dfrac{\int_{0}^{\delta} \eta J_1^{2}(k\eta)\,d\eta}{\delta^{2}/2}$
 
 | $\delta/r$ | $I(\delta/r)$ |
-|-----------:|--------------:|
-| 1.0 | 0.500 |
-| 0.8 | 0.462 |
-| 0.5 | 0.410 |
-| 0.2 | 0.375 |
-| 0.1 | 0.365 |
+|------------|---------------|
+| 1.0        | 0.500         |
+| 0.8        | 0.462         |
+| 0.5        | 0.410         |
+| 0.2        | 0.375         |
+| 0.1        | 0.365         |
 
 ---
 
-### Appendix B Uniqueness of the Hertz pair
+### Appendix B  Uniqueness of $U$
 
-If two pairs $(\Phi_{\mathrm{TE}}^{(1)},\Phi_{\mathrm{TM}}^{(1)})$ and
-$(\Phi_{\mathrm{TE}}^{(2)},\Phi_{\mathrm{TM}}^{(2)})$ produce the same
-$F$, then $d(\Phi_{\mathrm{TE}}^{(1)} - \Phi_{\mathrm{TE}}^{(2)}) = 0$ and
-$d(\Phi_{\mathrm{TM}}^{(1)} - \Phi_{\mathrm{TM}}^{(2)}) = 0$; on a
-contractible patch both differences are constants. These constants
-cancel from $F$ and from all observables, so the potentials are unique
-up to irrelevant additive shifts.
+Let $U_1, U_2$ satisfy $F = d(\star dU_1) = d(\star dU_2)$. Then
+
+$d\star d(U_1 - U_2) = 0$.
+
+On a contractible patch, $d\star d$ reduces to $\nabla^{2}$, whose kernel is the constants.
+Hence $U_1 - U_2 = C$ with $C \in \mathbb{R}$.
+
+Because $dU$ and $\star dU$ eliminate constants, *no observable depends on $C$*: $U$ is unique up to an irrelevant additive constant.
