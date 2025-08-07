@@ -12,9 +12,9 @@ The concept of dark matter was introduced in the Newtonian paradigm to explain o
 
 ## 1  Introduction
 
-In the Newtonian framework, the orbital velocity of a star in a galaxy should decrease with radius $v(r)\propto r^{-1/2}$ if only luminous matter is present. Observations instead show $v(r)\approx\text{const}$ at large $r$. The standard fix introduces invisible "dark matter" halos; MOND adjusts the force law by hand.
+The Newtonian framework predicts that the orbital velocity of a star in a galaxy should decrease with radius, $v(r) \propto r^{-1/2}$, if only luminous matter is present. Observations instead show $v(r) \approx \text{const}$ at large $r$. The standard fix introduces invisible "dark matter" halos; MOND adjusts the force law empirically.
 
-We use the Point–Not–Point (PNP) framework to describe the electromagnetic field and its energy flows, and apply it to the dynamics around galactic bulges.
+We use the Point–Not–Point (PNP) framework as formulated in [1] to describe the electromagnetic field and its energy flows, and apply it to the dynamics around galactic bulges.
 
 ---
 
@@ -156,7 +156,7 @@ $$
 for weak dispersion, with $\alpha$ a constant depending on the mode structure. The group index is then
 
 $$
-n(u)=\frac{c}{v_g}=\frac{\partial (ck\,n(u))}{\partial (ck)}\approx 1+\frac{\alpha}{u}.
+n(u)=\frac{c}{v_g}\approx 1+\frac{\alpha}{u}.
 $$
 
 Substituting into $u r^2 = K\,n(u)$ gives
@@ -170,10 +170,10 @@ $$
 Solving:
 
 $$
-u(r) = \frac{K + \sqrt{K^2 + 4\alpha K / r^2}}{2r^0}
+u(r) = \frac{K + \sqrt{K^2 + 4\alpha K / r^2}}{2}.
 $$
 
-(division by $r^0$ indicates the $1/r$ scaling emerges at large $r$). For $r\gg \sqrt{4\alpha/K}$:
+For $r\gg \sqrt{4\alpha/K}$:
 
 $$
 u(r) \approx \frac{K}{r}.
@@ -206,7 +206,7 @@ Flat rotation curves emerge as an energy–flow effect of the bulge–generated 
 
 This derivation uses only:
 
-1. The PNP scalar formulation of electromagnetism.
+1. The PNP scalar formulation of electromagnetism as in [1].
 2. The observed baryonic bulge profile.
 3. Maxwell stress and momentum conservation.
 4. The $O(\epsilon^2)$ dispersion correction from the PNP→Schrödinger link.
