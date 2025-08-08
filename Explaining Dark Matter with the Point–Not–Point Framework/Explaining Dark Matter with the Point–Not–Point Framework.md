@@ -107,6 +107,10 @@ $$
 \kappa = \frac{\int_{0}^{\delta} \eta J_1^{2}(k\eta)\,d\eta}{\int_{0}^{\delta} \eta\,d\eta}
 $$
 
+**Meaning of $\kappa$:**
+- $\kappa$ is a mode-shape factor: it quantifies the fraction of the peak field amplitude that survives after averaging over the cross-section.
+- For $\delta = r$, $\kappa \approx 0.37$ means the r.m.s. energy density is 37% of $E_0^2$.
+
 From the PNP scalar equations, the $O(\epsilon^2)$ amplitude–phase coupling coefficient is:
 
 $$
@@ -221,12 +225,6 @@ which reduces to $u\sim \sqrt{\alpha K}/r$ at large $r$.
 
 ## 7 Stress and acceleration
 
-Maxwell stress:
-
-$$
-T_{rr} = \sigma_r - u_\perp, \quad T_{\theta\theta}=T_{\phi\phi} = \frac12(\sigma_r - u_\perp) r^2
-$$
-
 From the PNP mode symmetry, $u_\perp\approx u$ at large $r$, so:
 
 $$
@@ -244,6 +242,13 @@ Thus:
 $$
 a_r(r) \propto -\frac{\sqrt{\alpha K}}{r} \ \Rightarrow\ v^2(r) = r|a_r(r)| = \text{const}
 $$
+
+---
+
+**Remark (Analogy, $\kappa$, and near-field effects):**
+- The inward pull from $T_{rr}<0$ in the tangentially dominated far field is analogous to a Bernoulli effect: high tangential energy flow lowers the radial stress, producing attraction.
+- $\kappa\approx 0.37$ is a mode-shape constant, set by the TE$_{11}$ field distribution; it directly influences $\alpha$ and thus the gravitational strength in PNP.
+- The near-field regime ($r\approx R_b$), where radial and tangential flows are comparable, may yield departures from both Newtonian and far-field PNP predictions. A detailed analysis will be given in a forthcoming work.
 
 ---
 
