@@ -140,30 +140,30 @@ For the hydrogenic ground state we take $R = a_0 = 5.29177210903\times 10^{-11}\
 $e = 1.602176634\times 10^{-19}\,\mathrm{C}$ and
 $\varepsilon_0 = 8.8541878128\times 10^{-12}\,\mathrm{F/m}$,
 
-\[
+$$
 \frac{e^2}{\varepsilon_0}
 = \frac{(1.602176634\times 10^{-19})^2}{8.8541878128\times 10^{-12}}
 = 2.898755\times 10^{-27} \ \mathrm{J\cdot m},
-\]
-\[
+$$
+$$
 \frac{\kappa}{2\pi^2 R}
 = \frac{0.37}{2\pi^2\times 5.29177210903\times 10^{-11}}
 = 3.546\times 10^{8} \ \mathrm{m^{-1}}.
-\]
+$$
 
 Thus:
-\[
+$$
 \alpha
 = \frac{\kappa}{2\pi^2 R} \cdot \frac{e^2}{\varepsilon_0}
 = (3.546\times 10^{8} \ \mathrm{m^{-1}})\times(2.898755\times 10^{-27} \ \mathrm{J\cdot m})
 \approx 1.027\times 10^{-18} \ \mathrm{J}.
-\]
+$$
 
 In electronvolts:
-\[
+$$
 \alpha \approx \frac{1.027\times 10^{-18}}{1.602176634\times 10^{-19}} \ \mathrm{eV}
 \approx 6.41\ \mathrm{eV}.
-\]
+$$
 
 This value is fixed entirely by PNP mode geometry and fundamental constants, leaving the observed bulge profile as the sole astrophysical input.
 
