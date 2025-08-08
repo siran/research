@@ -253,7 +253,7 @@ recovering the Newtonian falloff.
 
 We have derived, directly from the PNP scalar‐field formalism, a constitutive law $n(u)$ and its mode‐geometry constant $\alpha$ without free parameters. Combined with luminous bulge data, this predicts flat rotation curves from Maxwell stress in a tangential‐flow–dominated halo, with no dark matter substance or ad‐hoc force law changes.
 
-The large‐$r$ regime is controlled solely by $\alpha$ and the bulge flux constant $K$; the near‐field regime, where $\sigma_r$ is not negligible, is subject of analysis in other works.\
+The large‐$r$ regime is controlled solely by $\alpha$ and the bulge flux constant $K$; the near‐field regime, where $\sigma_r$ is not negligible, is subject of analysis in other works.
 
 ---
 
