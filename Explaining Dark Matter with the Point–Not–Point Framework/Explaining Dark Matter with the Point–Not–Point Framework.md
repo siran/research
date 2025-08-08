@@ -135,138 +135,133 @@ $$
 \alpha = \gamma_2\,\chi = \frac{\kappa}{2\pi^2 R} \cdot \frac{e^2}{\varepsilon_0}
 $$
 
-For the hydrogenic ground state $R=a_0=5.29177\times 10^{-11}\,{\rm m}$ and $\kappa\approx 0.37$, this yields a numerical $\alpha$ fixed entirely by mode geometry and fundamental constants.
+**Numerical evaluation:**
+For the hydrogenic ground state we take $R = a_0 = 5.29177210903\times 10^{-11}\,\mathrm{m}$ and $\kappa \approx 0.37$. With
+$e = 1.602176634\times 10^{-19}\,\mathrm{C}$ and
+$\varepsilon_0 = 8.8541878128\times 10^{-12}\,\mathrm{F/m}$,
 
----
-
-## 5 Constitutive law
-
-From $\omega(k,u)$ above:
-
-$$
-v_g(u) = \frac{\partial\omega}{\partial k} = c\left(1 + \frac{\alpha}{u}\right)
-$$
-
-Hence:
-
-$$
-n(u) \equiv \frac{c}{v_g(u)} = \frac{1}{1 + \alpha/u}
-$$
-
-No ansatz is made; this follows directly from the expansion. For large $u$ ($\alpha/u\ll 1$):
-
-$$
-n(u) \approx 1 - \frac{\alpha}{u} + O(\alpha^2/u^2)
-$$
-
-but we retain the exact form in calculations.
-
----
-
-## 6 Stationary spherical halo
-
-A luminous bulge generates a stationary $U_b$. Outside $R_b$, the energy flow is:
-
-$$
-\mathbf S = S_r(r)\,\hat r + \mathbf S_\perp(r)
-$$
-
-We do **not** assume $u_\perp\gg\sigma_r$ a priori. Instead, we solve for both from the field equations. In practice, PNP’s field structure for a bulge produces $u_\perp\gg\sigma_r$ at large $r$, but the derivation allows $\sigma_r$ to remain.
-
----
-
-### 6.1 Flux continuity
-
-Stationarity gives:
-
-$$
-\frac{d}{dr}\big(r^2 S_r\big) = 0 \ \Rightarrow\ S_r = \frac{K}{4\pi r^2}
-$$
-
-with $K$ fixed by the interior match to $U_b$ at $R_b$.
-
----
-
-### 6.2 Linking $u(r)$ and $n(u)$
-
-From $S_r = v_g(u)\,u = \frac{c}{n(u)}u$:
-
-$$
-u(r)\,r^2 = K\,n(u(r))
-$$
-
-Insert the exact $n(u) = 1/(1+\alpha/u)$:
-
-$$
-u(r)\,r^2 = \frac{K}{1+\alpha/u(r)}
-$$
-
-Multiply through:
-
-$$
-u(r)\,r^2 + \alpha r^2 = K
-$$
+\[
+\frac{e^2}{\varepsilon_0}
+= \frac{(1.602176634\times 10^{-19})^2}{8.8541878128\times 10^{-12}}
+= 2.898755\times 10^{-27} \ \mathrm{J\cdot m},
+\]
+\[
+\frac{\kappa}{2\pi^2 R}
+= \frac{0.37}{2\pi^2\times 5.29177210903\times 10^{-11}}
+= 3.546\times 10^{8} \ \mathrm{m^{-1}}.
+\]
 
 Thus:
+\[
+\alpha
+= \frac{\kappa}{2\pi^2 R} \cdot \frac{e^2}{\varepsilon_0}
+= (3.546\times 10^{8} \ \mathrm{m^{-1}})\times(2.898755\times 10^{-27} \ \mathrm{J\cdot m})
+\approx 1.027\times 10^{-18} \ \mathrm{J}.
+\]
 
-$$
-u(r) = \frac{K - \alpha r^2}{r^2}
-$$
+In electronvolts:
+\[
+\alpha \approx \frac{1.027\times 10^{-18}}{1.602176634\times 10^{-19}} \ \mathrm{eV}
+\approx 6.41\ \mathrm{eV}.
+\]
 
-This exact form is valid until $u(r)$ becomes small enough that higher-order expansion terms matter. In the far field ($\alpha r^2 \gg K$) the $u\sim -\alpha$ branch is unphysical; matching to the near field selects:
-
-$$
-u(r) = \frac{K + \sqrt{K^2 + 4\alpha K r^2}}{2 r^2}
-$$
-
-which reduces to $u\sim \sqrt{\alpha K}/r$ at large $r$.
+This value is fixed entirely by PNP mode geometry and fundamental constants, leaving the observed bulge profile as the sole astrophysical input.
 
 ---
 
-## 7 Stress and acceleration
+## 5 Constitutive law and halo dynamics
 
-From the PNP mode symmetry, $u_\perp\approx u$ at large $r$, so:
+We write the radial Poynting flux as:
+
+$$
+\langle S_r\rangle = v_g(u)\,u, \quad v_g(u) = \frac{c}{n(u)}
+$$
+
+Stationarity $\nabla\!\cdot \mathbf S=0$ in spherical symmetry gives:
+
+$$
+\frac{d}{dr}(r^2\langle S_r\rangle) = 0
+\quad\Rightarrow\quad
+u(r)\,r^2 = K\,n\!\big(u(r)\big)
+$$
+
+where $K$ is set by the interior (bulge) match.
+
+From the $O(\epsilon^2)$ dispersion relation:
+
+$$
+n(u) = 1 + \frac{\alpha}{u}
+$$
+
+Substituting:
+
+$$
+u r^2 = K\left(1+\frac{\alpha}{u}\right)
+\quad\Rightarrow\quad
+u^2 r^2 - K u - \alpha K = 0
+$$
+
+The positive root:
+
+$$
+u(r) = \frac{K + \sqrt{K^2 + 4\alpha K r^2}}{2\,r^2}
+$$
+
+---
+
+## 6 Tangential stress and acceleration
+
+Decompose $u = u_\perp + \sigma_r$, where $u_\perp$ is tangential and $\sigma_r$ radial. Maxwell stress:
+
+$$
+T_{rr} = \sigma_r - u_\perp, \quad T_{\theta\theta} = T_{\phi\phi} = \frac12(\sigma_r - u_\perp) r^2
+$$
+
+For PNP mode symmetry in the far halo, $u_\perp \approx u$ and $\sigma_r \ll u_\perp$, so:
 
 $$
 T_{rr} \approx -u(r)
 $$
 
+This is analogous to a Bernoulli effect: dominant tangential energy flow produces an inward radial “pressure” (negative $T_{rr}$) that accelerates matter inward.
+
 The radial acceleration on a compact test $U$-knot:
 
 $$
-a_r(r) \propto T_{rr}(r) \propto -u(r)
-$$
-
-Thus:
-
-$$
-a_r(r) \propto -\frac{\sqrt{\alpha K}}{r} \ \Rightarrow\ v^2(r) = r|a_r(r)| = \text{const}
+a_r(r) \propto -T_{rr}(r) \approx -u(r)
 $$
 
 ---
 
-**Remark (Analogy, $\kappa$, and near-field effects):**
-- The inward pull from $T_{rr}<0$ in the tangentially dominated far field is analogous to a Bernoulli effect: high tangential energy flow lowers the radial stress, producing attraction.
-- $\kappa\approx 0.37$ is a mode-shape constant, set by the TE$_{11}$ field distribution; it directly influences $\alpha$ and thus the gravitational strength in PNP.
-- The near-field regime ($r\approx R_b$), where radial and tangential flows are comparable, may yield departures from both Newtonian and far-field PNP predictions. A detailed analysis will **hopefully** be given in a forthcoming work.
+## 7 Asymptotics and rotation curves
+
+From $u(r)$:
+
+- For $r \gg \sqrt{4\alpha/K}$:
+$$
+u(r) \approx \frac{\sqrt{\alpha K}}{r}
+$$
+giving
+$$
+a_r(r) \propto -\frac{1}{r}, \quad v^2(r) = r|a_r(r)| \approx \mathrm{const}.
+$$
+
+- For $r \ll \sqrt{4\alpha/K}$:
+$$
+u(r) \approx \frac{K}{r^2}
+$$
+recovering the Newtonian falloff.
 
 ---
 
 ## 8 Conclusion
 
-We have derived:
+We have derived, directly from the PNP scalar-field formalism, a constitutive law $n(u)$ and its mode-geometry constant $\alpha$ without free parameters. Combined with luminous bulge data, this predicts flat rotation curves from Maxwell stress in a tangential-flow–dominated halo, with no dark matter substance or ad-hoc force law changes.
 
-1. $n(u)$ from the $O(\epsilon^2)$ expansion of the PNP scalar Maxwell equations for the TE$_{11}$ mode.
-2. The mode-geometry constant $\alpha$ in closed form from fundamental constants and the Bohr radius.
-3. The halo $u(r)$ profile and tangential stress from flux continuity and momentum conservation.
-4. Flat galactic rotation curves as a direct prediction, with no free parameters beyond observed bulge properties.
-
-This constitutes a **PNP theory of gravitation**: gravitational effects emerge from the $n(u)$ dependence derived from PNP electromagnetism.
+The large-$r$ regime is controlled solely by $\alpha$ and the bulge flux constant $K$; the near-field regime, where $\sigma_r$ is not negligible, will **hopefully** be analysed in a forthcoming work.
 
 ---
 
-## References
+**Remark:** The near-field analysis will require solving the full PNP field equation with the measured baryonic distribution as the interior constraint. Short-range deviations from Newtonian behaviour inside luminous regions could be a critical test.
 
-1. Palma, A., Rodríguez, A. M. & Freet, M., *Point–Not–Point: Deriving Maxwell Electrodynamics from a Scalar Energy Field and Explaining Particle–Wave Duality*, Aug 2025.
-2. Milgrom, M., *A modification of the Newtonian dynamics as a possible alternative to the hidden mass hypothesis*, ApJ 270, 365–370 (1983).
-3. Binney, J., Tremaine, S., *Galactic Dynamics*, 2nd ed., Princeton Univ. Press, 2008.
+---
