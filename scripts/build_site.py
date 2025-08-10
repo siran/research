@@ -1,55 +1,60 @@
-# scripts/build_site.py
+import os, html, urllib.parse, datetime
 from pathlib import Path
-import html, urllib.parse, datetime
+from zoneinfo import ZoneInfo
+import theme
 
-OWNER = "siran"
-REPO = "research"
-BRANCH = "main"  # adjust if needed
-BASE = f"https://github.com/{OWNER}/{REPO}/blob/{BRANCH}/"
-
+# CONFIG
+OWNER, REPO, BRANCH = "siran", "research", "main"
+INCLUDE_EXT = set()  # empty = include all
+EXCLUDE_TOP = {".git", ".github", "site", "scripts"}
+NYC = ZoneInfo("America/New_York")
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "site"
+BASE_BLOB = f"https://github.com/{OWNER}/{REPO}/blob/{BRANCH}/"
 
-# choose what to list
-INCLUDE_EXT = {".pdf", ".md", ".rst", ".txt", ".ipynb"}  # extend if you like
-EXCLUDE_TOP = {".git", ".github", "site", "scripts"}
+def enc(p: Path) -> str: return "/".join(urllib.parse.quote(x) for x in p.parts)
+def rel(p: Path) -> Path: return p.relative_to(ROOT)
 
-def enc_path(p: Path) -> str:
-    return "/".join(urllib.parse.quote(s) for s in p.parts)
+def build_index(dir_abs: Path, dirs: list[str], files: list[str]):
+    rel_dir = rel(dir_abs)
+    out_dir = OUT / rel_dir
+    out_dir.mkdir(parents=True, exist_ok=True)
 
-def collect():
-    files = []
-    for p in ROOT.rglob("*"):
-        if any(part in EXCLUDE_TOP for part in p.parts[:1]):
-            continue
-        if p.is_file() and (not INCLUDE_EXT or p.suffix.lower() in INCLUDE_EXT):
-            files.append(p.relative_to(ROOT))
-    return sorted(files, key=lambda x: str(x).lower())
+    # breadcrumbs
+    crumbs = ['<span class="crumbs"><a href="/research/">Home</a>']
+    sofar = Path()
+    for part in rel_dir.parts:
+        sofar /= part
+        crumbs.append(f' / <a href="/research/{enc(sofar)}/">{html.escape(part)}</a>')
+    crumbs.append("</span>")
 
-def build():
-    OUT.mkdir(parents=True, exist_ok=True)
-    items = []
-    for rel in collect():
-        href = BASE + enc_path(rel)
-        name = html.escape(str(rel))
-        items.append(f'<li><a href="{href}">{name}</a></li>')
-    now = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
-    html_doc = f"""<!doctype html>
-<meta charset="utf-8">
-<title>research — index</title>
-<style>
- body{{font:16px/1.55 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem}}
- h1{{margin:.2rem 0 1rem}} .meta{{opacity:.7;font-size:.9em;margin:.5rem 0 1.5rem}}
- ul{{list-style:none;padding:0}} li{{margin:.25rem 0}} a{{text-decoration:none}} a:hover{{text-decoration:underline}}
-</style>
-<h1>research</h1>
-<p class="meta">Auto-indexed {now}. Links open in GitHub’s viewer.</p>
-<ul>
-{''.join(items)}
-</ul>
-<p class="meta">Tip: add <code>?raw=1</code> to a blob URL for direct download.</p>
-"""
-    (OUT / "index.html").write_text(html_doc, encoding="utf-8")
+    now = datetime.datetime.now(NYC).strftime("%Y-%m-%d %H:%M %Z")
+    subtitle = f'{theme.SITE_NOTE} &nbsp;|&nbsp; Indexed {now}.<br>{"".join(crumbs)}'
+    head = theme.header(f"{theme.SITE_TITLE} — {str(rel_dir) or 'root'}", subtitle)
+
+    # dirs list (link to Pages subindexes)
+    li_dirs = [f'<li><a href="/research/{enc(rel(dir_abs/d))}/">{html.escape(d)}/</a></li>'
+               for d in sorted(dirs)]
+    # files list (link to GitHub blob)
+    li_files = []
+    for f in sorted(files):
+        if INCLUDE_EXT and Path(f).suffix.lower() not in INCLUDE_EXT: continue
+        li_files.append(f'<li><a href="{BASE_BLOB}{enc(rel(dir_abs/f))}">{html.escape(f)}</a></li>')
+
+    body = []
+    if li_dirs: body.append('<ul class="dirs">' + "".join(li_dirs) + "</ul>")
+    if li_files: body.append('<ul class="files">' + "".join(li_files) + "</ul>")
+
+    (out_dir / "index.html").write_text(head + "\n".join(body) + theme.footer(), encoding="utf-8")
+
+def main():
+    for dirpath, dirnames, filenames in os.walk(ROOT):
+        if dirpath != str(ROOT) and Path(dirpath).relative_to(ROOT).parts[0] in EXCLUDE_TOP:
+            dirnames.clear(); continue
+        # skip excluded dirs inside
+        dirnames[:] = [d for d in dirnames if d not in EXCLUDE_TOP and not (d.startswith(".") and d != ".well-known")]
+        build_index(Path(dirpath), dirnames, filenames)
 
 if __name__ == "__main__":
-    build()
+    OUT.mkdir(exist_ok=True)
+    main()
