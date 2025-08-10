@@ -6,7 +6,7 @@ import theme
 # CONFIG
 OWNER, REPO, BRANCH = "siran", "research", "main"
 INCLUDE_EXT = set()  # empty = include all
-EXCLUDE_TOP = {".git", ".github", "site", "scripts"}
+EXCLUDE_TOP = {"site"}
 NYC = ZoneInfo("America/New_York")
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "site"
