@@ -1,53 +1,55 @@
-#!/usr/bin/env python3
-import os, shutil, html, urllib.parse
+# scripts/build_site.py
+from pathlib import Path
+import html, urllib.parse, datetime
 
-ROOT = "."
-OUT  = "site"   # temp build dir that Pages will deploy
+OWNER = "siran"
+REPO = "research"
+BRANCH = "main"  # adjust if needed
+BASE = f"https://github.com/{OWNER}/{REPO}/blob/{BRANCH}/"
 
-def hidden(name): return name.startswith(".") or name == ".gitignore"
-def relpath(p):  return os.path.relpath(p, ROOT)
-def outpath(p):  return os.path.join(OUT, relpath(p))
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "site"
 
-def write_index(dir_out, entries, show_parent):
-    lines = ["<!doctype html><meta charset='utf-8'><body><ul>"]
-    if show_parent: lines.append('<li><a href="../">../</a></li>')
-    # dirs first, then files
-    for name, isdir in sorted(entries, key=lambda x: (not x[1], x[0].lower())):
-        href = urllib.parse.quote(name) + ("/" if isdir else "")
-        label = html.escape(name + ("/" if isdir else ""))
-        lines.append(f'<li><a href="{href}">{label}</a></li>')
-    lines.append("</ul></body>")
-    with open(os.path.join(dir_out, "index.html"), "w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
+# choose what to list
+INCLUDE_EXT = {".pdf", ".md", ".rst", ".txt", ".ipynb"}  # extend if you like
+EXCLUDE_TOP = {".git", ".github", "site", "scripts"}
 
-# clean/build OUT
-if os.path.isdir(OUT): shutil.rmtree(OUT)
-os.makedirs(OUT, exist_ok=True)
+def enc_path(p: Path) -> str:
+    return "/".join(urllib.parse.quote(s) for s in p.parts)
 
-for dirpath, dirs, files in os.walk(ROOT):
-    # prune hidden dirs and the OUT dir itself
-    dirs[:] = [d for d in dirs if not hidden(d) and os.path.join(dirpath,d) != os.path.abspath(OUT)]
-    if relpath(dirpath).startswith(".."):  # safety
-        continue
-    cur_out = outpath(dirpath)
-    os.makedirs(cur_out, exist_ok=True)
+def collect():
+    files = []
+    for p in ROOT.rglob("*"):
+        if any(part in EXCLUDE_TOP for part in p.parts[:1]):
+            continue
+        if p.is_file() and (not INCLUDE_EXT or p.suffix.lower() in INCLUDE_EXT):
+            files.append(p.relative_to(ROOT))
+    return sorted(files, key=lambda x: str(x).lower())
 
-    # copy files (non-hidden)
-    entries = []
-    for f in files:
-        if hidden(f): continue
-        src = os.path.join(dirpath, f)
-        dst = os.path.join(cur_out, f)
-        shutil.copy2(src, dst)
-        entries.append((f, False))
+def build():
+    OUT.mkdir(parents=True, exist_ok=True)
+    items = []
+    for rel in collect():
+        href = BASE + enc_path(rel)
+        name = html.escape(str(rel))
+        items.append(f'<li><a href="{href}">{name}</a></li>')
+    now = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+    html_doc = f"""<!doctype html>
+<meta charset="utf-8">
+<title>research — index</title>
+<style>
+ body{{font:16px/1.55 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem}}
+ h1{{margin:.2rem 0 1rem}} .meta{{opacity:.7;font-size:.9em;margin:.5rem 0 1.5rem}}
+ ul{{list-style:none;padding:0}} li{{margin:.25rem 0}} a{{text-decoration:none}} a:hover{{text-decoration:underline}}
+</style>
+<h1>research</h1>
+<p class="meta">Auto-indexed {now}. Links open in GitHub’s viewer.</p>
+<ul>
+{''.join(items)}
+</ul>
+<p class="meta">Tip: add <code>?raw=1</code> to a blob URL for direct download.</p>
+"""
+    (OUT / "index.html").write_text(html_doc, encoding="utf-8")
 
-    # collect subdirs (already pruned)
-    for d in dirs:
-        os.makedirs(os.path.join(cur_out, d), exist_ok=True)
-        entries.append((d, True))
-
-    # write index.html
-    rel = relpath(dirpath)
-    write_index(cur_out, entries, show_parent=(rel != "."))
-
-print(f"Built static site in ./{OUT}")
+if __name__ == "__main__":
+    build()
