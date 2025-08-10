@@ -12,8 +12,11 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "site"
 BASE_BLOB = f"https://github.com/{OWNER}/{REPO}/blob/{BRANCH}/"
 
-def enc(p: Path) -> str: return "/".join(urllib.parse.quote(x) for x in p.parts)
-def rel(p: Path) -> Path: return p.relative_to(ROOT)
+def enc(p: Path) -> str:
+    return "/".join(urllib.parse.quote(x) for x in p.parts)
+
+def rel(p: Path) -> Path:
+    return p.relative_to(ROOT)
 
 def build_index(dir_abs: Path, dirs: list[str], files: list[str]):
     rel_dir = rel(dir_abs)
@@ -32,13 +35,21 @@ def build_index(dir_abs: Path, dirs: list[str], files: list[str]):
     subtitle = f'{theme.SITE_NOTE} &nbsp;|&nbsp; Indexed {now}.<br>{"".join(crumbs)}'
     head = theme.header(f"{theme.SITE_TITLE} — {str(rel_dir) or 'root'}", subtitle)
 
-    # dirs list (link to Pages subindexes)
-    li_dirs = [f'<li><a href="/research/{enc(rel(dir_abs/d))}/">{html.escape(d)}/</a></li>'
-               for d in sorted(dirs)]
-    # files list (link to GitHub blob)
+    # directories list (Pages subindexes) + parent link
+    li_dirs = []
+    if rel_dir.parts:
+        parent_href = "/research/" + (enc(rel_dir.parent) + "/" if rel_dir.parent != Path() else "")
+        li_dirs.append(f'<li><a href="{parent_href}">..</a></li>')
+    li_dirs += [
+        f'<li><a href="/research/{enc(rel(dir_abs/d))}/">{html.escape(d)}/</a></li>'
+        for d in sorted(dirs)
+    ]
+
+    # files list (GitHub blob)
     li_files = []
     for f in sorted(files):
-        if INCLUDE_EXT and Path(f).suffix.lower() not in INCLUDE_EXT: continue
+        if INCLUDE_EXT and Path(f).suffix.lower() not in INCLUDE_EXT:
+            continue
         li_files.append(f'<li><a href="{BASE_BLOB}{enc(rel(dir_abs/f))}">{html.escape(f)}</a></li>')
 
     body = []
@@ -51,8 +62,11 @@ def main():
     for dirpath, dirnames, filenames in os.walk(ROOT):
         if dirpath != str(ROOT) and Path(dirpath).relative_to(ROOT).parts[0] in EXCLUDE_TOP:
             dirnames.clear(); continue
-        # skip excluded dirs inside
-        dirnames[:] = [d for d in dirnames if d not in EXCLUDE_TOP and not (d.startswith(".") and d != ".well-known")]
+        dirnames[:] = [
+            d for d in dirnames
+            if d not in EXCLUDE_TOP and not (d.startswith(".") and d != ".well-known")
+        ]
+        filenames = [f for f in filenames if not f.startswith(".")]
         build_index(Path(dirpath), dirnames, filenames)
 
 if __name__ == "__main__":
