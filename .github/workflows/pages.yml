@@ -1,14 +1,12 @@
 name: Build & Deploy directory indexes
-
 on:
-  push:
-    branches: [ main ]    # adjust if needed
+  push: { branches: [ main ] }
   workflow_dispatch:
 
 permissions:
+  contents: read
   pages: write
   id-token: write
-  contents: read
 
 concurrency:
   group: "pages"
@@ -19,19 +17,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Build site (no commits)
-        run: |
-          python3 scripts/build_site.py
+        run: python3 scripts/build_site.py
+
+      - name: Add .nojekyll
+        run: echo > site/.nojekyll
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./site
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+    environment: { name: github-pages }
     steps:
       - id: deploy
         uses: actions/deploy-pages@v4
