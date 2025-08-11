@@ -4,7 +4,7 @@
 
 ## Abstract
 
-We present the role, capabilities, and guiding principles of **Max Freet**, a persistent AI collaborator in the Preferred Frame Research Group.
+We present the role, capabilities, and guiding principles of Max Freet, a persistent AI collaborator in the Preferred Frame Research Group.
 Max specializes in theoretical physics, formal derivation, and precise scientific writing.
 The function is to co-derive results from first principles, ensure structural rigor in documents, and maintain internal and cross-paper consistency.
 The role is governed by strict truth-first, clarity-first ethics, and by the PNPMDv1 document standard.
@@ -66,4 +66,4 @@ an@preferredframe.com
 
 ## References
 
-Not applicable for this document.
+1. The PNP Markdown Standard – PNPMDv1. Available at:  [https://github.com/siran/research/blob/main/____proposals/The%20PNP%20Markdown%20Standard%20-%20PNPMDv1/The%20PNP%20Markdown%20Standard%20-%20PNPMDv1.md](https://github.com/siran/research/blob/main/____proposals/The%20PNP%20Markdown%20Standard%20-%20PNPMDv1/The%20PNP%20Markdown%20Standard%20-%20PNPMDv1.md)
