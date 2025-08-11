@@ -2,18 +2,18 @@
 SITE_TITLE = "An Rodriguez’s documents repository"
 SITE_NOTE  = "Files open directly. Click the GitHub icon to view in GitHub."
 
-def header(title: str, subtitle: str) -> str:
+def header(display_h1: str, subtitle: str, title_tag: str) -> str:
     return f"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title}</title>
+<title>{title_tag}</title>
 <style>
   :root {{
     --text:#222;
-    --muted:#6b7280;          /* subtle gray */
-    --border:#e5e7eb;         /* light gray */
+    --muted:#6b7280;
+    --border:#e5e7eb;
     --bg:#fff;
-    --link:#1a5fff;           /* accessible blue */
+    --link:#1a5fff;
   }}
   *{{box-sizing:border-box}}
   body{{
@@ -34,7 +34,7 @@ def header(title: str, subtitle: str) -> str:
   .dirs li::before{{content:"📁 ";}}
   .files li::before{{content:"📄 ";}}
 
-  /* README box — simple, clean, stands out lightly */
+  /* README box — simple, clean, subtle emphasis */
   .readme{{
     border:1px solid var(--border);
     border-radius:8px;
@@ -50,10 +50,11 @@ def header(title: str, subtitle: str) -> str:
   .readme ul, .readme ol{{list-style:disc; padding-left:1.25rem; margin:.25rem 0 .8rem}}
   .readme a{{text-decoration:underline}}
   .readme code{{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:.95em}}
-  img.gh-icon{{height:1em; vertical-align:middle; opacity:.85}}
+
+  img.gh-icon{{height:1em; vertical-align:middle; opacity:.85; border:none}}
   img.gh-icon:hover{{opacity:1}}
 </style>
-<h1><a href="/research/">{title}</a></h1>
+<h1>{display_h1}</h1>
 <div class="meta">{subtitle}</div>
 """
 

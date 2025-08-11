@@ -4,20 +4,25 @@ from zoneinfo import ZoneInfo
 import markdown  # pip install markdown
 import theme
 
+# CONFIG
 OWNER, REPO, BRANCH = "siran", "research", "main"
-INCLUDE_EXT = set()
+INCLUDE_EXT = set()  # empty = include all
 EXCLUDE_TOP = {"site"}
 NYC = ZoneInfo("America/New_York")
 ROOT = Path(__file__).resolve().parent.parent
-OUT  = ROOT / "site"
+OUT = ROOT / "site"
 BASE_BLOB = f"https://github.com/{OWNER}/{REPO}/blob/{BRANCH}/"
 
-def enc(p: Path) -> str: return "/".join(urllib.parse.quote(x) for x in p.parts)
-def rel(p: Path) -> Path: return p.relative_to(ROOT)
+def enc(p: Path) -> str:
+    return "/".join(urllib.parse.quote(x) for x in p.parts)
+
+def rel(p: Path) -> Path:
+    return p.relative_to(ROOT)
 
 def render_readme_root() -> str:
-    md = (ROOT / "README.md")
-    if not md.exists(): return ""
+    md = ROOT / "README.md"
+    if not md.exists():
+        return ""
     html_body = markdown.markdown(md.read_text(encoding="utf-8"))
     return f'<div class="readme">{html_body}</div>'
 
@@ -37,10 +42,17 @@ def build_index(dir_abs: Path, dirs: list[str], files: list[str]):
     now = datetime.datetime.now(NYC).strftime("%Y-%m-%d %H:%M %Z")
     subtitle = f'Indexed {now}. {theme.SITE_NOTE}<br>{"".join(crumbs)}'
 
-    # page title: omit suffix on root
-    label = "/".join(rel_dir.parts)
-    page_title = theme.SITE_TITLE if not label else f"{theme.SITE_TITLE} — {label}"
-    head = theme.header(page_title, subtitle)
+    # Page title for <title> tag
+    label = "/".join(rel_dir.parts) or "Home"
+    page_title = f"{theme.SITE_TITLE} — {label}" if rel_dir.parts else theme.SITE_TITLE
+
+    # H1 content
+    if rel_dir.parts:
+        display_h1 = f'<a href="/research/">{html.escape(label)}</a>'
+    else:
+        display_h1 = html.escape(theme.SITE_TITLE)
+
+    head = theme.header(display_h1, subtitle, page_title)
 
     # directories list
     li_dirs = [
@@ -48,35 +60,44 @@ def build_index(dir_abs: Path, dirs: list[str], files: list[str]):
         for d in sorted(dirs)
     ]
 
-    # files: name → raw, icon → blob
+    # files list: name → raw, icon → blob
     names = sorted(files)
     if not rel_dir.parts:  # pin README.md on home
         names.sort(key=lambda n: (n.lower() != "readme.md", n.lower()))
     li_files = []
     for f in names:
-        if INCLUDE_EXT and Path(f).suffix.lower() not in INCLUDE_EXT: continue
+        if INCLUDE_EXT and Path(f).suffix.lower() not in INCLUDE_EXT:
+            continue
         raw_url = f"{BASE_BLOB}{enc(rel(dir_abs/f))}?raw=1"
-        gh_url  = f"{BASE_BLOB}{enc(rel(dir_abs/f))}"
+        gh_url = f"{BASE_BLOB}{enc(rel(dir_abs/f))}"
         li_files.append(
             f'<li><a href="{raw_url}">{html.escape(f)}</a> '
             f'<a href="{gh_url}" title="View on GitHub">'
-            f'<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" '
-            f'style="height:1em;vertical-align:middle;border:none" alt="GitHub"></a></li>'
+            f'<img class="gh-icon" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" '
+            f'alt="GitHub"></a></li>'
         )
 
     body = []
     if not rel_dir.parts:  # render README.md only on root
         body.append(render_readme_root())
-    if li_dirs:  body.append('<ul class="dirs">'  + "".join(li_dirs)  + "</ul>")
-    if li_files: body.append('<ul class="files">' + "".join(li_files) + "</ul>")
+    if li_dirs:
+        body.append('<ul class="dirs">' + "".join(li_dirs) + "</ul>")
+    if li_files:
+        body.append('<ul class="files">' + "".join(li_files) + "</ul>")
 
-    (out_dir / "index.html").write_text(head + "\n".join(body) + theme.footer(), encoding="utf-8")
+    (out_dir / "index.html").write_text(
+        head + "\n".join(body) + theme.footer(), encoding="utf-8"
+    )
 
 def main():
     for dirpath, dirnames, filenames in os.walk(ROOT):
         if dirpath != str(ROOT) and Path(dirpath).relative_to(ROOT).parts[0] in EXCLUDE_TOP:
-            dirnames.clear(); continue
-        dirnames[:] = [d for d in dirnames if d not in EXCLUDE_TOP and not (d.startswith(".") and d != ".well-known")]
+            dirnames.clear()
+            continue
+        dirnames[:] = [
+            d for d in dirnames
+            if d not in EXCLUDE_TOP and not (d.startswith(".") and d != ".well-known")
+        ]
         filenames = [f for f in filenames if not f.startswith(".")]
         build_index(Path(dirpath), dirnames, filenames)
 
