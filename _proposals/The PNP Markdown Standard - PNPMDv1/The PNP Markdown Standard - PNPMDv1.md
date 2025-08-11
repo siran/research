@@ -1,5 +1,5 @@
 % The PNP Markdown Standard – PNPMD v1.001
-% Max Freet, An M. Rodríguez
+% Max Freet, An M. Rodríguez, Adrien Hale
 % August 11, 2025
 
 ## Abstract
