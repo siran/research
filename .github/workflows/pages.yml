@@ -1,6 +1,7 @@
 name: Build & Deploy directory indexes
 on:
-  push: { branches: [ main ] }
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -30,7 +31,7 @@ jobs:
         run: python3 .scripts/build_site.py
 
       - name: Ensure .nojekyll
-        run: mkdir -p site && : > site/.nojekyll
+        run: mkdir -p site && touch site/.nojekyll
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -43,6 +44,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment: { name: github-pages }
+    environment:
+      name: github-pages
     steps:
       - uses: actions/deploy-pages@v4
