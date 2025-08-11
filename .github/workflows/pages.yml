@@ -18,11 +18,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install markdown
+
       - name: Build site (no commits)
         run: python3 .scripts/build_site.py
 
-      - name: Add .nojekyll
-        run: echo > site/.nojekyll
+      - name: Ensure .nojekyll
+        run: mkdir -p site && : > site/.nojekyll
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -37,5 +45,4 @@ jobs:
     runs-on: ubuntu-latest
     environment: { name: github-pages }
     steps:
-      - id: deploy
-        uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v4
