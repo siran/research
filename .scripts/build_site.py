@@ -10,7 +10,7 @@ INCLUDE_EXT = set()            # empty = include all
 EXCLUDE_TOP = {"site"}
 NYC = ZoneInfo("America/New_York")
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "site"
+OUT  = ROOT / "site"
 BASE_BLOB = f"https://github.com/{OWNER}/{REPO}/blob/{BRANCH}/"
 
 def enc(p: Path) -> str: return "/".join(urllib.parse.quote(x) for x in p.parts)
@@ -20,24 +20,31 @@ def iso_from_ts(ts: float) -> str:
     return datetime.datetime.fromtimestamp(ts, NYC).astimezone(ZoneInfo("UTC")).isoformat()
 
 def git_dates(path: Path) -> tuple[str, str]:
-    """Return (modified_iso, created_iso). Fallback to filesystem if not in git."""
+    """
+    Return (modified_iso, created_iso).
+    Files: modified = last commit; created = first commit (A).
+    Dirs:  modified = last commit touching subtree; created = earliest commit touching subtree.
+    Fallback to filesystem times if needed.
+    """
     relp = rel(path).as_posix()
     try:
-        m = subprocess.check_output(
-            ["git", "log", "-1", "--pretty=%cI", "--", relp],
-            cwd=ROOT, text=True, stderr=subprocess.DEVNULL
-        ).strip()
+        if path.is_dir():
+            m = subprocess.check_output(["git","log","-1","--pretty=%cI","--", relp],
+                                        cwd=ROOT, text=True, stderr=subprocess.DEVNULL).strip()
+            c = subprocess.check_output(["git","log","--reverse","-1","--pretty=%cI","--", relp],
+                                        cwd=ROOT, text=True, stderr=subprocess.DEVNULL).strip()
+        else:
+            m = subprocess.check_output(["git","log","-1","--pretty=%cI","--", relp],
+                                        cwd=ROOT, text=True, stderr=subprocess.DEVNULL).strip()
+            c_lines = subprocess.check_output(["git","log","--diff-filter=A","--pretty=%cI","--", relp],
+                                              cwd=ROOT, text=True, stderr=subprocess.DEVNULL).splitlines()
+            c = c_lines[-1] if c_lines else m
         if not m: raise RuntimeError
+        if not c: c = m
     except Exception:
-        st = path.stat(); m = iso_from_ts(st.st_mtime)
-    try:
-        c_lines = subprocess.check_output(
-            ["git", "log", "--diff-filter=A", "--pretty=%cI", "--", relp],
-            cwd=ROOT, text=True, stderr=subprocess.DEVNULL
-        ).splitlines()
-        c = c_lines[-1] if c_lines else m
-    except Exception:
-        st = path.stat(); c = iso_from_ts(st.st_ctime)
+        st = path.stat()
+        m = iso_from_ts(st.st_mtime)
+        c = iso_from_ts(st.st_ctime)
     return m, c
 
 def render_readme_root() -> str:
@@ -63,11 +70,12 @@ def write_page(dir_abs: Path, entries: list[dict], outname: str,
     now = datetime.datetime.now(NYC).strftime("%Y-%m-%d %H:%M %Z")
     subtitle = f'Indexed {now}. {theme.SITE_NOTE}<br>{"".join(crumbs)}'
 
-    # <title> tag and H1
-    label = "/".join(rel_dir.parts) or "Home"
-    page_title = f"{theme.SITE_TITLE} — {label}" if rel_dir.parts else theme.SITE_TITLE
-    display_h1 = f'<a href="/research/">{html.escape(label)}</a>' if rel_dir.parts else html.escape(theme.SITE_TITLE)
-    head = theme.header(display_h1, subtitle, page_title)
+    # <title> and H1: folder name only (home shows site title)
+    folder_label = (rel_dir.name if rel_dir.parts else theme.SITE_TITLE)
+    title_tag    = (rel_dir.name if rel_dir.parts else theme.SITE_TITLE)
+    display_h1   = (f'<a href="/research/">{html.escape(rel_dir.name)}</a>' if rel_dir.parts
+                    else html.escape(theme.SITE_TITLE))
+    head = theme.header(display_h1, subtitle, title_tag)
 
     # order switcher (default page = Modified)
     base = "/research/" + (enc(rel_dir) + "/" if rel_dir.parts else "")
@@ -78,7 +86,7 @@ def write_page(dir_abs: Path, entries: list[dict], outname: str,
     )
     switcher = f'<div class="switcher">Order by: {order_links}</div>'
 
-    # sort & render a single mixed list
+    # sort & render single mixed list (dirs + files)
     mixed = sorted(entries, key=sort_key)
     li = []
     for e in mixed:
@@ -105,35 +113,31 @@ def write_page(dir_abs: Path, entries: list[dict], outname: str,
 
 def collect_entries(dir_abs: Path, dirnames: list[str], filenames: list[str]) -> list[dict]:
     entries: list[dict] = []
-
-    # include directories
+    # directories
     for d in dirnames:
         p = dir_abs / d
-        mod, crt = git_dates(p)
-        entries.append({"name": d + "/", "is_dir": True, "modified": mod, "created": crt, "path": p})
-
-    # include files
+        mod, crt = git_dates(p)  # subtree-based
+        entries.append({"name": d, "is_dir": True, "modified": mod, "created": crt, "path": p})
+    # files
     for f in filenames:
         p = dir_abs / f
         if INCLUDE_EXT and p.suffix.lower() not in INCLUDE_EXT: continue
         mod, crt = git_dates(p)
         entries.append({"name": f, "is_dir": False, "modified": mod, "created": crt, "path": p})
-
     return entries
 
 def build_all_lists(dir_abs: Path, dirnames: list[str], filenames: list[str]):
     entries = collect_entries(dir_abs, dirnames, filenames)
 
-    # name ordering; pin README.md first on root ONLY for Name view
+    # Name view: pin README.md first on root only
     def name_sorted(es: list[dict]) -> list[dict]:
         es2 = sorted(es, key=lambda e: e["name"].lower())
         if rel(dir_abs).parts: return es2
-        # bubble README.md (file) to top on root
         es2.sort(key=lambda e: (not (not e["is_dir"] and e["name"].lower() == "readme.md"), e["name"].lower()))
         return es2
 
     orders = [
-        ("index.html",         "Modified", lambda e: (e["modified"], e["name"].lower())),  # DEFAULT
+        ("index.html",         "Modified", lambda e: (e["modified"], e["name"].lower())),  # default
         ("index_name.html",    "Name",     lambda e: e["name"].lower()),
         ("index_created.html", "Created",  lambda e: (e["created"],  e["name"].lower())),
     ]
