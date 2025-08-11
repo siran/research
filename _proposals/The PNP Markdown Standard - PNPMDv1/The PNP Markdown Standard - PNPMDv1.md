@@ -1,16 +1,16 @@
-% The PNP Markdown Standard – PNPMD v1
+% The PNP Markdown Standard – PNPMD v1.001
 % Max Freet, An M. Rodríguez
 % August 11, 2025
 
 ## Abstract
 
-We define the PNP Plain Text Standard v1 (PNPMD v1).
+We define the PNP Plain Text Standard v1.001 (PNPMD v1.001).
 It is based on mathematically aware Markdown using `$...$` and `$$...$$` LaTeX equation blocks.
 The format eases compatibility with naive use of rendering engines that convert `.md` to various targets (`.pdf`, `.html`, etc.).
 
 ## One-Sentence Summary
 
-PNPMD v1 is a minimal, human-readable *first*, mathematically aware, plain-text, Markdown standard for documents.
+PNPMD v1.001 is a minimal, human-readable *first*, mathematically aware, plain-text, Markdown standard for documents.
 
 ## Keywords
 
@@ -18,7 +18,7 @@ plain-text, research format, markdown, mathjax, html, PNPMD
 
 ## Introduction
 
-The PNPMD v1 format provides a minimal yet complete Markdown structure for mathematically aware documents.
+The PNPMD v1.001 format provides a minimal yet complete Markdown structure for mathematically aware documents.
 The format allows for naive use of tools like `pandoc` that render `.md` directly to PDF or HTML.
 It keeps the format simple and human-readable *first*: a straight ASCII-text document.
 It avoids relying on human-unreadable, unnecessary, or noisy LaTeX wrappers and PDF-only workflows.
@@ -51,9 +51,11 @@ In more detail,
 
 First three lines:
 ```
+
 % Title
 % Author(s)
 % Date
+
 ```
 
 - **Abstract**
@@ -110,31 +112,35 @@ Recommendeded sections:
 
 Example: $R = 5.29177210903\times 10^{-11}\,\mathrm{m}$
 
-**Characters**
+**Characters**:
 
 - UTF-8 encoding required.
-- Greek, math symbols, and Unicode arrows (→, ←) are allowed.
+- Although some Greek, math symbols, and Unicode arrows (→, ←) are allowed **only if** they are supported by the default `utf8` inputenc mapping in pdfLaTeX, $...$ is preferred.
+- Any unmapped Unicode symbols must be replaced either by $...$ or their ascii counterpart.
+- No inline math math format other that $...$ OR $$...$$.
+- No math in abstract or metadata.
 
-**Text emphasis**
+**Text emphasis**:
 
 - Avoid bold, italics, and underlines unless essential for meaning.
 - Decorative emphasis is not permitted.
 
-**Section separation**
+**Section separation**:
 
 - Separate sections with two blank lines (`\n\n`).
 - Never use `---` (horizontal rules) to separate sections.
 
-**Figures**
+**Figures**:
 
 - Optional; ASCII diagrams if needed.
  Example:
- ```
-     Core
-    (  o  )
-     \   /
-      \_/
- ```
+
+```
+ Core
+(  o  )
+ \   /
+  \_/
+```
 
 ## Example Section
 
@@ -162,17 +168,15 @@ Numerical value: $\alpha \approx 6.41\,\mathrm{eV}$.
 
 ## Conclusion
 
-PNPMD v1 is a plain-text specification for mathematically aware documents.
+PNPMD v1.001 is a plain-text specification for mathematically aware documents.
 
 ## Next Work
 
 A PNPMD v2 could extend this with optional metadata fields for ORCID, funding, and cross-references between related preprints.
 
-
 ## Corresponding author(s)
 
 An Rodriguez: an@preferredframe.com
-
 
 ## References
 
