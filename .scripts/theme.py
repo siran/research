@@ -1,5 +1,6 @@
-SITE_TITLE = "research"
-SITE_NOTE = "Links open in GitHub’s viewer. Add <code>?raw=1</code> for direct download."
+SITE_TITLE = "An Rodriguez’s documents repository"
+SITE_NOTE = ""
+
 
 def header(title, subtitle):
     return f"""<!doctype html>
@@ -11,7 +12,7 @@ def header(title, subtitle):
  ul{{list-style:none;padding:0}} li{{margin:.25rem 0}} a{{text-decoration:none}} a:hover{{text-decoration:underline}}
  .crumbs a{{opacity:.9}} .dirs li::before{{content:"📁 "}} .files li::before{{content:"📄 "}}
 </style>
-<h1>{title}</h1>
+<h1><a href="/research/">{title}</a></h1>
 <div class="meta">{subtitle}</div>
 """
 
