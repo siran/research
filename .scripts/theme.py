@@ -1,4 +1,3 @@
-# --- Site text ---
 SITE_TITLE = "An Rodriguez’s documents repository"
 SITE_NOTE  = "Files open directly. Click the GitHub icon to view in GitHub."
 
@@ -27,11 +26,10 @@ def header(display_h1: str, subtitle: str, title_tag: str) -> str:
   .readme a{{text-decoration:underline}}
   .readme code{{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.95em}}
   img.gh-icon{{height:1em;vertical-align:middle;opacity:.85;border:none}} img.gh-icon:hover{{opacity:1}}
-  .search{margin:.25rem 0 1rem;display:flex;gap:.5rem;align-items:center}
-  .search input[type=search]{flex:1;padding:.45rem .6rem;border:1px solid var(--border);border-radius:6px}
-  .search button{padding:.45rem .75rem;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer}
-  .search button:hover{background:#f8f9fb}
-
+  .search{{margin:.25rem 0 1rem;display:flex;gap:.5rem;align-items:center}}
+  .search input[type=search]{{flex:1;padding:.45rem .6rem;border:1px solid var(--border);border-radius:6px}}
+  .search button{{padding:.45rem .75rem;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer}}
+  .search button:hover{{background:#f8f9fb}}
 </style>
 <h1>{display_h1}</h1>
 <div class="meta">{subtitle}</div>
