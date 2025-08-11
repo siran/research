@@ -1,6 +1,7 @@
 % Explaining Dark Matter with the Point–Not–Point Framework, and a PNP Theory of Gravitation
-% Max Freet, Adrien Hale, An M. Rodríguez
-% August 8, 2025 (revised)
+% Max Freet, Adrien Hale, An M. Rodríguez, Fred Nedrock
+% August 11, 2025
+
 
 ## Abstract
 
