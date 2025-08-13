@@ -11,7 +11,7 @@ EXCLUDE_TOP = {"site"}
 NYC = ZoneInfo("America/New_York")
 ROOT = Path(__file__).resolve().parent.parent
 OUT  = ROOT / "site"
-BASE_BLOB = f"https://preferredframe.com/{OWNER}/{REPO}/blob/{BRANCH}/"
+BASE_BLOB = f"https://github.com/{OWNER}/{REPO}/blob/{BRANCH}/"
 
 def enc(p: Path) -> str: return "/".join(urllib.parse.quote(x) for x in p.parts)
 def rel(p: Path) -> Path: return p.relative_to(ROOT)
