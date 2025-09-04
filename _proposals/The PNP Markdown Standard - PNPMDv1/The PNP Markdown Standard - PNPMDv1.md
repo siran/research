@@ -1,29 +1,27 @@
-% The PNP Markdown Standard – PNPMD v1.001
+% The PNP Markdown Standard – PNPMD v1.02
 % Max Freet, An M. Rodríguez, Adrien Hale
-% August 11, 2025
+% August 21, 2025
 
 ## Abstract
 
-We define the PNP Plain Text Standard v1.001 (PNPMD v1.001).
-It is based on mathematically aware Markdown using `$...$` and `$$...$$` LaTeX equation blocks.
-The format eases compatibility with naive use of rendering engines that convert `.md` to various targets (`.pdf`, `.html`, etc.).
+We define the PNP Plain Text Standard PNPMD v1.02 specification.
+
+It is a human-readable *first*, plain-text document format, mathematically aware (using `$...$` and `$$...$$` LaTeX equation blocks) and based on Markdown standards.
+
+The format eases compatibility with naive use of `pandoc`, the default renderer, which converts `.md` to `.pdf`, `.html`, or enhanced `.md` with numbering, links, and TOC.
 
 ## One-Sentence Summary
 
-PNPMD v1.001 is a minimal, human-readable *first*, mathematically aware, plain-text, Markdown standard for documents.
+PNPMD v1.02 is a minimal, human-readable *first*, mathematically aware, plain-text Markdown standard for documents.
 
 ## Keywords
 
 plain-text, research format, markdown, mathjax, html, PNPMD
 
-## Introduction
-
-The PNPMD v1.001 format provides a minimal yet complete Markdown structure for mathematically aware documents.
-The format allows for naive use of tools like `pandoc` that render `.md` directly to PDF or HTML.
+PNPMD v1.02 provides a minimal yet complete Markdown structure for mathematically aware documents.
 It keeps the format simple and human-readable *first*: a straight ASCII-text document.
-It avoids relying on human-unreadable, unnecessary, or noisy LaTeX wrappers and PDF-only workflows.
-Our goals are reproducibility, portability, and unambiguous interpretation.
-It is also well-suited to version-controlled repositories.
+It avoids noisy LaTeX wrappers and PDF-only workflows.
+Goals: reproducibility, portability, unambiguous interpretation.
 
 In summary:
 
@@ -34,8 +32,6 @@ In summary:
 
 ## Structure
 
-In summary,
-
 - Header
 - Abstract
 - One-Sentence Summary
@@ -44,12 +40,7 @@ In summary,
 - Corresponding Author
 - References
 
-
-In more detail,
-
-- **Header**
-
-First three lines:
+**Header:**
 ```
 
 % Title
@@ -58,106 +49,119 @@ First three lines:
 
 ```
 
-- **Abstract**
+**Abstract:** 3–5 sentences: problem → method → result → significance. No citations or equations.
 
-3–5 sentences: problem → method → result → significance.
-Avoid citations or equations here.
+**One-Sentence Summary:** one sentence summarizing the paper.
 
-- **One-Sentence Summary**
+**Keywords:** 3–6 topical keywords.
 
-Single self-contained sentence summarizing the paper.
+**Other body sections (recommended):** Introduction, Theory/Framework, Derivation, Results, Discussion, Conclusion, Next Work, Appendices.
 
-- **Keywords**
+**Corresponding Author:** immediately before References.
 
-3–6 topical keywords.
-
-- **Other Body Sections**
-
-Recommendeded sections:
-
-- Introduction — motivation, novelty, context.
-- Theory / Framework — fundamental definitions and starting equations from first principles.
-- Derivation — detailed steps, explicit approximations with justification.
-- Results — final closed-form laws, constants, predictions; include numerical evaluations with units.
-- Discussion — interpretation, implications, and limits.
-- Conclusion — concise recap of contributions, assumptions, and scope.
-- Next Work — proposed future directions.
-- Appendices — supplementary derivations, datasets, or proofs.
-
-6. **Corresponding Author**
-
-- Immediately before References:
-
-7. **References**
-
+**References:**
 - Use DOI links where possible.
-- Avoid footnote-style citations; inline references are sufficient.
+- Avoid footnote-style citations; inline references via `@refname` are encouraged.
 
+## Naive Pandoc Support (extension from v1.001)
+
+PNPMD uses Pandoc as the default renderer. PDFs, HTML, and enhanced Markdown (with TOC, numbering, links) are **by-products**. The plain-text manuscript remains human-first.
+
+### Plain Anchor Convention
+
+- **Author shorthand:** anchors may be written naturally in PNPMD:
+```
+
+## A Long Section #short
+
+## A Long Section
+
+\#short
+
+## A Long Section (#short)
+
+## A Long Section \[#short]
+
+```
+Figures:
+```
+
+!\[diagram.png]
+*This is the setup* #fig\:setup
+
+```
+
+- **Formatter pipeline:** all shorthand anchors are rewritten in `pandoc.md` into Pandoc-compatible IDs with a `pnpref:` namespace:
+```
+
+## A Long Section {#pnpref\:short}
+
+![This is the setup](diagram.png){#pnpref\:fig\:setup}
+
+```
+
+- **References:**
+- `@short` → `@pnpref:short`
+- `@fig:setup` → `@pnpref:fig:setup`
+- With `pandoc-crossref`, these render as numbered links:
+  - sections: “see § 2.3”
+  - figures: “see Figure 1”
+  - equations: `@eq:…` → “(3)”
+
+- **Summary:** PNPMD authors only ever write `#hash` and `@hash`. The formatter expands them into `{#pnpref:hash}` and `@pnpref:hash` so Pandoc-crossref resolves numbering and linking.
+
+### Citations
+
+- Syntax: `@key` or `[@key, pp. 33–35]`.
+- A `.bib` file is generated from the `## (Suggested) References` section.
+- Pandoc options: `--citeproc --bibliography=generated.bib -M link-citations=true`.
+- Result: in-text citations hyperlinked to bibliography entries.
+
+### TOC and numbering
+
+- `--toc --toc-depth=2`: auto two-level TOC if none written.
+- `--number-sections`: section numbering.
+- Equation/figure/section numbering from cross-references requires `pandoc-crossref`.
+
+### Reference-style links
+
+- `--reference-links` rewrites `[text](url)` into `[text][1]` with link definitions (Markdown targets only).
+- Purely cosmetic; no effect on citations or anchors.
 
 ## Formatting Rules
 
-**Math**:
+**Math:**
+- Inline: `$...$`
+- Display: `$$...$$`
+- No `\[...\]` or `\(...\)`
+- Always specify units
 
-- Inline math: `$...$`
- Example: $E = mc^2$
-- Display math blocks: `$$...$$`
+**Characters:**
+- UTF-8 required
+- Greek/math symbols only if supported by pdfLaTeX utf8
+- Otherwise use `$...$` or ASCII
 
- Example:
- $$
- F_{\mu\nu} = \partial_\mu A_\nu - \partial_\nu A_\mu
- $$
+**Emphasis:** avoid unless essential.
 
-- **DO NOT USE** `\[...\]` and `\(...\)` either for inline or block math
-- Always specify units. SI units preferred
+**Sections:** separate with blank lines. No `---`.
 
-Example: $R = 5.29177210903\times 10^{-11}\,\mathrm{m}$
-
-**Characters**:
-
-- UTF-8 encoding required.
-- Although some Greek, math symbols, and Unicode arrows (→, ←) are allowed **only if** they are supported by the default `utf8` inputenc mapping in pdfLaTeX, $...$ is preferred.
-- Any unmapped Unicode symbols must be replaced either by $...$ or their ascii counterpart.
-- No inline math math format other that $...$ OR $$...$$.
-- No math in abstract or metadata.
-
-**Text emphasis**:
-
-- Avoid bold, italics, and underlines unless essential for meaning.
-- Decorative emphasis is not permitted.
-
-**Section separation**:
-
-- Separate sections with two blank lines (`\n\n`).
-- Never use `---` (horizontal rules) to separate sections.
-
-**Figures**:
-
-- Optional; ASCII diagrams if needed.
- Example:
-
+**Figures:** ASCII diagrams allowed. Example:
 ```
- Core
+
+Core
 (  o  )
- \   /
-  \_/
+\   /
+\_/
+
 ```
 
 ## Example Section
 
 Theory
 Let $U:\mathbb{R}^3\times\mathbb{R} \to \mathbb{R}$ be the scalar energy field.
-The field strength is defined:
-$$
-F = d(*dU)
-$$
-Source-free dynamics satisfy:
-$$
-dF = 0, \quad d\!\star F = 0
-$$
-Energy density and Poynting vector:
-$$
-u = \frac{\varepsilon_0}{2}(E^2 + c^2 B^2), \quad \mathbf{S} = \frac{1}{\mu_0} \mathbf{E} \times \mathbf{B}
-$$
+$$ F = d(*dU) $$
+Source-free dynamics:
+$$ dF = 0, \quad d\!\star F = 0 $$
 
 Results
 For TE$_{11}$ mode geometry:
@@ -168,11 +172,11 @@ Numerical value: $\alpha \approx 6.41\,\mathrm{eV}$.
 
 ## Conclusion
 
-PNPMD v1.001 is a plain-text specification for mathematically aware documents.
+PNPMD v1.02 is a plain-text specification for mathematically aware documents.
 
 ## Next Work
 
-A PNPMD v2 could extend this with optional metadata fields for ORCID, funding, and cross-references between related preprints.
+A PNPMD v2 could extend this with optional metadata for ORCID, funding, and cross-links between related preprints.
 
 ## Corresponding author(s)
 
@@ -181,3 +185,15 @@ An Rodriguez: an@preferredframe.com
 ## References
 
 1. Palma, A., Rodríguez, A. M., & Freet, M. (2025). Point–Not–Point: Deriving Maxwell Electrodynamics from a Scalar Energy Field and Explaining Particle–Wave Duality. DOI:[10.13140/RG.2.2.16877.91368](https://doi.org/10.13140/RG.2.2.16877.91368)
+
+---
+
+## Changes from v1.001 → v1.02
+
+- Added **Naive Pandoc Support** section.
+- Defined **Plain Anchor Convention**: `#hash` shorthand in PNPMD → `{#pnpref:hash}` in `pandoc.md`.
+- Clarified support for `#fig:…`, `#eq:…`, `#tbl:…`.
+- Explicitly noted that `pandoc-crossref` resolves `@id` references to numbered links.
+- `.bib` is auto-generated from `## (Suggested) References`.
+- Added notes on TOC, section numbering, and cosmetic reference links.
+- Strengthened inline citation rule: “Avoid footnote-style citations; inline `@refname` encouraged.”
