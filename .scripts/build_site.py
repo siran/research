@@ -1,159 +1,191 @@
-import os, html, urllib.parse, datetime, subprocess
+#!/usr/bin/env python3
+from __future__ import annotations
 from pathlib import Path
-from zoneinfo import ZoneInfo
-import markdown  # pip install markdown
-import theme
+import os, re, subprocess, shutil
+from datetime import datetime, timezone
 
-# CONFIG
-OWNER, REPO, BRANCH = "siran", "research", "main"
-INCLUDE_EXT = set()            # empty = include all
-EXCLUDE_TOP = {"site"}
-NYC = ZoneInfo("America/New_York")
-ROOT = Path(__file__).resolve().parent.parent
+# ---- config -------------------------------------------------------------
+ROOT = Path(__file__).resolve().parents[1]
 OUT  = ROOT / "site"
-BASE_BLOB = f"https://github.com/{OWNER}/{REPO}/blob/{BRANCH}/"
+MAP  = ROOT / "pnpmd.map"
+PREPROCESS = ROOT / ".scripts" / "preprocess_pnpmd.py"
+MD_GLOBS = ["prints/*/*.md"]         # adjust if you want more locations
+BASE_URL = os.getenv("BASE_URL", "").rstrip("/")
 
-def enc(p: Path) -> str: return "/".join(urllib.parse.quote(x) for x in p.parts)
-def rel(p: Path) -> Path: return p.relative_to(ROOT)
+# ---- helpers ------------------------------------------------------------
+def run(cmd: list[str]) -> None:
+    subprocess.run(cmd, check=True)
 
-def iso_from_ts(ts: float) -> str:
-    return datetime.datetime.fromtimestamp(ts, NYC).astimezone(ZoneInfo("UTC")).isoformat()
+def read_text(p: Path) -> str:
+    return p.read_text(encoding="utf-8")
 
-def git_dates(path: Path) -> tuple[str, str]:
-    """
-    Return (modified_iso, created_iso).
-    Files: modified = last commit; created = first commit (A).
-    Dirs:  modified = last commit touching subtree; created = earliest commit touching subtree.
-    Fallback to filesystem times if needed.
-    """
-    relp = rel(path).as_posix()
-    try:
-        if path.is_dir():
-            m = subprocess.check_output(["git","log","-1","--pretty=%cI","--", relp],
-                                        cwd=ROOT, text=True, stderr=subprocess.DEVNULL).strip()
-            c = subprocess.check_output(["git","log","--reverse","-1","--pretty=%cI","--", relp],
-                                        cwd=ROOT, text=True, stderr=subprocess.DEVNULL).strip()
-        else:
-            m = subprocess.check_output(["git","log","-1","--pretty=%cI","--", relp],
-                                        cwd=ROOT, text=True, stderr=subprocess.DEVNULL).strip()
-            c_lines = subprocess.check_output(["git","log","--diff-filter=A","--pretty=%cI","--", relp],
-                                              cwd=ROOT, text=True, stderr=subprocess.DEVNULL).splitlines()
-            c = c_lines[-1] if c_lines else m
-        if not m: raise RuntimeError
-        if not c: c = m
-    except Exception:
-        st = path.stat()
-        m = iso_from_ts(st.st_mtime)
-        c = iso_from_ts(st.st_ctime)
-    return m, c
+def write_text(p: Path, s: str) -> None:
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(s, encoding="utf-8")
 
-def render_readme_root() -> str:
-    md = ROOT / "README.md"
-    if not md.exists(): return ""
-    html_body = markdown.markdown(md.read_text(encoding="utf-8"))
-    return f'<div class="readme">{html_body}</div>'
+def rel(p: Path) -> Path:
+    return p.relative_to(ROOT)
 
-def write_page(dir_abs: Path, entries: list[dict], outname: str,
-               active_label: str, sort_key):
-    rel_dir = rel(dir_abs)
-    out_dir = OUT / rel_dir
-    out_dir.mkdir(parents=True, exist_ok=True)
+def now_iso() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
-    # breadcrumbs
-    crumbs = ['<span class="crumbs"><a href="/research/">Home</a>']
-    sofar = Path()
-    for part in rel_dir.parts:
-        sofar /= part
-        crumbs.append(f' / <a href="/research/{enc(sofar)}/">{html.escape(part)}</a>')
-    crumbs.append("</span>")
-
-    now = datetime.datetime.now(NYC).strftime("%Y-%m-%d %H:%M %Z")
-    subtitle = f'Indexed {now}. {theme.SITE_NOTE}<br>{"".join(crumbs)}'
-
-    # <title> and H1: folder name only (home shows site title)
-    folder_label = (rel_dir.name if rel_dir.parts else theme.SITE_TITLE)
-    title_tag    = (rel_dir.name if rel_dir.parts else theme.SITE_TITLE)
-    display_h1   = (f'<a href="/research/">{html.escape(rel_dir.name)}</a>' if rel_dir.parts
-                    else html.escape(theme.SITE_TITLE))
-    head = theme.header(display_h1, subtitle, title_tag)
-
-    # order switcher (default page = Modified)
-    base = "/research/" + (enc(rel_dir) + "/" if rel_dir.parts else "")
-    items = [("index.html","Modified"), ("index_name.html","Name"), ("index_created.html","Created")]
-    order_links = " · ".join(
-        f"<strong>{lbl}</strong>" if lbl == active_label else f'<a href="{base}{fname}">{lbl}</a>'
-        for fname, lbl in items
+# ---- PNPMD pipeline -----------------------------------------------------
+def preprocess_to_pnp(md: Path) -> str:
+    """Return preprocessed PNPMD (.pnp.md content)."""
+    proc = subprocess.run(
+        ["python", str(PREPROCESS), str(md)],
+        check=True, capture_output=True, text=True
     )
-    switcher = f'<div class="switcher">Order by: {order_links}</div>'
+    # normalize CRLF→LF defensively
+    return proc.stdout.replace("\r\n", "\n")
 
-    # sort & render single mixed list (dirs + files)
-    mixed = sorted(entries, key=sort_key)
-    li = []
-    for e in mixed:
-        if e["is_dir"]:
-            href = f'/research/{enc(rel(e["path"]))}/'
-            li.append(
-                f'<li><span>📁 </span><a href="{href}">{html.escape(e["name"])}</a> '
-                f'<small style="opacity:.7">[mod {e["modified"][:10]} · crt {e["created"][:10]}]</small></li>'
-            )
+def parse_map_lines(map_text: str):
+    """
+    Yield (pattern, replacement, is_regex).
+    - 'lhs=rhs' literal (lhs is escaped)
+    - '/regex/=rhs' regex
+    If rhs starts with '\\' (TeX macro), wrap in $...$.
+    """
+    out = []
+    for raw in map_text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"): continue
+        if line.startswith("/") and line.count("/") >= 2 and line.rfind("/") > 0:
+            # /regex/=rhs
+            first = 1
+            last = line.rfind("/")
+            regex = line[first:last]
+            rhs = line[last+2:] if line[last+1: last+2] == "=" else line[last+1:]
+            is_regex = True
         else:
-            raw_url = f"{BASE_BLOB}{enc(rel(e['path']))}?raw=1"
-            gh_url  = f"{BASE_BLOB}{enc(rel(e['path']))}"
-            li.append(
-                f'<li><span>📄 </span><a href="{raw_url}">{html.escape(e["name"])}</a> '
-                f'<small style="opacity:.7">[mod {e["modified"][:10]} · crt {e["created"][:10]}]</small> '
-                f'<a href="{gh_url}" title="View on GitHub"><img class="gh-icon" '
-                f'src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub"></a></li>'
-            )
+            if "=" not in line: continue
+            lhs, rhs = line.split("=", 1)
+            regex = re.escape(lhs.strip())
+            is_regex = True  # treat as regex with escaped lhs
+        rhs = rhs.strip()
+        if rhs.startswith("\\"):
+            rhs = f"${rhs}$"
+        out.append((regex, rhs, is_regex))
+    return out
 
-    body = [switcher]
-    if not rel_dir.parts: body.insert(0, render_readme_root())
-    body.append('<ul class="list">' + "".join(li) + "</ul>")
-    (out_dir / outname).write_text(head + "\n".join(body) + theme.footer(), encoding="utf-8")
+def apply_map_to_text(text: str, rules) -> str:
+    out = text
+    for pat, repl, _ in rules:
+        out = re.sub(pat, repl, out)
+    return out
 
-def collect_entries(dir_abs: Path, dirnames: list[str], filenames: list[str]) -> list[dict]:
-    entries: list[dict] = []
-    # directories
-    for d in dirnames:
-        p = dir_abs / d
-        mod, crt = git_dates(p)  # subtree-based
-        entries.append({"name": d, "is_dir": True, "modified": mod, "created": crt, "path": p})
-    # files
-    for f in filenames:
-        p = dir_abs / f
-        if INCLUDE_EXT and p.suffix.lower() not in INCLUDE_EXT: continue
-        mod, crt = git_dates(p)
-        entries.append({"name": f, "is_dir": False, "modified": mod, "created": crt, "path": p})
-    return entries
-
-def build_all_lists(dir_abs: Path, dirnames: list[str], filenames: list[str]):
-    entries = collect_entries(dir_abs, dirnames, filenames)
-
-    # Name view: pin README.md first on root only
-    def name_sorted(es: list[dict]) -> list[dict]:
-        es2 = sorted(es, key=lambda e: e["name"].lower())
-        if rel(dir_abs).parts: return es2
-        es2.sort(key=lambda e: (not (not e["is_dir"] and e["name"].lower() == "readme.md"), e["name"].lower()))
-        return es2
-
-    orders = [
-        ("index.html",         "Modified", lambda e: (e["modified"], e["name"].lower())),  # default
-        ("index_name.html",    "Name",     lambda e: e["name"].lower()),
-        ("index_created.html", "Created",  lambda e: (e["created"],  e["name"].lower())),
+def render_pdf(from_md: Path, out_pdf: Path) -> None:
+    cmd = [
+        "pandoc", str(from_md),
+        "--toc", "--toc-depth=2",
+        "--number-sections", "--number-offset=1",
+        "--reference-links",
+        "--citeproc", "-M", "link-citations=true",
+        "-F", "pandoc-crossref",
+        "--standalone",
+        "--shift-heading-level-by=-1",
+        "-o", str(out_pdf),
     ]
-    for outname, label, key in orders:
-        entries_for_view = name_sorted(entries) if label == "Name" else entries
-        write_page(dir_abs, entries_for_view, outname, label, key)
+    # Optional bibliography next to source
+    bib = from_md.with_suffix("").with_suffix(".bib")  # uncommon; ignore
+    generated_bib = from_md.parent / "generated.bib"
+    if generated_bib.exists():
+        cmd.extend(["--bibliography", str(generated_bib)])
+    run(cmd)
+
+# ---- site generation -----------------------------------------------------
+def find_manuscripts() -> list[Path]:
+    mds: list[Path] = []
+    for g in MD_GLOBS:
+        mds.extend(sorted(ROOT.glob(g)))
+    # exclude readmes and derived
+    mds = [p for p in mds
+           if p.name.lower() != "readme.md"
+           and not p.name.endswith(".pnp.md")
+           and not p.name.endswith(".pnp.pdflatex.md")]
+    return mds
+
+def folder_index(md: Path) -> str:
+    rel_dir = rel(md.parent).as_posix()
+    base = f"{BASE_URL}/{rel_dir}".replace("//","/")
+    title = md.stem
+    lines = [
+        f"## {title}",
+        "",
+        "Available files:",
+        "",
+        f"[Markdown]({base}/{md.name})",
+        f"[PNPMD (.pnp.md)]({base}/{md.name}.pnp.md)",
+        f"[PNPMD (pdflatex) (.pnp.pdflatex.md)]({base}/{md.name}.pnp.pdflatex.md)",
+        f"[PDF]({base}/{md.stem}.pdf)",
+        "",
+        "---",
+        '<meta charset="utf-8">',
+        "<style>*{white-space:pre-wrap;font-family:monospace}</style>",
+    ]
+    return "\n".join(lines)
+
+def root_index(mds: list[Path]) -> str:
+    lines = [
+        "# Research",
+        "",
+        "---",
+        "## Latest documents",
+        "",
+    ]
+    for p in mds:
+        rel_dir = rel(p.parent).as_posix()
+        url = f"{BASE_URL}/{rel_dir}/".replace("//","/")
+        lines.append(f"- [{p.stem}]({url})")
+    lines += [
+        "",
+        f"(updated: {now_iso()})",
+        "",
+        "---",
+        '<meta charset="utf-8">',
+        "<style>*{white-space:pre-wrap;font-family:monospace}</style>",
+    ]
+    return "\n".join(lines)
 
 def main():
-    for dirpath, dirnames, filenames in os.walk(ROOT):
-        if dirpath != str(ROOT) and Path(dirpath).relative_to(ROOT).parts[0] in EXCLUDE_TOP:
-            dirnames.clear(); continue
-        # prune hidden dirs/files (except .well-known)
-        dirnames[:] = [d for d in dirnames if d not in EXCLUDE_TOP and not (d.startswith(".") and d != ".well-known")]
-        filenames = [f for f in filenames if not f.startswith(".")]
-        build_all_lists(Path(dirpath), dirnames, filenames)
+    OUT.mkdir(parents=True, exist_ok=True)
+
+    mds = find_manuscripts()
+    if not mds:
+        write_text(OUT / "index.html", "# Research\n\nNo manuscripts found.\n")
+        return
+
+    map_rules = parse_map_lines(MAP.read_text(encoding="utf-8")) if MAP.exists() else []
+
+    staged = []
+    for md in mds:
+        rel_dir = rel(md.parent)
+        # 1) stage originals
+        dst_dir = OUT / rel_dir
+        dst_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(md, dst_dir / md.name)
+
+        # 2) .pnp.md
+        pnp_text = preprocess_to_pnp(md)
+        pnp_path = dst_dir / (md.name + ".pnp.md")
+        write_text(pnp_path, pnp_text)
+
+        # 3) .pnp.pdflatex.md
+        pnp_tex_text = apply_map_to_text(pnp_text, map_rules) if map_rules else pnp_text
+        pnp_tex_path = dst_dir / (md.name + ".pnp.pdflatex.md")
+        write_text(pnp_tex_path, pnp_tex_text)
+
+        # 4) PDF from .pnp.pdflatex.md
+        pdf_path = dst_dir / (md.stem + ".pdf")
+        render_pdf(pnp_tex_path, pdf_path)
+
+        # 5) per-folder index
+        write_text(dst_dir / "index.html", folder_index(md))
+
+        staged.append(md)
+
+    # root index
+    write_text(OUT / "index.html", root_index(staged))
 
 if __name__ == "__main__":
-    OUT.mkdir(exist_ok=True)
     main()

@@ -1,8 +1,13 @@
-name: Build & Deploy directory indexes
+name: Build & Deploy PNPMD site
+
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
+    paths:
+      - '**/*.md'
+      - '.scripts/**'
+      - 'pnpmd.map'
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -10,38 +15,49 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: pandoc/latex:latest
+
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # needed for git history (created/modified dates)
+          fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+      - name: Install Python (inside container)
+        run: |
+          apt-get update
+          apt-get install -y python3 python3-pip
+          ln -sf /usr/bin/python3 /usr/local/bin/python
 
-      - name: Install dependencies
-        run: pip install markdown
+      - name: Install pandoc-crossref
+        run: |
+          VER=0.3.17.0
+          wget -q https://github.com/lierdakil/pandoc-crossref/releases/download/v$VER/pandoc-crossref-Linux.tar.xz
+          tar -xJf pandoc-crossref-Linux.tar.xz
+          install -m0755 pandoc-crossref /usr/local/bin/pandoc-crossref
+          pandoc-crossref --version
 
       - name: Build site (no commits)
-        run: python3 .scripts/build_site.py
-
-      - name: Ensure .nojekyll
-        run: mkdir -p site && touch site/.nojekyll
+        env:
+          # Optional override: set repo Variable BASE_URL to a custom domain
+          BASE_URL: ${{ vars.BASE_URL || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
+        run: |
+          python .scripts/build_site.py
+          mkdir -p site && touch site/.nojekyll
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./site
+          path: site
 
   deploy:
     needs: build
