@@ -29,23 +29,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install Python (inside container)
-        run: |
-          apt-get update
-          apt-get install -y python3 python3-pip
-          ln -sf /usr/bin/python3 /usr/local/bin/python
+      # No apt-get. Use setup-python (works inside container).
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-      - name: Install pandoc-crossref
+      - name: Tools
         run: |
-          VER=0.3.17.0
-          wget -q https://github.com/lierdakil/pandoc-crossref/releases/download/v$VER/pandoc-crossref-Linux.tar.xz
-          tar -xJf pandoc-crossref-Linux.tar.xz
-          install -m0755 pandoc-crossref /usr/local/bin/pandoc-crossref
-          pandoc-crossref --version
+          pandoc --version
+          python --version
 
       - name: Build site (no commits)
         env:
-          # Optional override: set repo Variable BASE_URL to a custom domain
           BASE_URL: ${{ vars.BASE_URL || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
         run: |
           python .scripts/build_site.py
