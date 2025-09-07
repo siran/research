@@ -22,28 +22,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: pandoc/latex:latest
+      image: pandoc/latex:latest   # Alpine-based
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # No apt-get. Use setup-python (works inside container).
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Tools
+      # Install Python in Alpine
+      - name: Install Python (Alpine)
         run: |
+          apk add --no-cache python3 py3-pip
+          python3 --version
           pandoc --version
-          python --version
 
       - name: Build site (no commits)
         env:
           BASE_URL: ${{ vars.BASE_URL || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
         run: |
-          python .scripts/build_site.py
+          python3 .scripts/build_site.py
           mkdir -p site && touch site/.nojekyll
 
       - name: Configure Pages
