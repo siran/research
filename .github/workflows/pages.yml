@@ -1,60 +1,30 @@
-name: Build & Deploy PNPMD site
-
+name: Deploy site
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - '**/*.md'
-      - '.scripts/**'
-      - 'pnpmd.map'
-  workflow_dispatch: {}
-
+  push: { branches: [ main ] }
+  workflow_dispatch:
 permissions:
   contents: read
   pages: write
   id-token: write
-
 concurrency:
-  group: pages
+  group: "pages"
   cancel-in-progress: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: pandoc/latex:latest   # Alpine-based
-
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      # Install Python in Alpine
-      - name: Install Python (Alpine)
-        run: |
-          apk add --no-cache python3 py3-pip
-          python3 --version
-          pandoc --version
-
-      - name: Build site (no commits)
-        env:
-          BASE_URL: ${{ vars.BASE_URL || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
-        run: |
-          python3 .scripts/build_site.py
-          mkdir -p site && touch site/.nojekyll
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
+      - name: Build site
+        run: python .scripts/build_site.py
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-
+        with: { path: site }
   deploy:
     needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/deploy-pages@v4
+      - id: deployment
+        uses: actions/deploy-pages@v4

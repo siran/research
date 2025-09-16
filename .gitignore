@@ -3,3 +3,7 @@ site
 .vscode
 ___packet/*
 
+venv/
+.___packet
+.tmp
+__pycache__
