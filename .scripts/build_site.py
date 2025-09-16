@@ -64,7 +64,7 @@ def write_index(dir_abs: Path, items: list[Item]):
         crumbs.append(f' / <a href="{up}">{html.escape(p)}</a>')
     crumbs.append("</span>")
 
-    title = (rel_dir.name or "SIRAN Research")
+    title = (rel_dir.name or "SIRAN's Research")
     subtitle = f'{ "".join(crumbs) }'
 
     # folders first, then files (both A→Z)
