@@ -9,6 +9,8 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT  = ROOT / "site"
 EXCLUDE_TOP = {"site","venv",".venv","env",".env","node_modules",".git","__pycache__",
                ".mypy_cache",".pytest_cache",".ruff_cache",".cache"}
+BASE_PATH = os.getenv("SITE_BASE", f"/{REPO}/")  # e.g. "/research/" on Pages; "/" locally
+
 
 def rel(p: Path) -> Path: return p.relative_to(ROOT)
 def raw_url(path_from_root: Path) -> str:
@@ -57,7 +59,8 @@ def write_index(dir_abs: Path, items: list[Item]):
     out_dir = OUT / rel_dir
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    crumbs = ['<span class="crumbs"><a href="./">Home</a>']
+    # Home should always point to site root (/research/)
+    crumbs = [f'<span class="crumbs"><a href="{BASE_PATH}">Home</a>']
     parts = list(rel_dir.parts)
     for i,p in enumerate(parts):
         up = "../"*(len(parts)-i-1) or "./"
