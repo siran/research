@@ -30,7 +30,7 @@ In summary:
 - ASCII art
 - even tikki figures
 
-## Structure
+## (Suggested) Structure
 
 - Header
 - Abstract
@@ -63,89 +63,92 @@ In summary:
 - Use DOI links where possible.
 - Avoid footnote-style citations; inline references via `@refname` are encouraged.
 
-## Naive Pandoc Support (extension from v1.001)
+## References and Cross-References
 
-PNPMD uses Pandoc as the default renderer. PDFs, HTML, and enhanced Markdown (with TOC, numbering, links) are **by-products**. The plain-text manuscript remains human-first.
+PNPMD keeps authoring *plain* text files. For free goodies: cross-linking, numbering, and citations are produced by a minimal formatter step and Pandoc.
 
-### Plain Anchor Convention
+### Citations
+- Use `@key` or `[@key, pp. 33–35]` inline.
+- The `## References` (or `## (Suggested) References`) section is parsed to produce `generated.bib`.
+- Pandoc is invoked with `--citeproc --bibliography=generated.bib -M link-citations=true`.
+- Result: citations are hyperlinked to bibliography entries.
+- PNPMD avoids footnote-style references (e.g. “^1 … 1. Author, …”); inline `@key` is always preferred for clarity.
 
-- **Author shorthand:** anchors may be written naturally in PNPMD:
+### Anchors and cross-references
+- Authors declare anchors with shorthand:
 ```
 
-## A Long Section #short
-
-## A Long Section
-
-\#short
-
-## A Long Section (#short)
-
-## A Long Section \[#short]
-
-```
-Figures:
-```
+## A Section Title #sec\:short
 
 !\[diagram.png]
 *This is the setup* #fig\:setup
 
 ```
-
-- **Formatter pipeline:** all shorthand anchors are rewritten in `pandoc.md` into Pandoc-compatible IDs with a `pnpref:` namespace:
+- Refer in text with:
 ```
 
-## A Long Section {#pnpref\:short}
-
-![This is the setup](diagram.png){#pnpref\:fig\:setup}
+As seen in @sec\:short …
+As shown in @fig\:setup …
 
 ```
+- Cross-reference types supported (via `pandoc-crossref`):
+- `@sec:…` → numbered section (§2.3)
+- `@fig:…` → numbered figure (Figure 1)
+- `@eq:…` → numbered equation ((3))
+- `@tbl:…` → numbered table (Table 1)
 
-- **References:**
-- `@short` → `@pnpref:short`
-- `@fig:setup` → `@pnpref:fig:setup`
-- With `pandoc-crossref`, these render as numbered links:
-  - sections: “see § 2.3”
-  - figures: “see Figure 1”
-  - equations: `@eq:…` → “(3)”
+### Inline shorthand
+- `[ #id ]` in PNPMD is allowed as a simple inline anchor reference.
+- It renders as a clickable link showing `#id` literally.
+- To show **numbers**, always use `@id` crossrefs (not `[ #id ]`).
 
-- **Summary:** PNPMD authors only ever write `#hash` and `@hash`. The formatter expands them into `{#pnpref:hash}` and `@pnpref:hash` so Pandoc-crossref resolves numbering and linking.
+### Footnotes
+- Use Pandoc’s inline form:
+```
 
-### Citations
+This is a claim.^\[Supporting note.]
 
-- Syntax: `@key` or `[@key, pp. 33–35]`.
-- A `.bib` file is generated from the `## (Suggested) References` section.
-- Pandoc options: `--citeproc --bibliography=generated.bib -M link-citations=true`.
-- Result: in-text citations hyperlinked to bibliography entries.
+```
+- PNPMD shorthand is allowed:
+- `^[#fn1]` in text
+- `(#fn1 Footnote text here.)` elsewhere
+- Formatter rewrites shorthand into standard Pandoc numbered footnotes.
 
-### TOC and numbering
-
-- `--toc --toc-depth=2`: auto two-level TOC if none written.
-- `--number-sections`: section numbering.
-- Equation/figure/section numbering from cross-references requires `pandoc-crossref`.
-
-### Reference-style links
-
-- `--reference-links` rewrites `[text](url)` into `[text][1]` with link definitions (Markdown targets only).
-- Purely cosmetic; no effect on citations or anchors.
+### Units
+- Always specify units (SI preferred).
+- Example: $R = 5.29\times 10^{-11}\,\mathrm{m}$.
+- **Important:** PNPMD formatter does not verify consistency of units; authors are responsible for correctness.
 
 ## Formatting Rules
 
-**Math:**
-- Inline: `$...$`
-- Display: `$$...$$`
-- No `\[...\]` or `\(...\)`
-- Always specify units
+**Math**
+- Inline math: `$...$` (e.g., $E = mc^2$)
+- Display math blocks: `$$...$$`
+```
 
-**Characters:**
-- UTF-8 required
-- Greek/math symbols only if supported by pdfLaTeX utf8
-- Otherwise use `$...$` or ASCII
+$$
+F_{\mu\nu} = \partial_\mu A_\nu - \partial_\nu A_\mu
+$$
 
-**Emphasis:** avoid unless essential.
+```
+- Do **not** use `\[...\]` or `\(...\)`.
+- Always specify units (SI preferred).
 
-**Sections:** separate with blank lines. No `---`.
+**Characters**
+- UTF-8 required.
+- Some Unicode symbols are allowed only if supported by pdfLaTeX utf8 input; otherwise prefer `$...$` or ASCII.
+- No inline math formats other than `$...$` or `$$...$$`.
+- No math in abstract or metadata.
 
-**Figures:** ASCII diagrams allowed. Example:
+**Text emphasis**
+- Avoid bold/italics/underline unless essential.
+
+**Section separation**
+- Separate sections with two blank lines.
+- Never use `---` (horizontal rules) to separate sections.
+
+**Figures**
+- Optional; ASCII diagrams are allowed. Example:
 ```
 
 Core
@@ -162,6 +165,10 @@ Let $U:\mathbb{R}^3\times\mathbb{R} \to \mathbb{R}$ be the scalar energy field.
 $$ F = d(*dU) $$
 Source-free dynamics:
 $$ dF = 0, \quad d\!\star F = 0 $$
+Energy density and Poynting vector:
+$$
+u = \frac{\varepsilon_0}{2}(E^2 + c^2 B^2), \quad \mathbf{S} = \frac{1}{\mu_0} \mathbf{E} \times \mathbf{B}
+$$
 
 Results
 For TE$_{11}$ mode geometry:
@@ -169,6 +176,39 @@ $$
 \alpha = \frac{\kappa}{2\pi^2 R} \cdot \frac{e^2}{\varepsilon_0}
 $$
 Numerical value: $\alpha \approx 6.41\,\mathrm{eV}$.
+
+## Rendering & Pipeline (reference implementation)
+
+PNPMD ships with a simple local renderer to preview PDFs while keeping sources human-first.
+
+- **Pre-normalization & mapping:** unwanted characters are stripped and Unicode is mapped to TeX-safe forms using a repo-wide map `pnpmd.map`.
+- **CRLF→LF normalization:** input is normalized to Unix line endings.
+- **pandoc.md generation:** the formatter applies PNPMD shorthands (e.g., `#hash` → `{#pnpref:hash}`, `@hash` → `@pnpref:hash`, inline `[ #id ]` → `[ref](#pnpref:id)`, citation extraction to `generated.bib`).
+- **Pandoc rendering:** `pandoc` (via `pandoc/latex`) produces the final PDF/HTML/Markdown.
+
+### Local render helper
+
+Repository script: `.scripts/renderpdf.sh` defines a `render-pdf` function that:
+
+1) Resolves repo root; finds the first `*.md` (depth ≤ 2).
+2) Builds a sed script from `pnpmd.map` (supports literal and regex rules).
+3) Normalizes CRLF→LF; applies the map; streams to `pandoc/latex` in Docker.
+4) Writes a PDF next to the input (`foo.md` → `foo.pdf`).
+
+> The map (`pnpmd.map`) includes: control-char stripping; NBSP→`~`; punctuation normalization; safe TeX replacements for math symbols; sets ℝ/ℤ/ℕ/ℚ/ℂ; Greek letters, etc.
+
+**Recommended Pandoc options (aligned with PNPMD v1.02):**
+```
+
+\--toc --toc-depth=2
+\--number-sections
+\--reference-links
+\--citeproc --bibliography=generated.bib -M link-citations=true
+-F pandoc-crossref
+\--standalone
+
+```
+(Apply as appropriate in your Docker invocation or wrapper. HTML builds use the same flags with `-o out.html`.)
 
 ## Conclusion
 
@@ -190,10 +230,11 @@ An Rodriguez: an@preferredframe.com
 
 ## Changes from v1.001 → v1.02
 
-- Added **Naive Pandoc Support** section.
-- Defined **Plain Anchor Convention**: `#hash` shorthand in PNPMD → `{#pnpref:hash}` in `pandoc.md`.
-- Clarified support for `#fig:…`, `#eq:…`, `#tbl:…`.
-- Explicitly noted that `pandoc-crossref` resolves `@id` references to numbered links.
-- `.bib` is auto-generated from `## (Suggested) References`.
-- Added notes on TOC, section numbering, and cosmetic reference links.
-- Strengthened inline citation rule: “Avoid footnote-style citations; inline `@refname` encouraged.”
+- **Citations clarified:** only `@key` inline form; no footnote-style references.
+- **Anchors:** defined with shorthand `#id`; referenced with `@id`.
+- **Crossref types:** `@sec:…`, `@fig:…`, `@eq:…`, `@tbl:…` supported via `pandoc-crossref`.
+- **Inline shorthand:** `[ #id ]` allowed for literal clickable references; no numbering.
+- **Footnotes:** use `^[text]` or shorthand `^[#id]` + `(#id text)` form.
+- **Units:** always specify; consistency must be verified by authors.
+- **Pipeline:** clarified `.scripts/renderpdf.sh` and `pnpmd.map` as reference implementation.
+- **TOC/numbering:** recommend `--toc --toc-depth=2 --number-sections`.
