@@ -3,6 +3,8 @@ import os, subprocess, urllib.parse
 from pathlib import Path
 from dataclasses import dataclass
 from urllib.parse import urlparse
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # ---------- config ----------
 EXCLUDE_NAMES = {
@@ -78,10 +80,12 @@ def compute_base_url() -> str:
 BASE_URL = compute_base_url()
 
 def write_cname_if_custom(base_url: str):
-    host = urlparse(base_url).netloc
-    if host and not host.endswith(".github.io"):
-        OUT.mkdir(parents=True, exist_ok=True)
-        (OUT / "CNAME").write_text(host + "\n", encoding="utf-8")
+    host = urlparse(base_url).hostname  # strip port
+    if not host: return
+    if host.endswith(".github.io"): return
+    if host in {"localhost", "127.0.0.1"}: return
+    OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / "CNAME").write_text(host + "\n", encoding="utf-8")
 
 # ---------- helpers ----------
 def rel(p: Path) -> Path: return p.relative_to(ROOT)
@@ -112,23 +116,41 @@ class Item:
     mtime: float
     path: Path
 
-# ---------- writer (header + markdown body + footer + coda) ----------
+# ---------- writer (header + markdown body + footer + coda + timestamp) ----------
 def write_md_like_page(out_html: Path, md_body: str):
     header = load_text(SRC / "header.html")
     footer = load_text(SRC / "footer.html")
     coda   = load_text(SRC / "coda.html")
-    html_doc = "\n".join(s.rstrip() for s in (header, md_body, footer, coda) if s is not None) + "\n"
+
+    # Assemble exactly as authored: header + body + footer
+    doc = "".join(s for s in (header, md_body, footer) if s is not None)
+
+    # Timestamp (NY time). Put it immediately after footer, on its own line.
+    ny = ZoneInfo("America/New_York")
+    now = datetime.now(ny)
+    offset = now.utcoffset()
+    hrs = int(offset.total_seconds() // 3600) if offset else 0
+    timestamp = f"(generated at: {now.strftime('%Y-%m-%d %H:%M %Z')} {hrs:+d})"
+
+    if not doc.endswith("\n"):
+        doc += "\n"  # only if needed to start a new line for the timestamp
+    doc += timestamp
+
+    # Append coda exactly as authored (no extra newlines)
+    if coda is not None:
+        doc += coda
+
     out_html.parent.mkdir(parents=True, exist_ok=True)
-    out_html.write_text(html_doc, encoding="utf-8")
+    out_html.write_text(doc, encoding="utf-8")
 
 # ---------- content (pure Markdown body) ----------
 def breadcrumbs(rel_dir: Path) -> str:
     depth = len(rel_dir.parts)
     to_root = "./" if depth == 0 else "../" * depth
-    crumbs = [f"[Home]({to_root})"]
+    crumbs = [f"[🏠 Home]({to_root})"]
     for i, part in enumerate(rel_dir.parts):
         up = "../" * (len(rel_dir.parts) - i - 1) or "./"
-        crumbs.append(f"/ [{part}]({up})")
+        crumbs.append(f"/ [📂 {part}]({up})")
     return " ".join(crumbs)
 
 def format_dir_index(dir_abs: Path, items: list[Item]) -> str:
@@ -145,10 +167,10 @@ def format_dir_index(dir_abs: Path, items: list[Item]) -> str:
     for it in items_sorted:
         if it.is_dir:
             href = (it.name + "/") if rel_dir.parts else (rel(it.path).as_posix() + "/")
-            lines.append(f"- {it.name}/: [{href}]({href})")
+            lines.append(f"- 📂 {it.name}/: [{href}]({href})")
         else:
             p_rel = rel(it.path)
-            lines.append(f"- {it.name}")
+            lines.append(f"- 📄 {it.name}")
             lines.append(f"  - [raw]({raw_url(p_rel)})")
             lines.append(f"  - [github]({blob_url(p_rel)})")
 
