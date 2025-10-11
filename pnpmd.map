@@ -31,20 +31,20 @@
 
 # =======================================
 # COMMON MATH SYMBOLS (Unicode → TeX macros, safe for pdflatex)
- ≤=$\leq$
-# ≥=\geq
-# ≠=\neq
-# ≈=\approx
-# ∼=\sim
-# ∞=\infty
-# ×=\times
-# ⋅=\cdot
-# →=\to
-# ←=\leftarrow
-# ↔=\leftrightarrow
-# ⇔=\Leftrightarrow
-# ⇒=\Rightarrow
-# √=\sqrt
+≤=\leq
+≥=\geq
+≠=\neq
+≈=\approx
+∼=\sim
+∞=\infty
+×=\times
+⋅=\cdot
+→=\to
+←=\leftarrow
+↔=\leftrightarrow
+⇔=\Leftrightarrow
+⇒=\Rightarrow
+√=\sqrt
 
 # =======================================
 # SETS / BLACKBOARD BOLD
