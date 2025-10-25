@@ -1,3 +1,5 @@
+# PNPMD map (UTF-8). NOTE: keep literal U+00A0 on the LHS below; do NOT replace with a normal space.
+
 # =======================================
 # STRIP: ASCII control chars that break pdfLaTeX
 # (keep TAB \x09, LF \x0A, CR \x0D)
@@ -6,28 +8,27 @@
 # =======================================
 # WHITESPACE
 # U+00A0 NO-BREAK SPACE → TeX nonbreak (~)
- =~
+ =~   # ← LHS is a literal NBSP (U+00A0)
 
 # =======================================
 # PUNCTUATION NORMALIZATION (Unicode → ASCII-safe)
-`='
-“="
-”="
-„="
-‟="
-‘='
-’='
-‚='
-‛='
-–=--
-—=---
-−=-
-…=...
-•=-
-·=-
-©=(c)
-™=(TM)
-®=(R)
+#“="
+#”="
+#„="
+#‟="
+#‘='
+#’='
+#‚='
+#‛='
+#–=--
+#—=---
+#−=-
+#…=...
+#•=-
+#·=-
+#©=(c)
+#™=(TM)
+#®=(R)
 
 # =======================================
 # COMMON MATH SYMBOLS (Unicode → TeX macros, safe for pdflatex)
@@ -76,3 +77,4 @@
 Φ=\Phi
 Ψ=\Psi
 Ω=\Omega
+χ=\chi
