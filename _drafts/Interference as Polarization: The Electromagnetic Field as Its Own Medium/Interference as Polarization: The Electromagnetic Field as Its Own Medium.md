@@ -128,6 +128,8 @@ $$
 \tag{2.7}
 $$
 
+When wave one meets wave two, wave one sees a polarized vacuum: secondary fields coming from vacuum-as-medium. This secondary wave, as stated, satisfies Maxwell in vacuum. So, in this sense, if wave one is seen as propagting in a rectilinear manner, then wave two would be refracted.
+
 We now rewrite Ampère–Maxwell’s equation (the fourth of (2.5)) in a way that isolates beam 1 and shows what role beam 2 plays in beam 1’s propagation.
 
 Start from the total-field version of Ampère–Maxwell:
@@ -290,6 +292,7 @@ So the logic chain so far is:
 This is the first half of the unification: the second beam supplies the "polarization current" through which the first beam propagates.
 
 In the next section we move from $\mathbf{J}*{\mathrm{eff}}$ to an explicit effective polarization density $\mathbf{P}*{\mathrm{eff}}$, an effective susceptibility $\chi_{\mathrm{eff}}$, and thus to $n_{\mathrm{eff}}$ and $c_{\mathrm{eff}}$.
+
 
 ## From Effective Current to Effective Polarization, Susceptibility, and Light Speed
 
@@ -864,6 +867,7 @@ Interference, polarization, refraction, and apparent variation of light speed ar
 This replaces the slogan "a photon interferes only with itself" with a more faithful statement:
 
 The electromagnetic field interferes with itself, and that interference is physically equivalent to the field creating, and then propagating through, its own refractive structure.
+
 
 ## Corresponding Author
 
