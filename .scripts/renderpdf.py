@@ -9,13 +9,13 @@ This tool preprocesses a PNPMD Markdown source, then renders a PDF using
 Pandoc + pandoc-crossref in a Docker container. The preprocessing phase applies
 readability-preserving transformations that standardize anchors, expand sugar
 for references, normalize spacing, and (optionally) insert a TOC after the
-Keywords. The renderer then compiles the processed Markdown to PDF.
+Keywords section. The renderer then compiles the processed Markdown to PDF.
 
 WHAT THIS SCRIPT DOES (PIPELINE)
 --------------------------------
 1) Repository map replacements
    - Loads `pnpmd.map` from the repository root and applies Unicode→TeX(ish)
-     substitutions safely (code blocks and inline code are protected).
+     substitutions safely (code blocks, inline code, and math are protected).
    - Supports both literal and regex rules; regex rules are applied first.
    - If a replacement starts with a backslash (e.g., `\alpha`), it is wrapped
      in `$...$` to become math mode.
@@ -26,7 +26,8 @@ WHAT THIS SCRIPT DOES (PIPELINE)
 
 3) Anchor and link sugar
    - Records labels from `[label]{#id}` (no colon) for later `@id` expansion.
-   - Converts plain prose `{#id}` (no colon) → `[]{#id}` (header lines are not touched).
+   - Converts plain prose `{#id}` (no colon) → `[]{#id}` (headers untouched;
+     **content inside code or math is left as-is**).
    - Normalizes `[label](@id)` / `[label](@sec:id)` → `[label](#id)` / `(#sec:id)`.
    - Rewrites `@id` / `[@id]` to links:
        • `[label](#id)` if label was recorded from `[label]{#id}`
@@ -44,7 +45,7 @@ WHAT THIS SCRIPT DOES (PIPELINE)
 
 5) TOC handling (optional)
    - If no `[[TOC]]` marker exists and `--omit-toc` is not set, inserts a TOC
-     immediately after the Keywords section.
+     immediately after the **Keywords** section.
    - Replaces `[[TOC]]` with `\tableofcontents` for LaTeX output.
 
 6) Safe rendering via Docker
@@ -103,7 +104,8 @@ EXIT CODES
 DESIGN NOTES
 ------------
 - All transformations attempt to be idempotent over clean PNPMD sources.
-- Code fences and inline code are protected during transformations.
+- Code fences, inline code, and math (inline `$...$` and display `$$...$$`)
+  are protected during transformations.
 - Heading shift is computed to avoid producing level-0 headings, which would
   break auto section labeling and cross-references.
 """
@@ -205,23 +207,30 @@ def run_visible(cmd_list, *, timeout=0) -> int:
     except Exception:
         return 1
 
-# ---------- Protection of code blocks and inline code ----------
-# These ensure replacements/sugar never touch code.
+# ---------- Protection of code blocks, inline code, and math ----------
+# These ensure replacements/sugar never touch code or math.
 _FENCE_RE = re.compile(r'(^|\n)(?P<f>```+|~~~+)[^\n]*\n.*?(\n(?P=f)[ \t]*\n|$)', re.DOTALL)
 _INLINE_CODE_RE = re.compile(r'(?P<ticks>`+)(?P<body>[^`]*?)\1')
+# Protect display math $$...$$ (multiline)
+_MATH_BLOCK_RE = re.compile(r'(^|\n)\$\$[\s\S]*?\$\$(?=\s*(\n|$))', re.MULTILINE)
+# Protect inline math $...$ (naive but effective; ignores $$)
+_INLINE_MATH_RE = re.compile(r'(?<!\$)\$(?!\$)(?:\\\$|[^$])+\$(?!\$)')
 
 def _protect(text: str):
-    """Replace code regions with sentinels, returning (protected_text, blobs)."""
+    """Replace code/math regions with sentinels, returning (protected_text, blobs)."""
     blobs=[]
     def stash(m):
         i=len(blobs); blobs.append(m.group(0))
         return f"\u0000B{i}\u0000"
+    # Order: fences → inline code → block math → inline math
     text=_FENCE_RE.sub(stash, text)
     text=_INLINE_CODE_RE.sub(stash, text)
+    text=_MATH_BLOCK_RE.sub(stash, text)
+    text=_INLINE_MATH_RE.sub(stash, text)
     return text, blobs
 
 def _unprotect(text: str, blobs):
-    """Restore protected code regions from sentinels."""
+    """Restore protected regions from sentinels."""
     return re.sub(r'\u0000B(\d+)\u0000', lambda mm: blobs[int(mm.group(1))], text)
 
 # ---------- Mapping (Unicode → TeX-ish) ----------
@@ -229,6 +238,7 @@ def apply_mappings_safe(s: str, entries):
     """
     Apply map entries in two passes: regex first, then literal.
     If RHS begins with backslash, wrap in $...$ to enter math mode.
+    Code/math are protected.
     """
     prot, blobs = _protect(s)
     for lhs, rhs, is_regex in (e for e in entries if e[2]):
@@ -305,11 +315,14 @@ def prose_anchors_and_labels(md: str) -> Tuple[str, Dict[str,str]]:
     - Record labels from `[label]{#id}` (no colon in id); do not modify the text.
     - Convert remaining bare `{#id}` (no colon) in prose → `[]{#id}`.
     - Skip header lines entirely.
+    - **Respect protection**: no changes inside code blocks, inline code, or math.
     """
+    prot, blobs = _protect(md)
+
     out_lines=[]
     label_map: Dict[str,str] = {}
 
-    for ln in md.splitlines():
+    for ln in prot.splitlines():
         if _HDR_RE.match(ln):
             out_lines.append(ln); continue
 
@@ -336,7 +349,8 @@ def prose_anchors_and_labels(md: str) -> Tuple[str, Dict[str,str]]:
         ln2 = _ATTR_BLOCK_RE.sub(sub_attr, ln)
         out_lines.append(ln2)
 
-    return "\n".join(out_lines), label_map
+    result = "\n".join(out_lines)
+    return _unprotect(result, blobs), label_map
 
 # ---------- Normalize [label](@id) / [label](@sec:id) destinations ----------
 _DEST_NORM_RE = re.compile(r'\]\(\s*@(?:(sec|fig|eq|tbl):)?([A-Za-z0-9_-]+)\s*\)')
@@ -410,20 +424,20 @@ _TOC_MARK_RE = re.compile(r'^\s*\[\[TOC\]\]\s*$', re.MULTILINE)
 def insert_toc_after_keywords_content(md: str) -> str:
     """
     If no [[TOC]] exists, insert it immediately after the Keywords section
-    (same or higher-level next heading marks the end of Keywords).
+    (same or higher-level next heading marks the end of that section).
     """
     if _TOC_MARK_RE.search(md): return md
     lines = md.splitlines()
-    abs_idx = None; lvl = None
+    start_idx = None; lvl = None
     for i, ln in enumerate(lines):
         m=_HDR_RE.match(ln)
         if not m: continue
         title=m.group('title').strip()
         if title.lower().startswith('keywords'):
-            abs_idx=i; lvl=len(m.group('hash')); break
-    if abs_idx is None: return md
+            start_idx=i; lvl=len(m.group('hash')); break
+    if start_idx is None: return md
     end=len(lines)
-    for j in range(abs_idx+1, len(lines)):
+    for j in range(start_idx+1, len(lines)):
         m=_HDR_RE.match(lines[j])
         if m and len(m.group('hash'))<=lvl:
             end=j; break
@@ -441,7 +455,7 @@ def replace_toc_marker(md: str) -> Tuple[str,bool]:
 def normalize_heading_spacing(md: str) -> str:
     """
     Ensure two blank lines before each heading and one blank line after,
-    without touching code blocks (protected earlier).
+    without touching code blocks or math (protected earlier).
     """
     prot, blobs = _protect(md)
     lines = prot.splitlines()
@@ -497,7 +511,7 @@ def renderpdf(path: str|None=None, *, timeout=0, omit_toc=False, omit_numbering=
 
     raw = src.read_text(encoding="utf-8").replace("\r\n","\n")
 
-    # 1) Apply repository mappings safely (code-protected).
+    # 1) Apply repository mappings safely (code/math-protected).
     mapped = apply_mappings_safe(raw, entries)
 
     # 2) Extract leading % header (if any).
@@ -506,7 +520,7 @@ def renderpdf(path: str|None=None, *, timeout=0, omit_toc=False, omit_numbering=
     # Gather known anchors from headers/prose for @id expansion fallback.
     header_and_inline_ids = collect_all_ids(stripped)
 
-    # 3) Anchor/label sugar & link normalization.
+    # 3) Anchor/label sugar & link normalization (code/math-protected internally).
     body, label_map = prose_anchors_and_labels(stripped)
     body = normalize_link_destinations(body)
     span_ids = set(_EMPTY_SPAN_ANCHOR_RE.findall(body))  # after step 3a
@@ -522,7 +536,7 @@ def renderpdf(path: str|None=None, *, timeout=0, omit_toc=False, omit_numbering=
     keep_head = "\n".join(raw_head) + ("\n\n" if raw_head else "")
     final_pandoc_md.write_text(keep_head + body, encoding="utf-8")
 
-    # 5) TOC insertion/replacement.
+    # 5) TOC insertion/replacement — now after Keywords.
     body2 = body
     has_toc_marker = False
     if not omit_toc:
