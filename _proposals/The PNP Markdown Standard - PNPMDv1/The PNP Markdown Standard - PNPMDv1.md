@@ -91,9 +91,9 @@ When using the **PNPMD rendering script**, several syntactic sugars are automati
 
 - `{#id}` → `[]{#id}`: For plain prose anchors (no colon).
 
-- `@id` → `[label](#id)` or `[@id](#id)`: If a `[label]{#id}`
-  was recorded → `[label](#id)`; otherwise,
-  if the anchor/header exists → `[@id](#id)`; can also link to a reference.
+- `@id` → `[label](#id)`: If a `[label]{#id}` exists
+
+  - `@id` → `[@id](#id)`: otherwise
 
 - `[label](@id)` → `[label](#id)`: Always.
 
