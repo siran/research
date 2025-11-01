@@ -1,4 +1,4 @@
-% The PNP Markdown Standard — PNPMD v1.03
+% PNPMD Markdown specification — PNPMD v1.03
 % Max Freet, An M. Rodriguez, Adrien Hale
 % October 2025
 
@@ -89,16 +89,23 @@ Cross-linking, numbering, and citations are produced automatically by Pandoc wit
 
 When using the **PNPMD rendering script**, several syntactic sugars are automatically expanded to Pandoc-compatible links:
 
-| Author Syntax                     | Rendered Equivalent     | Condition                                                                 |
-| --------------------------------- | ----------------------- | ------------------------------------------------------------------------- |
-| `{#id}`                           | `[]{#id}`               | for plain prose anchors (no colon)                                        |
-| `@id`                             | `[label](#id)` or `[@id](#id)` | if a `[label]{#id}` was recorded → `[label](#id)`; otherwise if anchor/header exists → `[@id](#id)` |
-| `[label](@id)`                    | `[label](#id)`          | always                                                                    |
-| `[label](@sec:id)`                | `[label](#sec:id)`      | always                                                                    |
-| `@sec:`, `@fig:`, `@eq:`, `@tbl:` | unchanged               | handled by pandoc-crossref                                                |
-| bare `#id`                        | `[](#id)`               | when not inside code, headings, or existing links                         |
+- `{#id}` → `[]{#id}`: For plain prose anchors (no colon).
 
-Colon-prefixed anchors (e.g., `{#eq:wave}`) are reserved for crossref numbering and remain untouched.
+- `@id` → `[label](#id)` or `[@id](#id)`: If a `[label]{#id}`
+  was recorded → `[label](#id)`; otherwise,
+  if the anchor/header exists → `[@id](#id)`; can also link to a reference.
+
+- `[label](@id)` → `[label](#id)`: Always.
+
+- `[label](@sec:id)` → `[label](#sec:id)`: Always.
+
+- `@sec:`, `@fig:`, `@eq:`, `@tbl:` → *(unchanged)*:
+  Handled by `pandoc-crossref`.
+
+- bare `#id` → `[](#id)`: When not inside code blocks,
+  headings, or existing links.
+
+Colon-prefixed anchors (e.g., `{#eq:wave}`) are reserved for cross-reference numbering and remain untouched.
 
 
 ## Formatting Rules
@@ -156,13 +163,15 @@ It standardizes minimal syntax, automatic cross-referencing, and deterministic c
 
 The format remains simple, portable, and human-readable.
 
+PNPMD: where notation and meaning remain human before machine.
+
 
 ## Corresponding Author
 
 An M. Rodriguez: an@preferredframe.com
 
 
-## Suggested eferences
+## Suggested references
 
 Max Freet et al, *The PNP Markdown Standard - PNPMDv1.md*, v1.02,
 https://github.com/siran/research/commit/d05ab25e2a78596d201dc6d03cc9cc8efee5c019
