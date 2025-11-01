@@ -20,7 +20,7 @@ Changes baked in:
 - autoSectionLabels options restored.
 
 Usage:
-  python renderpdf.py [--timeout N] [--omit-toc] [--omit-numbering] [file.md]
+  python renderpdf.py [--timeout N] [--omit-toc] [--omit-numbering] [--as-is] [file.md]
 """
 
 import argparse, re, shutil, subprocess, sys, time, shlex
@@ -303,12 +303,12 @@ def insert_toc_after_abstract_content(md: str) -> str:
         m=_HDR_RE.match(lines[j])
         if m and len(m.group('hash'))<=lvl:
             end=j; break
-    lines.insert(end, ""); lines.insert(end+1, "[[TOC]]"); lines.insert(end+2, "")
+    lines.insert(end, ""); lines.insert(end+1, "\n[[TOC]]\n"); lines.insert(end+2, "")
     return "\n".join(lines)
 
 def replace_toc_marker(md: str) -> Tuple[str,bool]:
     if _TOC_MARK_RE.search(md):
-        return _TOC_MARK_RE.sub(r'\\tableofcontents', md), True
+        return _TOC_MARK_RE.sub(r'\n\\tableofcontents\n', md), True
     return md, False
 
 # ---------- spacing ----------
@@ -327,10 +327,38 @@ def normalize_heading_spacing(md: str) -> str:
     return _unprotect("\n".join(out), blobs)
 
 # ---------- pandoc driver ----------
-def renderpdf(path: str|None=None, *, timeout=0, omit_toc=False, omit_numbering=False) -> Path:
+def renderpdf(path: str|None=None, *, timeout=0, omit_toc=False, omit_numbering=False, as_is: bool=False) -> Path:
     src = Path(path) if path else discover_md_in_cwd()
     if not src.exists(): raise FileNotFoundError(str(src))
 
+    # ---------- AS-IS path: no preprocessing ----------
+    if as_is:
+        tmpdir = Path("/tmp")
+        in_tmp  = tmpdir / src.name
+        out_tmp = tmpdir / src.with_suffix(".pdf").name
+        shutil.copy2(src, in_tmp)
+
+        reader = "markdown+tex_math_dollars"
+        toc_flag = "" if omit_toc else "--toc "
+        numbering_flag = "" if omit_numbering else "--number-sections "
+
+        cmd=(
+            f"docker run --rm "
+            f"--mount type=bind,source=\"{tmpdir}\",target=/data -w /data pandoc/extra "
+            f"--standalone {toc_flag}{numbering_flag}--toc-depth=2 "
+            f"--filter pandoc-crossref "
+            f"-f {reader} "
+            f"'{in_tmp.name}' -o '{out_tmp.name}'"
+        )
+        rc=run_visible(cmd,timeout=timeout)
+        if rc!=0: raise RuntimeError(f"Docker pandoc failed (rc={rc}).")
+
+        final_pdf=src.with_suffix(".pdf")
+        shutil.copy2(out_tmp,final_pdf)
+        print(f"✅ Wrote {final_pdf}")
+        return final_pdf.resolve()
+
+    # ---------- normal (preprocessed) path ----------
     repo = find_repo_root(src.parent)
     entries = load_map(repo / "pnpmd.map")
     print(f"Using map: {repo/'pnpmd.map'}  (rules={len(entries)})")
@@ -378,7 +406,11 @@ def renderpdf(path: str|None=None, *, timeout=0, omit_toc=False, omit_numbering=
     tmpdir = Path("/tmp")
     in_tmp  = tmpdir / final_pandoc_md.name
     out_tmp = tmpdir / src.with_suffix(".pdf").name
-    shutil.copy2(final_pandoc_md, in_tmp)
+
+    # IMPORTANT: feed Pandoc the TOC-processed content (body2) when applicable
+    text_for_pandoc = keep_head + (body2 if not omit_toc else body)
+    in_tmp.write_text(text_for_pandoc, encoding="utf-8")
+    # shutil.copy2(final_pandoc_md, in_tmp)
 
     # metadata args (including approved autoSectionLabels flags)
     meta_args=[]
@@ -387,6 +419,7 @@ def renderpdf(path: str|None=None, *, timeout=0, omit_toc=False, omit_numbering=
     if meta.get("date"): meta_args.append(f"-M date={shlex.quote(meta['date'])}")
     meta_args.append("-M autoSectionLabels=true")
     meta_args.append("-M autoSectionLabelsDepth=6")
+    meta_args.append("-M toc-title=Table of Contents")
 
     # heading level shift
     def min_heading_level(md: str) -> Optional[int]:
@@ -403,7 +436,7 @@ def renderpdf(path: str|None=None, *, timeout=0, omit_toc=False, omit_numbering=
     shift_arg=f"--shift-heading-level-by={shift} " if shift!=0 else ""
 
     # Pandoc (Markdown reader + pandoc-crossref)
-    reader = "markdown+tex_math_dollars"
+    reader = "markdown+tex_math_dollars+raw_tex"
     toc_flag = "" if (has_toc_marker or omit_toc) else "--toc "
     numbering_flag = "" if omit_numbering else "--number-sections "
 
@@ -431,13 +464,18 @@ def main(argv=None):
     ap.add_argument("file",nargs="?",help="Markdown file; if omitted, exactly one .md in CWD is required.")
     ap.add_argument("--timeout",type=int,default=0,help="Timeout seconds (0=no timeout).")
     ap.add_argument("--omit-toc",action="store_true",
-        help="Do not include table of contents in final PDF (disables [[TOC]] insertion and --toc).")
+        help="Do not include table of contents in the final PDF (disables [[TOC]] insertion and --toc).")
     ap.add_argument("--omit-numbering",action="store_true",
         help="Disable section numbering in the final PDF.")
+    ap.add_argument("--as-is",action="store_true",
+        help="Bypass all preprocessing and pass the original Markdown directly to Pandoc.")
     args=argparse.Namespace()  # silence mypy
     args=ap.parse_args(argv)
     try:
-        renderpdf(args.file,timeout=args.timeout,omit_toc=args.omit_toc,omit_numbering=args.omit_numbering)
+        renderpdf(args.file, timeout=args.timeout,
+                  omit_toc=args.omit_toc,
+                  omit_numbering=args.omit_numbering,
+                  as_is=args.as_is)
     except Exception as e:
         print(f"❌ {e}",file=sys.stderr); sys.exit(1)
 
