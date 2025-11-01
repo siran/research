@@ -5,16 +5,12 @@
 
 ## One-Sentence Summary
 
-PNPMD v1.03 is a minimal, human-readable *first*, mathematically aware, plain-text, Markdown standard for documents.
+PNPMD v1.03 is a minimal, human-readable-*first*, mathematically aware, plain-text Markdown standard for documents.
 
 
 ## Abstract
 
-The PNP Plain Text Standard PNPMD v1.03 specification.
-
-It is a human-readable *first*, plain-text document format, mathematically aware (using `$...$` and `$$...$$` LaTeX equation blocks) and based on Markdown standards.
-
-The format eases compatibility with naive use of `pandoc`, the default renderer, which converts `.md` to `.pdf`, `.html`, or enhanced `.md` with numbering, links, and TOC.
+PNPMD is a specificies for human-readable-first, plain-text, math-aware, markdown standard. Honor's Pandoc's flavored markdown. Uses Pandoc's cross-referencing filter (eq, fig, table, etc), and adds some syntax sugar to ease cross-referencing and citations.
 
 
 ## Keywords
@@ -24,26 +20,17 @@ plain-text, research format, markdown, mathjax, pandoc, PNPMD
 
 ## Introduction
 
-PNPMD v1.03 provides a minimal yet complete Markdown structure for mathematically aware documents.
+PNPMD v1.03 provides a complete Markdown structure for mathematically aware documents.
 
-It keeps the format simple and human-readable *first*: a straight ASCII-text document.
+It keeps the format plain-text and human-readable first.
 
 It avoids noisy LaTeX wrappers and PDF-only workflows.
-
-Goals: reproducibility, portability, unambiguous interpretation.
-
-In summary:
-
-* human-readable *first*
-* clear, simple, LaTeX, math-aware text
-* ASCII art, tikki, etc.
-
 
 ## (Suggested) Structure
 
 * Header
-* Abstract
 * One-Sentence Summary
+* Abstract
 * Keywords
 * Other body sections
 * Corresponding Author
@@ -60,7 +47,10 @@ Three lines:
 % Date
 ```
 
-Title must be ASCII only (pdfLaTeX compatible).
+
+### One-Sentence Summary
+
+One sentence summarizing the paper.
 
 
 ### Abstract
@@ -70,11 +60,6 @@ Title must be ASCII only (pdfLaTeX compatible).
 No citations or equations.
 
 
-### One-Sentence Summary
-
-One sentence summarizing the paper.
-
-
 ### Keywords
 
 3–6 topical keywords.
@@ -82,7 +67,7 @@ One sentence summarizing the paper.
 
 ### Other Body Sections (Recommended)
 
-Introduction, Theory/Framework, Derivation, Results, Discussion, Conclusion, Next Work, Appendices.
+Introduction, Theory/Framework, Derivation, Results, Discussion, Conclusion, Future Work, Appendices.
 
 
 ### Corresponding Author
@@ -94,28 +79,24 @@ Immediately before References.
 
 Use DOI links where possible.
 
-Avoid footnote-style citations; inline references via `@refname` are encouraged.
-
 
 ## References and Cross-References
 
-PNPMD keeps authoring pure plain text.
-
-Cross-linking, numbering, and citations are produced automatically by Pandoc with the **`pandoc-crossref`** filter.
+Cross-linking, numbering, and citations are produced automatically by Pandoc with the `pandoc-crossref` filter.
 
 
 ## Cross-Reference System and Sugar Substitutions
 
 When using the **PNPMD rendering script**, several syntactic sugars are automatically expanded to Pandoc-compatible links:
 
-| Author Syntax                     | Rendered Equivalent | Condition                             |
-| --------------------------------- | ------------------- | ------------------------------------- |
-| `{#id}`                           | `[]{#id}`           | for plain prose anchors (no colon)    |
-| `@id`                             | `[id](#id)`         | if an anchor or header `{#id}` exists |
-| `[label](@id)`                    | `[label](#id)`      | always                                |
-| `[label](@sec:id)`                | `[label](#sec:id)`  | always                                |
-| `@sec:`, `@fig:`, `@eq:`, `@tbl:` | unchanged           | handled by pandoc-crossref            |
-| bare `#id`                        | `[](#id)`           | when not inside code or headings      |
+| Author Syntax                     | Rendered Equivalent     | Condition                                                                 |
+| --------------------------------- | ----------------------- | ------------------------------------------------------------------------- |
+| `{#id}`                           | `[]{#id}`               | for plain prose anchors (no colon)                                        |
+| `@id`                             | `[label](#id)` or `[@id](#id)` | if a `[label]{#id}` was recorded → `[label](#id)`; otherwise if anchor/header exists → `[@id](#id)` |
+| `[label](@id)`                    | `[label](#id)`          | always                                                                    |
+| `[label](@sec:id)`                | `[label](#sec:id)`      | always                                                                    |
+| `@sec:`, `@fig:`, `@eq:`, `@tbl:` | unchanged               | handled by pandoc-crossref                                                |
+| bare `#id`                        | `[](#id)`               | when not inside code, headings, or existing links                         |
 
 Colon-prefixed anchors (e.g., `{#eq:wave}`) are reserved for crossref numbering and remain untouched.
 
@@ -137,11 +118,11 @@ renders as:
 
 $$
 F_{\mu\nu} = \partial_\mu A_\nu - \partial_\nu A_\mu
-$$  {#eq:sampleeq}
+$$ {#eq:sampleeq}
 
-And can be referenced as `@eq:sampleeq`, likeso:
+And can be referenced as `@eq:sampleeq`, like so:
 
-see @eq:sampleeq
+See @eq:sampleeq
 
 * Do not use `\[...\]` or `\(...\)`
 * Always specify units (SI preferred)
@@ -149,17 +130,15 @@ see @eq:sampleeq
 
 ### Characters
 
-* UTF-8 required (pdfLaTeX compatible)
+* UTF-8 required (pdfLaTeX-compatible)
 * Unicode symbols allowed only if supported by pdfLaTeX input; otherwise prefer `$...$` or ASCII
-* No math in Abstract or metadata
 
 
 ### Text Emphasis
 
 Avoid bold/italics/underline unless essential.
 
-Clarity is primary. Don't pollute document with unnecesary
-visual noise.
+Clarity is primary. Don’t pollute the document with unnecessary visual noise.
 
 
 ### Section Separation
@@ -173,11 +152,11 @@ visual noise.
 
 PNPMD v1.03 is a plain-text specification for mathematically aware documents.
 
-It standardizes minimal syntax, automatic cross-referencing, and deterministic conversion through Pandoc with CrossRef.
+It standardizes minimal syntax, automatic cross-referencing, and deterministic conversion through Pandoc with `pandoc-crossref`.
 
 The format remains simple, portable, and human-readable.
 
 
-## Corresponding Author(s)
+## Corresponding Author
 
 An M. Rodriguez — [an@preferredframe.com](mailto:an@preferredframe.com)
