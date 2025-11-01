@@ -4,7 +4,7 @@
 PNPMD → PDF (Pandoc Markdown + pandoc-crossref; TOC after Abstract; spacing; anchor/link sugar)
 
 Changes baked in:
-- Intermediate file suffix is now .pandoc.md (not .pnp.md).
+- Intermediate file suffix is .pandoc.md.
 - [label]{#id} anchors are preserved and recorded as id→label for @id expansion.
 - Plain prose {#id} (no colon) → []{#id}, skipping [label]{#id} and existing []{#id}.
 - @id / [@id] →
@@ -15,15 +15,16 @@ Changes baked in:
 - @sec:id / [@sec:id] → \nameref{sec:id}.
 - Bare #id in prose → [](#id) (not in code/headings/existing links).
 - Crossref tokens (@…:…) and colon anchors ({#…:…}) left untouched otherwise.
-- Reader: Pandoc Markdown (+tex_math_dollars), filter: pandoc-crossref.
+- Reader: Pandoc Markdown (+tex_math_dollars+raw_tex), filter: pandoc-crossref.
 - TOC inserted after Abstract if none exists; spacing normalized.
-- autoSectionLabels options restored.
+- autoSectionLabels options (including Prefix=sec:) restored.
+- Robust Docker invocation: no shell quoting pitfalls; temp files have safe names.
 
 Usage:
   python renderpdf.py [--timeout N] [--omit-toc] [--omit-numbering] [--as-is] [file.md]
 """
 
-import argparse, re, shutil, subprocess, sys, time, shlex
+import argparse, re, shutil, subprocess, sys, time, shlex, tempfile, os
 from pathlib import Path
 from typing import Optional, Tuple, Set, Dict
 
@@ -73,13 +74,13 @@ def load_map(map_path: Path):
         out.append((lhs, rhs, is_regex))
     return out
 
-def echo(cmd): print("+", cmd, flush=True)
+def echo(cmd_list): print("+", " ".join(shlex.quote(x) for x in cmd_list), flush=True)
 
-def run_visible(cmd: str, *, timeout=0) -> int:
-    echo(cmd)
+def run_visible(cmd_list, *, timeout=0) -> int:
+    echo(cmd_list)
     start = time.time()
     try:
-        p = subprocess.Popen(cmd, shell=True)
+        p = subprocess.Popen(cmd_list)
         while True:
             if p.poll() is not None:
                 return p.returncode
@@ -170,22 +171,15 @@ def collect_all_ids(md: str) -> Set[str]:
             for mm in _ATTR_ID_RE.finditer(attrs):
                 ids.add(mm.group(1))
             ids.add(_auto_slug(title))
-        # prose anchors {#id} too
         for mm in re.finditer(r'\{#([A-Za-z0-9_:-]+)\}', ln):
             ids.add(mm.group(1))
     return ids
 
 # ---------- prose anchors ----------
 _ATTR_BLOCK_RE = re.compile(r'\{#([A-Za-z0-9_:-]+)\}')
-# [label]{#id}  (optional spaces before {#id})
 _BRACKETED_LABEL_ANCHOR_RE = re.compile(r'\[([^\]]+?)\]\s*\{#([A-Za-z0-9_:-]+)\}')
 
 def prose_anchors_and_labels(md: str) -> Tuple[str, Dict[str,str]]:
-    """
-    - Scan for [label]{#id} (no colon) and record id→label. Keep text unchanged.
-    - Convert remaining prose {#id} (no colon) → []{#id}, but SKIP when it belongs to [label]{#id}.
-    - Skip header lines.
-    """
     out_lines=[]
     label_map: Dict[str,str] = {}
 
@@ -193,26 +187,22 @@ def prose_anchors_and_labels(md: str) -> Tuple[str, Dict[str,str]]:
         if _HDR_RE.match(ln):
             out_lines.append(ln); continue
 
-        # Record labels from [label]{#id} without altering the line
         for m in _BRACKETED_LABEL_ANCHOR_RE.finditer(ln):
             label = m.group(1)
             pid   = m.group(2)
-            if ":" in pid:  # crossref-style ids untouched
+            if ":" in pid:
                 continue
             label_map.setdefault(pid, label)
 
-        # Convert remaining bare {#id} in prose → []{#id}  (no colon)
         def sub_attr(m):
             pid = m.group(1)
             if ":" in pid:
                 return m.group(0)
             start = m.start()
             prefix = ln[:start]
-            # already "[] {#id}" or "[]{#id}"?
-            if re.search(r'\[\]\s*$', prefix):
+            if re.search(r'\[\]\s*$', prefix):  # already []{#id}
                 return m.group(0)
-            # is part of a [label]{#id} pattern (possibly with spaces)?
-            if re.search(r'\]\s*$', prefix):
+            if re.search(r'\]\s*$', prefix):    # part of [label]{#id}
                 return m.group(0)
             return f'[]{{#{pid}}}'
         ln2 = _ATTR_BLOCK_RE.sub(sub_attr, ln)
@@ -229,19 +219,12 @@ def normalize_link_destinations(md: str) -> str:
         return f'](#{kind+":"+ident if kind else ident})'
     return _DEST_NORM_RE.sub(repl, md)
 
-# ---------- @id sugar (uses label_map, span_ids, header_ids) ----------
+# ---------- @id sugar ----------
 _AT_UNBRACKETED = re.compile(r'(?<![A-Za-z0-9._%+-])@(?P<id>[A-Za-z0-9_-]+)\b')
 _AT_BRACKETED   = re.compile(r'\[\s*@(?P<id>[A-Za-z0-9_-]+)\s*\]')
 _EMPTY_SPAN_ANCHOR_RE = re.compile(r'\[\]\{#([A-Za-z0-9_-]+)\}')
 
 def rewrite_at_tokens(md: str, *, label_map: Dict[str,str], span_ids: Set[str], header_ids: Set[str]) -> str:
-    """
-    @id / [@id] →
-      - [label](#id)  if id in label_map
-      - [@id](#id)    if id in span_ids or header_ids
-      - untouched     otherwise
-    (Colon tokens are handled separately.)
-    """
     prot, blobs = _protect(md)
     outs=[]
     def keep(s: str) -> str:
@@ -249,7 +232,6 @@ def rewrite_at_tokens(md: str, *, label_map: Dict[str,str], span_ids: Set[str], 
         return f"\u0000L{i}\u0000"
 
     def make_link(ident: str, bracketed: bool) -> str:
-        # skip 'sec:' here; handled by dedicated pass for \nameref
         if ":" in ident:
             return f'@{ident}' if not bracketed else f'[@{ident}]'
         if ident in label_map:
@@ -264,7 +246,7 @@ def rewrite_at_tokens(md: str, *, label_map: Dict[str,str], span_ids: Set[str], 
     prot = re.sub(r'\u0000L(\d+)\u0000', lambda mm: outs[int(mm.group(1))], prot)
     return _unprotect(prot, blobs)
 
-# ---------- NEW: @sec:id (and [@sec:id]) → \nameref{sec:id} ----------
+# ---------- @sec:id → \nameref{sec:id} ----------
 _SEC_UNBR = re.compile(r'(?<![A-Za-z0-9._%+-])@sec:([A-Za-z0-9_-]+)\b')
 _SEC_BRKT = re.compile(r'\[\s*@sec:([A-Za-z0-9_-]+)\s*\]')
 
@@ -331,25 +313,23 @@ def renderpdf(path: str|None=None, *, timeout=0, omit_toc=False, omit_numbering=
     src = Path(path) if path else discover_md_in_cwd()
     if not src.exists(): raise FileNotFoundError(str(src))
 
-    # ---------- AS-IS path: no preprocessing ----------
+    # ---------- AS-IS path ----------
     if as_is:
-        tmpdir = Path("/tmp")
-        in_tmp  = tmpdir / src.name
-        out_tmp = tmpdir / src.with_suffix(".pdf").name
-        shutil.copy2(src, in_tmp)
+        tmpdir = Path(tempfile.mkdtemp(prefix="pnpmd_"))
+        in_tmp  = tmpdir / "in.md"
+        out_tmp = tmpdir / "out.pdf"
+        in_tmp.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
 
         reader = "markdown+tex_math_dollars"
-        toc_flag = "" if omit_toc else "--toc "
-        numbering_flag = "" if omit_numbering else "--number-sections "
+        toc_flag = [] if omit_toc else ["--toc"]
+        numbering_flag = [] if omit_numbering else ["--number-sections"]
 
-        cmd=(
-            f"docker run --rm "
-            f"--mount type=bind,source=\"{tmpdir}\",target=/data -w /data pandoc/extra "
-            f"--standalone {toc_flag}{numbering_flag}--toc-depth=2 "
-            f"--filter pandoc-crossref "
-            f"-f {reader} "
-            f"'{in_tmp.name}' -o '{out_tmp.name}'"
-        )
+        cmd = (["docker","run","--rm",
+                "--mount", f"type=bind,source={str(tmpdir)},target=/data",
+                "-w","/data","pandoc/extra",
+                "--standalone", *toc_flag, *numbering_flag, "--toc-depth=2",
+                "--filter","pandoc-crossref",
+                "-f", reader, "in.md", "-o", "out.pdf"])
         rc=run_visible(cmd,timeout=timeout)
         if rc!=0: raise RuntimeError(f"Docker pandoc failed (rc={rc}).")
 
@@ -368,60 +348,44 @@ def renderpdf(path: str|None=None, *, timeout=0, omit_toc=False, omit_numbering=
 
     stripped, meta, raw_head = extract_percent_block(mapped)
 
-    # Gather header & inline IDs early (for fallback @id → [@id](#id))
     header_and_inline_ids = collect_all_ids(stripped)
 
-    # 1) Record labels from [label]{#id}; convert prose {#id} → []{#id}
     body, label_map = prose_anchors_and_labels(stripped)
-
-    # 2) Normalize [label](@id) / [label](@sec:id)
     body = normalize_link_destinations(body)
-
-    # 3) @id / [@id] → links using label_map or existing anchors/headers
-    span_ids = set(_EMPTY_SPAN_ANCHOR_RE.findall(body))  # after step 1
+    span_ids = set(_EMPTY_SPAN_ANCHOR_RE.findall(body))
     body = rewrite_at_tokens(body, label_map=label_map, span_ids=span_ids, header_ids=header_and_inline_ids)
-
-    # 3.5) Convert @sec:id and [@sec:id] → \nameref{sec:id}
     body = atsec_to_nameref(body)
-
-    # 4) bare #id → [](#id)
     body = rewrite_hash_anchors(body)
-
-    # 5) spacing around headings
     body = normalize_heading_spacing(body)
 
-    # write .pandoc.md
     final_pandoc_md = src.with_suffix(".pandoc.md")
     keep_head = "\n".join(raw_head) + ("\n\n" if raw_head else "")
     final_pandoc_md.write_text(keep_head + body, encoding="utf-8")
 
-    # TOC controls
     body2 = body
     has_toc_marker = False
     if not omit_toc:
         body2 = insert_toc_after_abstract_content(body2)
         body2, has_toc_marker = replace_toc_marker(body2)
 
-    # temp files for docker pandoc
-    tmpdir = Path("/tmp")
-    in_tmp  = tmpdir / final_pandoc_md.name
-    out_tmp = tmpdir / src.with_suffix(".pdf").name
-
-    # IMPORTANT: feed Pandoc the TOC-processed content (body2) when applicable
+    # temp workspace with safe filenames (avoids shell/quote issues)
+    tmpdir = Path(tempfile.mkdtemp(prefix="pnpmd_"))
+    in_tmp  = tmpdir / "in.md"
+    out_tmp = tmpdir / "out.pdf"
     text_for_pandoc = keep_head + (body2 if not omit_toc else body)
     in_tmp.write_text(text_for_pandoc, encoding="utf-8")
-    # shutil.copy2(final_pandoc_md, in_tmp)
 
-    # metadata args (including approved autoSectionLabels flags)
+    # metadata args
     meta_args=[]
-    if meta.get("title"): meta_args.append(f"-M title={shlex.quote(meta['title'])}")
-    for a in meta.get("authors", []): meta_args.append(f"-M author={shlex.quote(a)}")
-    if meta.get("date"): meta_args.append(f"-M date={shlex.quote(meta['date'])}")
-    meta_args.append("-M autoSectionLabels=true")
-    meta_args.append("-M autoSectionLabelsDepth=6")
-    meta_args.append("-M toc-title=Table of Contents")
+    if meta.get("title"): meta_args += ["-M", f"title={meta['title']}"]
+    for a in meta.get("authors", []): meta_args += ["-M", f"author={a}"]
+    if meta.get("date"): meta_args += ["-M", f"date={meta['date']}"]
+    meta_args += ["-M","autoSectionLabels=true",
+                  "-M","autoSectionLabelsDepth=6",
+                  "-M","autoSectionLabelsPrefix=sec:",
+                  "-M","toc-title=Table of Contents"]
 
-    # heading level shift
+    # compute safe heading shift (never produce level 0)
     def min_heading_level(md: str) -> Optional[int]:
         lvl=None
         for ln in md.splitlines():
@@ -432,24 +396,25 @@ def renderpdf(path: str|None=None, *, timeout=0, omit_toc=False, omit_numbering=
         return lvl
     shift=0
     mhl=min_heading_level(body2)
-    if mhl and mhl>1: shift=1-mhl
-    shift_arg=f"--shift-heading-level-by={shift} " if shift!=0 else ""
+    if mhl and mhl>1:
+        # raise headings so the minimum becomes level 1
+        shift = 1 - mhl  # negative number
+    else:
+        shift = 0
+    shift_args = ["--shift-heading-level-by", str(shift)] if shift != 0 else []
 
-    # Pandoc (Markdown reader + pandoc-crossref)
     reader = "markdown+tex_math_dollars+raw_tex"
-    toc_flag = "" if (has_toc_marker or omit_toc) else "--toc "
-    numbering_flag = "" if omit_numbering else "--number-sections "
+    toc_flag = [] if (has_toc_marker or omit_toc) else ["--toc"]
+    numbering_flag = [] if omit_numbering else ["--number-sections"]
 
-    cmd=(
-        f"docker run --rm "
-        f"--mount type=bind,source=\"{tmpdir}\",target=/data -w /data pandoc/extra "
-        f"--standalone {toc_flag}{numbering_flag}--toc-depth=2 "
-        f"{shift_arg}"
-        f"{' '.join(meta_args)} "
-        f"--filter pandoc-crossref "
-        f"-f {reader} "
-        f"'{in_tmp.name}' -o '{out_tmp.name}'"
-    )
+    cmd = (["docker","run","--rm",
+            "--mount", f"type=bind,source={str(tmpdir)},target=/data",
+            "-w","/data","pandoc/extra",
+            "--standalone", *toc_flag, *numbering_flag, "--toc-depth=2",
+            *shift_args,
+            *meta_args,
+            "--filter","pandoc-crossref",
+            "-f", reader, "in.md", "-o", "out.pdf"])
     rc=run_visible(cmd,timeout=timeout)
     if rc!=0: raise RuntimeError(f"Docker pandoc failed (rc={rc}).")
 
@@ -468,8 +433,7 @@ def main(argv=None):
     ap.add_argument("--omit-numbering",action="store_true",
         help="Disable section numbering in the final PDF.")
     ap.add_argument("--as-is",action="store_true",
-        help="Bypass all preprocessing and pass the original Markdown directly to Pandoc.")
-    args=argparse.Namespace()  # silence mypy
+        help="Bypass preprocessing and pass the original Markdown directly to Pandoc.")
     args=ap.parse_args(argv)
     try:
         renderpdf(args.file, timeout=args.timeout,

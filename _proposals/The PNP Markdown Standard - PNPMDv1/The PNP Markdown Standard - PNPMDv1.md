@@ -10,7 +10,7 @@ PNPMD v1.03 is a minimal, human-readable-*first*, mathematically aware, plain-te
 
 ## Abstract
 
-PNPMD is a specificies for human-readable-first, plain-text, math-aware, markdown standard. Honor's Pandoc's flavored markdown. Uses Pandoc's cross-referencing filter (eq, fig, table, etc), and adds some syntax sugar to ease cross-referencing and citations.
+PNPMD is a specificies for human-readable-*first*, plain-text, math-aware, markdown standard. Honor's Pandoc's flavored markdown. Uses Pandoc's cross-referencing filter (eq, fig, table, etc), and adds some syntax sugar to ease cross-referencing and citations.
 
 
 ## Keywords
@@ -22,7 +22,7 @@ plain-text, research format, markdown, mathjax, pandoc, PNPMD
 
 PNPMD v1.03 provides a complete Markdown structure for mathematically aware documents.
 
-It keeps the format plain-text and human-readable first.
+It keeps the format plain-text and human-readable-*first*.
 
 It avoids noisy LaTeX wrappers and PDF-only workflows.
 
@@ -159,4 +159,11 @@ The format remains simple, portable, and human-readable.
 
 ## Corresponding Author
 
-An M. Rodriguez — [an@preferredframe.com](mailto:an@preferredframe.com)
+An M. Rodriguez: an@preferredframe.com
+
+
+## Suggested eferences
+
+Max Freet et al, *The PNP Markdown Standard - PNPMDv1.md*, v1.02,
+https://github.com/siran/research/commit/d05ab25e2a78596d201dc6d03cc9cc8efee5c019
+{#pnpmd}
