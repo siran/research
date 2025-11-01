@@ -28,7 +28,8 @@ WHAT THIS SCRIPT DOES (PIPELINE)
    - Records labels from `[label]{#id}` (no colon) for later `@id` expansion.
    - Converts plain prose `{#id}` (no colon) → `[]{#id}` (headers untouched;
      **content inside code or math is left as-is**).
-   - Normalizes `[label](@id)` / `[label](@sec:id)` → `[label](#id)` / `(#sec:id)`.
+   - Normalizes `[label](@id)` / `[label](@sec:id)` → `[label](#id)` / `(#sec:id)`
+     **only outside code and math**.
    - Rewrites `@id` / `[@id]` to links:
        • `[label](#id)` if label was recorded from `[label]{#id}`
        • `[@id](#id)`   if a span/header anchor exists
@@ -355,12 +356,17 @@ def prose_anchors_and_labels(md: str) -> Tuple[str, Dict[str,str]]:
 # ---------- Normalize [label](@id) / [label](@sec:id) destinations ----------
 _DEST_NORM_RE = re.compile(r'\]\(\s*@(?:(sec|fig|eq|tbl):)?([A-Za-z0-9_-]+)\s*\)')
 def normalize_link_destinations(md: str) -> str:
-    """Turn [label](@id) into [label](#id) and [label](@sec:id) into [label](#sec:id)."""
+    """
+    Turn [label](@id) → [label](#id) and [label](@sec:id) → [label](#sec:id),
+    but NEVER inside code fences, inline code, or math.
+    """
+    prot, blobs = _protect(md)
     def repl(m):
         kind = m.group(1)
         ident = m.group(2)
         return f'](#{kind+":"+ident if kind else ident})'
-    return _DEST_NORM_RE.sub(repl, md)
+    prot = _DEST_NORM_RE.sub(repl, prot)
+    return _unprotect(prot, blobs)
 
 # ---------- Expand @id tokens ----------
 _AT_UNBRACKETED = re.compile(r'(?<![A-Za-z0-9._%+-])@(?P<id>[A-Za-z0-9_-]+)\b')
