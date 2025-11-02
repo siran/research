@@ -508,6 +508,23 @@ def renderpdf(path: str|None=None, *, timeout=0, omit_toc=False, omit_numbering=
         final_pdf=src.with_suffix(".pdf")
         shutil.copy2(out_tmp,final_pdf)
         print(f"✅ Wrote {final_pdf}")
+        out_html_tmp = tmpdir / "out.html"
+
+        cmd_html = (["docker","run","--rm",
+                    "--mount", f"type=bind,source={str(tmpdir)},target=/data",
+                    "-w","/data","pandoc/extra",
+                    "--standalone", *toc_flag, *numbering_flag, "--toc-depth=2",
+                    *shift_args,
+                    *meta_args,
+                    "--filter","pandoc-crossref",
+                    "-f", reader, "in.md", "-t", "html5", "-o", "out.html"])
+        rc = run_visible(cmd_html, timeout=timeout)
+        if rc!=0: raise RuntimeError(f"Docker pandoc (HTML) failed (rc={rc}).")
+
+        final_html = src.with_suffix(".html")
+        shutil.copy2(out_html_tmp, final_html)
+        print(f"✅ Wrote {final_html}")
+
         return final_pdf.resolve()
 
     # ---------- Normal (preprocessed) path ----------
