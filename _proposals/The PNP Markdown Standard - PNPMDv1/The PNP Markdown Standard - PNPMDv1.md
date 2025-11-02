@@ -5,7 +5,7 @@
 
 ## One-Sentence Summary
 
-PNPMD v1.03 is a minimal, human-readable-*first*, mathematically aware, plain-text Markdown standard for documents.
+PNPMD v1.04 is a minimal, human-readable-*first*, mathematically aware, plain-text Markdown standard for documents.
 
 
 ## Abstract
@@ -20,7 +20,7 @@ plain-text, research format, markdown, mathjax, pandoc, PNPMD
 
 ## Introduction
 
-PNPMD v1.03 provides a complete Markdown structure for mathematically aware documents.
+PNPMD v1.04 provides a complete Markdown structure for mathematically aware documents.
 
 It keeps the format plain-text and human-readable-*first*.
 
@@ -33,7 +33,7 @@ It avoids noisy LaTeX wrappers and PDF-only workflows.
 * Abstract
 * Keywords
 * Other body sections
-* Corresponding Author
+* About Author(s)
 * References
 
 
@@ -70,9 +70,17 @@ No citations or equations.
 Introduction, Theory/Framework, Derivation, Results, Discussion, Conclusion, Future Work, Appendices.
 
 
-### Corresponding Author
+### About Author(s)
 
 Immediately before References.
+
+A list of authors, with ORCID if available, email if corresponding,
+or relevant information.
+
+For example,
+
+* An M. Rodriguez, https://orcid.org/0009-0009-9098-9468, an@preferredframe.com
+* Max Freet, max@preferredframe.com
 
 
 ### References
@@ -157,7 +165,7 @@ Clarity is primary. Don’t pollute the document with unnecessary visual noise.
 
 ## Conclusion
 
-PNPMD v1.03 is a plain-text specification for mathematically aware documents.
+PNPMD v1.04 is a plain-text specification for mathematically aware documents.
 
 It standardizes minimal syntax, automatic cross-referencing, and deterministic conversion through Pandoc with `pandoc-crossref`.
 
@@ -169,10 +177,3 @@ PNPMD: where notation and meaning remain human before machine.
 ## Corresponding Author
 
 An M. Rodriguez: an@preferredframe.com
-
-
-## Suggested references
-
-Max Freet et al, *The PNP Markdown Standard - PNPMDv1.md*, v1.02,
-https://github.com/siran/research/commit/d05ab25e2a78596d201dc6d03cc9cc8efee5c019
-{#pnpmd}
