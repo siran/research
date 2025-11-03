@@ -1,6 +1,6 @@
 % PNPMD Markdown specification — PNPMD v1.0.4
 % Max Freet, An M. Rodriguez, Adrien Hale
-% October 2025
+% November 2, 2025
 
 
 ## One-Sentence Summary
