@@ -1,4 +1,4 @@
-% PNPMD Markdown specification — PNPMD v1.04
+% PNPMD Markdown specification — PNPMD v1.0.4
 % Max Freet, An M. Rodriguez, Adrien Hale
 % October 2025
 
@@ -167,7 +167,7 @@ Clarity is primary. Don’t pollute the document with unnecessary visual noise.
 
 ## Conclusion
 
-PNPMD v1.04 is a plain-text specification for mathematically aware documents.
+PNPMD is a plain-text specification for mathematically aware documents.
 
 It standardizes minimal syntax, automatic cross-referencing, and deterministic conversion through Pandoc with `pandoc-crossref`.
 
