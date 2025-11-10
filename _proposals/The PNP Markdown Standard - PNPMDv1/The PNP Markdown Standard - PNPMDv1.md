@@ -1,4 +1,4 @@
-% PNPMD Markdown specification — PNPMD v1.0.4
+% PNPMD Markdown specification — PNPMD v1.0.5
 % Max Freet, An M. Rodriguez, Adrien Hale
 % November 2, 2025
 
@@ -141,8 +141,8 @@ And can be referenced as `@eq:sampleeq`, like so:
 
 See @eq:sampleeq
 
-* Do not use `\[...\]` or `\(...\)`
-* Always specify units (SI preferred)
+* MUST NOT use `\[...\]` or `\(...\)` for latex. ONLY USE $..$ and $$..$$ for latex quoting.
+* Specify units whenever possible.
 
 
 ### Characters
