@@ -1,0 +1,122 @@
+\documentclass[12pt]{article}
+\usepackage{authblk}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{hyperref}
+\geometry{margin=1in}
+
+\begin{document}
+
+\title{\textbf{A Cause-Effect Model for Emergent Time and Distance}}
+\author{
+    {Anonymous and An M. Rodriguez\footnote{anmichel.rodriguez@gmail.com}}
+
+}
+
+\date{\today}
+\maketitle
+
+\begin{abstract}
+We present a framework in which reality emerges from a single, stable Node possessing an incomputable internal structure. This Node is fundamentally unchanging in total energy, yet contains subnodes capable of creating cause-effect relationships. These relationships define a partial order of ``before'' and ``after''---which we interpret as \emph{time}. Distance likewise emerges by counting the number of causal steps required for a subnode $i$ to affect a subnode $j$. When access to $j$ is indirect or nonexistent, a round-trip chain of cause and effect within the same subnode can serve to define both a clock and a notion of distance. Despite its minimal assumptions, this scheme remains consistent with the idea that space, time, and measurement originate from interactions internal to a stable underlying structure.
+\end{abstract}
+
+\section{Introduction}
+Conventional physics often begins by assuming a background space and a global time parameter. In contrast, we start with a single, indivisible Node, denoted by $N$, that is \emph{by definition} changeless in its overall property (e.g., total energy). Within $N$, however, exists a richly layered, incomputable arrangement of \emph{subnodes} that interact, producing cause-effect chains.
+
+\textbf{Key idea}:
+\begin{quote}
+\emph{``Time'' emerges as the observed ordering of cause and effect among subnodes. Distance emerges by counting how many cause-effect steps occur between two subnodes (or within repeated interactions of the same subnode).}
+\end{quote}
+
+\section{Stable Node and Internal Structure}
+\subsection{Definition of the Node}
+Let us call this entire structure $\mathbf{N}$:
+\[
+\mathbf{N} \;=\; \bigl\{n_i \mid i \in I \bigr\},
+\]
+where each $n_i$ is a subnode. The Node as a whole is stable: there is no net change in total energy or other overall properties. Internally, however, the subnodes can be arranged so that \emph{local} causes produce \emph{local} effects elsewhere.
+
+\subsection{Cause-Effect Relation}
+We formalize a \textit{cause-effect} relation among the subnodes. If subnode $n_i$ can trigger a change in subnode $n_j$, we write:
+\[
+n_i \;\succ\; n_j,
+\]
+meaning ``$n_i$ is the cause, $n_j$ is the effect.'' This relation is partial: not all pairs of subnodes need to be causally related. It is also not necessarily symmetric; if $n_i$ affects $n_j$, it does not automatically mean $n_j$ affects $n_i$.
+
+\subsection{Emergent Time as Ordering}
+From the partial order $\succ$, we interpret the statement $n_i \succ n_j$ as ``$n_i$ occurs \emph{before} $n_j$'' in the emergent sense. A chain
+\[
+n_i \;\succ\; n_a \;\succ\; n_b \;\succ\; n_j
+\]
+implies that there is a sequence of cause-effect steps linking $n_i$ to $n_j$. Thus, even without referencing an external clock, we can consistently define an ordering akin to time.
+
+\section{Constructing a Clock}
+\subsection{Local Clock from Self-Interaction}
+A single subnode $n_i$ can be used to build a rudimentary ``clock'' by the following repeated loop:
+\begin{enumerate}
+    \item \textbf{Cause in $n_i$:} $n_i$ emits a perturbation or signal.
+    \item \textbf{Propagation:} This perturbation travels through a chain of subnodes (possibly including $n_i$ itself multiple times).
+    \item \textbf{Return to $n_i$:} Eventually the effect reappears in $n_i$, closing the loop.
+\end{enumerate}
+We then count the discrete causal steps (or observe a repeated pattern of changes in $n_i$) to define a repeatable unit. This cyclical process \emph{is} what we call a ``tick'' of the clock.
+
+\subsection{Cause-Effect Duration}
+If subnode $n_i$ directly affects subnode $n_j$, we can define a one-step cause-effect delay (symbolically one ``unit''). If the signal must travel a longer chain
+\[
+n_i \;\succ\; n_{a} \;\succ\; n_{b} \;\succ\; \dots \;\succ\; n_{j},
+\]
+then the chain length can be counted, giving more units. In practice, each step might be weighted by a factor (e.g., different subnode couplings), but the essential notion is that \emph{time} emerges from counting these intervals.
+
+\section{Emergent Distance}
+\subsection{Definition of Distance}
+Distance between two subnodes $n_i$ and $n_j$ can be defined as the causal step count for $n_i$ to affect $n_j$. Symbolically, if the minimal chain from $n_i$ to $n_j$ has length $L_{ij}$, then we set
+\[
+d(n_i, n_j) \;\propto\; L_{ij}.
+\]
+Here, $L_{ij}$ might be 1 if they are ``adjacent'' in cause-effect terms, or larger if the signal must traverse many intermediate subnodes.
+
+\subsection{Local vs.\ Non-Local Interactions}
+- \textbf{Local:} If $n_i$ can directly trigger $n_j$ with minimal or no intermediary subnodes, then $d(n_i, n_j)$ is small.
+- \textbf{Non-Local:} If there is no straightforward path from $n_i$ to $n_j$, the distance is either undefined or effectively ``infinite.''
+
+Sometimes we lack direct access to $n_j$. In such a case, we measure distance via a round-trip within $n_i$ itself:
+\[
+n_i \;\succ\;\dots\;\succ\;n_i \quad \Longrightarrow \quad \text{(count the steps in the loop)}.
+\]
+This method is how a subnode can gauge an apparent distance to something else by noticing changes in its own state after some chain of events.
+
+\section{Reflections and Chains}
+Signals (or perturbations) may:
+\begin{itemize}
+\item Travel \emph{directly} from $n_i$ to $n_j$ if they are adjacent in the cause-effect diagram.
+\item Pass through multiple intermediaries $(n_a, n_b, \dots)$.
+\item \emph{Reflect} back to the original subnode $n_i$, completing a loop used for timing.
+\end{itemize}
+Regardless of path complexity, each segment corresponds to a well-defined cause-effect step. Summing or concatenating these steps yields a measure of duration and thus a notion of distance.
+
+\section{Discussion}
+\subsection{Why the Node is Still ``Stable''}
+Although we speak of cause-effect steps and subnode interactions, the Node $N$ as a whole remains changeless in its global property (energy, etc.). The cause-effect network represents internal rearrangements of that fixed total. Thus, nothing external changes; the entire structure is like a static tapestry of possible cause-effect pathways, but locally perceived as sequences of transformations.
+
+\subsection{Consistency with Physical Theories}
+\begin{itemize}
+    \item \textbf{General Physical Compatibility:} By not specifying the exact subnode coupling, we leave open how emergent geometry or fields might arise. In principle, standard concepts (mass, charge, etc.) can be grafted onto these cause-effect relationships.
+    \item \textbf{Signal-Based Metric:} Traditional physics often uses light signals or wave propagation to define time and distance operationally. This model simply generalizes that idea to any cause-effect path in an abstract Node.
+\end{itemize}
+
+\section{Conclusion}
+We have outlined a model in which:
+\begin{enumerate}
+    \item A single, stable Node houses an incomputable internal structure of subnodes.
+    \item Subnodes interact via cause-effect relationships, establishing a partial order.
+    \item \emph{Time} emerges from the local ordering of cause and effect.
+    \item \emph{Distance} emerges by counting how many steps are required for a subnode $i$ to affect another subnode $j$ (or to affect itself again in a loop).
+\end{enumerate}
+
+Despite its abstract setting, this framework reproduces the key operational features of measurement: we build clocks from repeated cause-effect loops, and we measure distances by the causal chains needed to propagate signals. Hence, familiar constructs of time and space follow naturally from the stable Node’s internal logic of cause and effect.
+
+\bigskip
+
+
+\end{document}
