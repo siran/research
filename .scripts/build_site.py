@@ -123,7 +123,7 @@ def write_md_like_page(out_html: Path, md_body: str):
     coda   = load_text(SRC / "coda.html")
 
     # Assemble exactly as authored: header + body + footer
-    doc = "".join(s for s in (header, md_body, footer) if s is not None)
+    doc = '<meta charset="utf-8">'.join(s for s in (header, md_body, footer) if s is not None)
 
     # Timestamp (NY time). Put it immediately after footer, on its own line.
     ny = ZoneInfo("America/New_York")
@@ -167,7 +167,7 @@ def format_dir_index(dir_abs: Path, items: list[Item]) -> str:
     for it in items_sorted:
         if it.is_dir:
             href = (it.name + "/") if rel_dir.parts else (rel(it.path).as_posix() + "/")
-            lines.append(f"- 📂 {it.name}/: [{href}]({href})")
+            lines.append(f"- 📂 [{href}]({href})")
         else:
             p_rel = rel(it.path)
             lines.append(f"- 📄 {it.name}")
