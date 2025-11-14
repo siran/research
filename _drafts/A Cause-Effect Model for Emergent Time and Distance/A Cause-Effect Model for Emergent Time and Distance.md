@@ -330,9 +330,6 @@ An M. Rodriguez, an@preferredframe.com, https://orcid.org/0009-0009-9098-9468
 
 ## References
 
-Palma, A., Rodriguez, An M. (2025). *A cause–effect model for emergent time and
-distance*. https://doi.org/10.13140/RG.2.2.35753.30569 (original print)
-
 {#barbour1999} Barbour, J. (1999). *The Nature of Time*. arXiv:0903.3489 [gr-qc]
 
 {#wheeler1992} Wheeler, J. A. (1992). *It from Bit: Recent thinking about the
@@ -350,3 +347,6 @@ https://doi.org/10.1103/PhysRevLett.59.521
 {#lloyd2002} Lloyd, S. (2002). *Computational capacity of the universe*.
 Physical Review Letters, 88(23), 237901.
 https://doi.org/10.1103/PhysRevLett.88.237901
+
+Palma, A., Rodriguez, An M. (2025). *A cause–effect model for emergent time and
+distance*. https://doi.org/10.13140/RG.2.2.35753.30569 (pre-print)
