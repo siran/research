@@ -420,6 +420,18 @@ def main():
                 dst_path.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(src_path, dst_path)
 
+    # --- root README.md -> site/README.md.html ---
+    readme_src = ROOT / "README.md"
+    if readme_src.exists():
+        dst_path = OUT / "README.md.html"
+        md_body = readme_src.read_text(encoding="utf-8")
+        dst_path.parent.mkdir(parents=True, exist_ok=True)
+        write_html(dst_path, md_body)
+
+    md_body = readme_src.read_text(encoding="utf-8")
+    write_html(dst_path, md_body)
+
+
     # --- directory indexes over repo tree ---
     for dirpath, dirnames, filenames in os.walk(ROOT):
         d = Path(dirpath)
