@@ -135,27 +135,28 @@ effectively 3D or 4D.
 
 ## Implications and Discussion
 
-### Space vs Distance
+The key implication of this extension is that spatial dimension is not a
+primitive feature of the Node. The causal structure alone determines the
+distances between subnodes, and any geometric interpretation is secondary.
+Observers may assign an effective D only when the induced distances admit a
+low-distortion embedding into ℝ^D. Different regions or different coarse
+descriptions may support different dimensional interpretations, and no single
+"true" dimension exists at the fundamental level.
 
-Space is not fundamental. We instead have:
+This view separates the Node framework from causal-set or quantum-gravity
+approaches that aim to reproduce general relativity or assume a target
+dimensionality. We do not require acyclicity, Lorentzian structure, or metric
+conditions, and we allow causal loops. Distance asymmetry may occur, and if such
+asymmetry prevents low-distortion embedding, that simply reflects that the
+underlying causal relations do not support a geometric interpretation in that
+domain.
 
-- Distance: minimal causal-chain length.
-- Embedding: a representation of distances in $\mathbb{R}^D$.
+What emerges is space as an effective construct: a manifold-like
+representation selected by observers because it approximates the causal
+distances well enough for practical purposes. Dimension is therefore not
+fundamental, not unique, and not guaranteed. It is an attribute of an embedding,
+not of the Node itself.
 
-Space appears when dense regions of the causal graph admit low-distortion
-embeddings.
-
-
-### Origin of Dimensionality
-
-Quantum-gravity scenarios often show scale-dependent dimension @carlip.
-In the Node framework:
-
-- Dimension may vary with scale.
-- Small-scale behavior may be fractal-like.
-- Large-scale behavior may approximate an integer dimension.
-
-Dimension is emergent rather than assumed.
 
 
 ### Beyond Geometry: Matter and Fields
