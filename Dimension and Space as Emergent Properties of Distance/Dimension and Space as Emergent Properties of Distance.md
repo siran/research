@@ -12,13 +12,20 @@ via approximate metric embeddings.
 
 ## Abstract
 
-We extend a previously introduced framework where time and distance arise from
-internal causal relations within a stable Node. Time follows from a partial
-ordering of subnode interactions, while distance is the minimal causal-chain
-length between subnodes. Here we show that dimension and space similarly emerge
-when these causal distances embed into manifold-like structures. We formalize
-effective dimensionality through approximate metric embeddings. This clarifies
-how conventional spatial dimensions may arise from deeper relational dynamics.
+We extend a previously introduced framework in which time and distance arise
+from internal causal relations within a single stable Node. In this work we
+clarify that no metric, geometric structure, or fixed dimensionality is assumed
+at the fundamental level. The Node is an abstract collection of subnodes linked
+by causal influence, and any notion of "space" arises only from the distances
+induced by minimal causal chains. We show that observers may assign an effective
+spatial dimension whenever these causal distances can be approximately embedded
+into $\mathbb{R}^D$ with sufficiently low distortion. Crucially, no particular dimension $D$ is
+preferred or fundamental: the same causal structure may support multiple
+effective dimensional interpretations, and the true underlying dimensionality is
+undefined. This liberates spatial dimension from preconceived geometric
+constraints and treats it as an emergent, observer-dependent property of causal
+relations rather than a fixed feature of spacetime.
+
 
 
 ## Keywords
@@ -169,20 +176,20 @@ embeddings.
 
 ## References
 
-Anonymous, An M. Rodriguez. *A Cause-Effect Model for Emergent Time and
-Distance*. ResearchGate. DOI: https://doi.org/10.13140/RG.2.2.35753.30569
+{#bombelli} Bombelli, L., Lee, J., Meyer, D., Sorkin, R. *Space-Time as a
+Causal Set.*, Phys.Rev. Lett. 59, 521 (1987).
 
-Bombelli, L., Lee, J., Meyer, D., Sorkin, R. *Space-Time as a Causal Set.* Phys.
-Rev. Lett. 59, 521 (1987).
+{#dowker} Dowker, F. *Causal Sets and the Deep Structure of Spacetime.* In *100
+Years of Relativity* (2005).
 
-Dowker, F. *Causal Sets and the Deep Structure of Spacetime.* In *100 Years of
-Relativity* (2005).
+{#surya} Surya, S. *The Causal Set Approach to Quantum Gravity.* Living Reviews
+in Relativity 22, 5 (2019).
 
-Surya, S. *The Causal Set Approach to Quantum Gravity.* Living Reviews in
-Relativity 22, 5 (2019).
-
-Konopka, T., Markopoulou, F., Smolin, L. *Quantum Graphity.*
+{#t_konopka} Konopka, T., Markopoulou, F., Smolin, L. *Quantum Graphity.*
 arXiv:hep-th/0611197 (2006).
 
-Carlip, S. *Dimensional Reduction in Quantum Gravity.* Int. J. Mod. Phys. D 23,
-1430023 (2014).
+{#carlip} Carlip, S. *Dimensional Reduction in Quantum Gravity.* Int. J. Mod.
+Phys. D 23, 1430023 (2014).
+
+Anonymous, An M. Rodriguez. *A Cause-Effect Model for Emergent Time and
+Distance*. ResearchGate. DOI: https://doi.org/10.13140/RG.2.2.35753.30569
