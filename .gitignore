@@ -1,9 +1,9 @@
 *.code-workspace
-site
+/site/
 .vscode
 ___packet/*
-
 venv/
 .___packet
 .tmp
 __pycache__
+.env*
