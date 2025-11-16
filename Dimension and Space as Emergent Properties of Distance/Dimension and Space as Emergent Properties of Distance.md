@@ -36,21 +36,30 @@ metric structure
 
 ## Introduction
 
-Standard physics treats a $D$-dimensional spacetime as pre-existing structure.
-Discrete or relational programs instead propose spacetime as emergent,
-constructed from deeper causal or combinatorial elements @bombelli @dowker
-@surya @t_konopka.
+Standard physics assumes that spacetime possesses a fixed number of spatial
+dimensions. Even in discrete or relational approaches, one typically begins with
+a target dimension or with structures designed to reproduce a chosen geometry.
+In contrast, the Node framework introduces no geometric background and no
+predefined dimensionality. A single stable Node N contains subnodes related by a
+causal order. Time emerges as the experience of this ordering, and distance
+arises from causal-chain length. Beyond this, no metric axioms, symmetry
+requirements, or geometric constraints are imposed.
 
-In @NodePaper, a single stable Node $N$ was introduced, containing subnodes
-interacting by internal causal links. A partial order $\succ$ encodes causality:
+In this work we examine how spatial dimension can itself emerge from the causal
+structure. We do not define a new metric, nor do we restrict the causal network
+to mimic any specific geometry. Instead, we allow the induced distance function
+to be arbitrary, possibly asymmetric, and shaped solely by the causal behavior
+of subnodes. When observers attempt to represent these distances within
+$\mathbb{R}^D$, the success or failure of low-distortion embeddings determines
+the effective dimensionality they assign to the system. This dimensionality is
+not fundamental but reflects the perceptual or operational fit between causal
+relations and manifold-like structures.
 
-$$ n_i \succ n_j $$
-
-interpreted as "subnode $n_i$ can trigger a change in $n_j$".
-Time emerges from this partial order.
-Distance emerges as the minimal length of causal chains between subnodes.
-
-Here we formalize how dimension can also emerge from this structure. When causal distances admit approximate embeddings into $\mathbb{R}^D$ with low distortion, the system exhibits effective dimensionality. This aligns with ideas of manifold-like limits in discrete spacetime models.
+Thus the Node framework removes the assumption that space must possess a single
+fixed dimension. A causal structure may be compatible with multiple dimensional
+embeddings, or with none. Dimension becomes an emergent and potentially
+non-unique property reconstructed by observers, rather than a fundamental
+attribute of the underlying system.
 
 
 ## Recap of the Node Framework
