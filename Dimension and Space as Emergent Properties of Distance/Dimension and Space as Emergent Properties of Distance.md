@@ -200,5 +200,5 @@ arXiv:hep-th/0611197 (2006).
 {#carlip} Carlip, S. *Dimensional Reduction in Quantum Gravity.* Int. J. Mod.
 Phys. D 23, 1430023 (2014).
 
-Anonymous, An M. Rodriguez. *A Cause-Effect Model for Emergent Time and
-Distance*. ResearchGate. DOI: https://doi.org/10.13140/RG.2.2.35753.30569
+{#NodePaper} Anonymous, An M. Rodriguez. *A Cause-Effect Model for Emergent Time
+and Distance*. ResearchGate. DOI: https://doi.org/10.13140/RG.2.2.35753.30569
