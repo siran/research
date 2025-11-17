@@ -1,7 +1,7 @@
-  % Dimension and Space as Emergent Properties of Distance in a Cause-Effect Model
+% Dimension and Space as Emergent Properties of Distance in a Cause-Effect
+Model of the Emergence of Time
 % Anes Palma, An M. Rodriguez
 % November 16, 2025
-
 
 ## One-Sentence Summary
 
@@ -16,14 +16,15 @@ from internal causal relations within a single stable Node. In this work we
 clarify that no metric, geometric structure, or fixed dimensionality is assumed
 at the fundamental level. The Node is an abstract collection of subnodes linked
 by causal influence, and any notion of "space" arises only from the distances
-induced by minimal causal chains. We show that observers may assign an effective
-spatial dimension whenever these causal distances can be approximately embedded
-into $\mathbb{R}^D$ with sufficiently low distortion. Crucially, no particular
-dimension $D$ is preferred or fundamental: the same causal structure may support
-multiple effective dimensional interpretations, and the true underlying
-dimensionality is undefined. This liberates spatial dimension from preconceived
-geometric constraints and treats it as an emergent, observer-dependent property
-of causal relations rather than a fixed feature of spacetime.
+induced by causal chains. We show that observers may assign an
+effective spatial dimension whenever these causal distances can be
+approximately embedded into $\mathbb{R}^D$ with sufficiently low distortion.
+Crucially, no particular dimension $D$ is preferred or fundamental: the same
+causal structure may support multiple effective dimensional interpretations,
+and the true underlying dimensionality is undefined. This liberates spatial
+dimension from preconceived geometric constraints and treats it as an emergent,
+observer-dependent property of causal relations rather than a fixed feature of
+spacetime.
 
 
 ## Keywords
@@ -35,13 +36,14 @@ metric structure
 ## Introduction
 
 Standard physics assumes that spacetime possesses a fixed number of spatial
-dimensions. Even in discrete or relational approaches, one typically begins with
-a target dimension or with structures designed to reproduce a chosen geometry.
-In contrast, the Node framework introduces no geometric background and no
-predefined dimensionality. A single stable Node N contains subnodes related by a
-causal order. Time emerges as the experience of this ordering, and distance
-arises from causal-chain length. Beyond this, no metric axioms, symmetry
-requirements, or geometric constraints are imposed.
+dimensions. Even in discrete or relational approaches, approaches typically
+begin with a target dimension or with structures designed to reproduce a chosen
+geometry, or expected behavior. In contrast, the Node framework introduces no
+geometric background, no predefined dimensionality, and it's agnostic to any
+behavior encoded in the causal network: a single stable Node N contains
+subnodes related by a causal order. Time emerges as the experience of this
+ordering, and distance arises from causal-chain length. Beyond this, no metric
+axioms, symmetry requirements, or geometric constraints are imposed.
 
 In this work we examine how spatial dimension can itself emerge from the causal
 structure. We do not define a new metric, nor do we restrict the causal network
@@ -65,7 +67,7 @@ attribute of the underlying system.
 ### Structure of the Node
 
 - Stable Node: a single entity $N$ with fixed total property (e.g., energy).
-- Subnodes: a set $\{n_i\}_{i \in I}$ of internal components.
+- Subnodes: a set $\{n_i\} {i \in I}$ of internal components.
 - Causality: a partial order $\succ$ where $n_i \succ n_j$ means causal
   influence.
 
@@ -80,12 +82,14 @@ $$
 Distance $d(n_i,n_j)$ is the minimal $k$ for which such a chain exists. If none
 exists, the distance may be infinite or undefined.
 
+The choice of minimality as a notion of distance is clearly arbitrary.
 
-### Time as Partial Order
 
-The relation $n_i \prec n_j$ expresses temporal precedence. Recurrent cycles
+### Time as an Ordering of Events
+
+The relation $n_i \prec n_j$ expresses causal precedence. Recurrent cycles
 allow local "clock" definitions: the count of causal steps gives a measure of
-duration. Details appear in [@NodePaper].
+duration.
 
 
 ## Formalizing Emergent Dimension
@@ -98,7 +102,6 @@ symmetric, but when finite it provides a metric-like structure.
 **Proposition (Pseudo-Metric)**
 If the causal relation is acyclic and well-defined, $d$ induces a pseudo-metric
 on pairs with finite causal connection.
-
 
 ### Approximate Embeddings and Effective Dimension
 
@@ -119,7 +122,6 @@ $$
 If arbitrarily large subsets embed with arbitrarily small $\epsilon$, the system
 is effectively $D$-dimensional.
 
-
 ### Non-Unique Dimensionality
 
 The Node framework places no requirement that a single dimension describe the
@@ -127,22 +129,26 @@ entire causal structure. Different regions may admit embeddings into different
 Euclidean spaces.
 
 **Theorem (Non-Uniqueness of Effective Dimension)**
+
 Let $(\mathbf{N}, d)$ be the causal pseudo-metric defined by minimal causal
 chains. If there exist two subsets $S_1, S_2 \subset \mathbf{N}$ and integers
 $D_1 \neq D_2$ such that each admits arbitrarily low-distortion embeddings
+
 $$
 \Phi_k : S_k \to \mathbb{R}^{D_k}, \qquad k = 1,2,
 $$
+
 then the Node has no single effective dimension. Dimension is not a property of
 the causal structure itself but of the embedding chosen by the observer.
 
 **Corollary (Dimensional Degeneracy)**
+
 If an observer samples only a subsystem whose causal distances embed well into
 $\mathbb{R}^D$, the observer will infer dimension $D$ even when the full Node
 admits no finite-dimensional embedding.
 
-This makes clear why different theoretical frameworks may assign dimensions such
-as $3$, $4$, $7$, $10$, or $11$ without contradiction: each describes a
+This makes clear why different theoretical frameworks may assign dimensions
+such as $3$, $4$, $7$, $10$, or $11$ without contradiction: each describes a
 different effective embedding of a different causal sector.
 
 
@@ -166,8 +172,8 @@ single "true" dimension exists at the fundamental level.
 This view separates the Node framework from causal-set or quantum-gravity
 approaches that aim to reproduce general relativity or assume a target
 dimensionality. We do not require acyclicity, Lorentzian structure, or metric
-conditions, and we allow causal loops. Distance asymmetry may occur, and if such
-asymmetry prevents low-distortion embedding, that simply reflects that the
+conditions, and we allow causal loops. Distance asymmetry may occur, and if
+such asymmetry prevents low-distortion embedding, that simply reflects that the
 underlying causal relations do not support a geometric interpretation in that
 domain.
 
@@ -175,6 +181,7 @@ What emerges is space as an effective construct: a manifold-like representation
 chosen by observers because large causal regions admit faithful metric
 embeddings. Dimension is therefore not fundamental, not unique, and not
 guaranteed. It is an attribute of an embedding, not of the Node itself.
+
 
 
 ### Beyond Geometry: Matter and Fields
@@ -185,10 +192,11 @@ preserving additional attributes, leading to emergent gauge fields or matter
 excitations.
 
 
+
 ## Conclusions
 
 Dimension arises rather than being postulated. Effective dimensionality follows
-from approximate embeddings of causal distances into $\mathbb{R}^D$. Thus, time,
+from approximate embeddings of causal distances into $\mathbb{R}^D$. Thus time,
 distance, space, and dimension emerge from deeper causal relations within a
 single stable Node.
 
@@ -198,10 +206,13 @@ embeddings.
 
 ## About Author(s)
 
-An M. Rodriguez, an@preferredframe.com, https://orcid.org/0009-0009-9098-9468
-
+An M. Rodriguez, https://orcid.org/0009-0009-9098-9468, an@preferredframe.com
 
 ## References
 
-{#NodePaper} Palma, A., Rodriguez, A.M., *A Cause-Effect Model for Emergent Time
-and Distance*. Preferred Frame. https://doi.org/10.5281/zenodo.17613402
+{#NodePaper} Palma, A., Rodriguez, A.M., *A Cause-Effect Model for Emergent
+Time and Distance*. Preferred Frame. DOI: https://doi.org/10.5281/zenodo.17613401
+
+(pre-print) Palma, A., Rodriguez, A.M., *Dimension and Space as Emergent
+Properties of Distance in a Cause-Effect Model of the Emergence of Time*.
+ResearchGate. DOI: https://doi.org/10.13140/RG.2.2.26399.68003
