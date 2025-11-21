@@ -291,7 +291,6 @@ def _origin_from_cname() -> str | None:
         return f"https://{first_line}"
     return None
 
-
 # ---------- templating ----------
 def write_html(out_html: Path, body_html: str, head_extra: str = "", title: str = ""):
     header = load_text(SRC / "header.html")
@@ -332,8 +331,9 @@ def _current_origin() -> str:
     CNAME > provenance > env BASE_URL > computed BASE_URL
     """
     return (
-        _origin_from_cname()
+        False
         or _canonical_origin_from_provenance()
+        or _origin_from_cname()
         or os.getenv("BASE_URL")
         or BASE_URL
     ).rstrip("/")
@@ -353,7 +353,6 @@ def render_markdown_file(src: Path, dst_html: Path, title: str):
     head = [
         '<meta charset="utf-8">',
         f'<link rel="canonical" href="{page_url}">',
-        # avoid SEO duplication for rendered views
         '<meta name="robots" content="noindex,follow">',
         f'<meta name="description" content="Rendered Markdown view for {title}">',
     ]
@@ -484,13 +483,6 @@ def fmt_author(a):
 def build_article_pages():
     """
     Build article pages for all provenance.yaml entries, regardless of journal.
-
-    For each directory with provenance.yaml (top/stem/prefix/suffix):
-      - Build a version page under site/prints/<stem>/<prefix>/<suffix>/index.html
-      - Also build the same article index at the mirrored location:
-            site/<top>/<stem>/<prefix>/<suffix>/index.html
-      - Build a 'stem' page under site/prints/<stem>/ only if that stem has at
-        least one version with journal == PREFERRED_JOURNAL.
     """
     records = []
     for prov in iter_provenance_files():
@@ -1015,8 +1007,23 @@ def _url_from_out_path(p: Path) -> str:
     # URL-encode, but keep path separators and common safe chars
     return quote(path, safe="/:@-._~")
 
+
 def build_sitemap_and_robots():
-    origin = _current_origin()
+    """
+    Build sitemap.xml and robots.txt for THIS site.
+
+    Origin resolution for sitemap:
+        CNAME > BASE_URL env > computed BASE_URL
+
+    Provenance is intentionally ignored here so that cross-host
+    provenance (e.g. preprints/preferredframe) does not hijack
+    the sitemap domain.
+    """
+    origin = (
+        _origin_from_cname()
+        or os.getenv("BASE_URL")
+        or BASE_URL
+    ).rstrip("/")
 
     urls = []
     for path in OUT.rglob("*"):
