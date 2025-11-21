@@ -29,7 +29,7 @@ MIRROR_EXTS = {
 
 MD_EXTS = {".md", ".markdown", ".pandoc.md"}
 
-PREFERRED_JOURNAL = "Preferred Frame Writing"
+PREFERRED_JOURNAL = "Preferred Frame Pre-Prints"
 
 # ---------- repo autodetect ----------
 def _parse_remote(url: str):
