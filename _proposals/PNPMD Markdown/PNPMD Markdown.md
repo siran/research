@@ -1,4 +1,4 @@
-% PNPMD Markdown specification — PNPMD v1.0.5
+% PNPMD Markdown
 % Max Freet, An M. Rodriguez, Adrien Hale
 % November 2, 2025
 
@@ -175,6 +175,8 @@ The format remains simple, portable, and human-readable.
 
 PNPMD: where notation and meaning remain human before machine.
 
+## Current version
+1.0.5
 
 ## Corresponding Author
 
