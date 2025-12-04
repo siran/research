@@ -278,8 +278,9 @@ def write_html(out_html: Path, body_html: str, head_extra: str = "", title: str 
     coda   = load_text(SRC / "coda.html")
 
     rel_html = rel_out(out_html).as_posix()
+    is_md_html = rel_html.endswith(".md.html")
     breadcrumb_html = ""
-    if rel_html.endswith(".md.html"):
+    if is_md_html:
         # Use same crumb_link style as article pages, based on path without trailing .html
         rel_no_html = re.sub(r"\.html$", "", rel_html)
         parts = list(Path(rel_no_html).parts)
@@ -287,11 +288,15 @@ def write_html(out_html: Path, body_html: str, head_extra: str = "", title: str 
             parts = parts[:-1]
         breadcrumb_html = crumb_link(parts)
 
+    body_block = body_html
+    if is_md_html:
+        body_block = f'<div class="md-container">\n{body_block}\n</div>\n'
+
     doc = "".join(
         s for s in (
             header,
             breadcrumb_html + "\n" if breadcrumb_html else "",
-            body_html,
+            body_block,
             footer,
         ) if s
     )
@@ -318,6 +323,7 @@ def write_html(out_html: Path, body_html: str, head_extra: str = "", title: str 
     if not doc.endswith("\n"):
         doc += "\n"
     doc += stamp
+
     if coda:
         doc += coda
 
