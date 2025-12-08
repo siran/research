@@ -25,6 +25,7 @@ MIRROR_EXTS = {
     ".yml",
     ".pandoc.md",
     ".txt",
+    ".css",
 }
 
 MD_EXTS = {".md", ".markdown", ".pandoc.md"}
@@ -1345,17 +1346,17 @@ def main():
             if not src_path.is_file():
                 continue
             rel_path = src_path.relative_to(site_src)
-        print(f"[DEBUG] site asset found: {rel_path}")
-        if src_path.suffix.lower() == ".md":
-            dst_rel = rel_path.with_suffix(rel_path.suffix + ".html")
-            dst_path = OUT / dst_rel
-            print(f"[DEBUG]   MD (site) -> {dst_rel}")
-            render_markdown_file(src_path, dst_path, title=rel_path.stem)
-        else:
-            dst_path = OUT / rel_path
-            print(f"[DEBUG]   COPY -> {rel_path} → {dst_path.relative_to(OUT)}")
-            dst_path.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(src_path, dst_path)
+            print(f"[DEBUG] site asset found: {rel_path}")
+            if src_path.suffix.lower() == ".md":
+                dst_rel = rel_path.with_suffix(rel_path.suffix + ".html")
+                dst_path = OUT / dst_rel
+                print(f"[DEBUG]   MD (site) -> {dst_rel}")
+                render_markdown_file(src_path, dst_path, title=rel_path.stem)
+            else:
+                dst_path = OUT / rel_path
+                print(f"[DEBUG]   COPY -> {rel_path} → {dst_path.relative_to(OUT)}")
+                dst_path.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src_path, dst_path)
     else:
         print("[DEBUG] WARNING: site_src does not exist; no site/ assets copied")
 
