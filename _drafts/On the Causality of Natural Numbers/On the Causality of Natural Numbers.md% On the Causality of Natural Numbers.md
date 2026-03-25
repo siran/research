@@ -5,96 +5,251 @@
 
 ## Abstract
 
-We introduce a causal structure on the natural numbers by requiring that each integer may only appear once its prime bases and their exponents have themselves appeared earlier. This defines a generative growth process — the **onion avalanche** — in which natural numbers are revealed layer by layer through closure under prime powers. The resulting partial order is temporal: primes act as causal sources, exponents as control signals, and each new integer is an event determined by past events. We show that this construction yields a computable, well-defined enumeration of $\mathbb{N}$, distinct from standard numerical order, and that it aligns with the formal framework of causal sets. This reframes the natural numbers as not merely ordered by size, but by causality.
+We define a canonical era function on the natural numbers by withholding each
+integer until it can be generated from already admitted integer labels. Powers
+are taken as primitive generation events, and multiplicative recombination is
+allowed only across coprime blocks. This yields a recursive map
+$\tau:\mathbb N\to\mathbb Z_{\ge 1}$, where $\tau(n)$ is the least era in
+which $n$ can appear. The resulting structure is a well-founded dependency
+order, distinct from the usual order by size. Primes are forced to appear at
+their own eras, while composites may appear earlier than their numerical value
+when their generators are already present. We give the formal definition,
+derive basic properties, and compute the first era sets.
 
 
 ## One-Sentence Summary
 
-We propose a causal-set interpretation of $\mathbb N$ where numbers arise only after both their primes and exponents have appeared, yielding a temporal onion-like avalanche of construction.
+Natural numbers can be ordered by the earliest era in which they can be
+generated from admitted integer labels using powers and coprime recombination.
 
 
 ## Keywords
 
-natural numbers, causality, constructive order, prime powers, causal sets
+natural numbers, causality, constructive order, prime powers, generations,
+dependency order
 
 
 ## Introduction
 
-The natural numbers $\mathbb N=\{1,2,3,\dots\}$ are usually ordered arithmetically by size. This order is timeless: every factorization is valid without restriction. In this work, we impose a **causality constraint**: a number cannot exist until its **prime base** and its **exponent** exist. In this way, integers unfold through a generative law that respects causal precedence.
+The natural numbers $\mathbb N=\{1,2,3,\dots\}$ are usually ordered by size.
+That order is static: every factorization is valid at once. Here we instead
+introduce a generational order. Integers are withheld until the integer labels
+needed to generate them have appeared.
 
-The guiding metaphor is one of **colors and amplitudes**: each prime is a color, and exponents are amplitudes. Amplitudes themselves must be painted from earlier colors; no color can be raised to an amplitude that has not yet appeared. This recursive causality induces a temporal order on $\mathbb N$.
+The intended examples are:
+
+- era $1$: $1^1$
+- era $2$: $2, 2^2$
+- era $3$: $3, 3^2, 2^3, 3^3$
+- era $4$: $2^4, 3^4, 4^2, 4^3, 4^4$
+
+The key point is that powers are primitive generation events. An integer such
+as $64$ need not wait for the representation $2^6$; it can already appear in
+era $4$ as $4^3$. More generally, once a number has appeared, it may later act
+as a base when its own label-era arrives.
+
+To pass from examples to mathematics, we define a canonical era function
+$\tau(n)$.
 
 
-## Theory: Causality Constraint
+## Theory: Era Function
 
-### Definition
+### Power cost
 
-Let $S_t$ be the set of numbers known at stage $t$, with $1\in S_0$.
+For $n\ge 1$, define the power cost
 
-- **Prime introduction rule.** At certain stages a new prime $p$ is admitted as a base.
-- **Exponent causality rule.** If $p$ is a known base and $e\in S_t$, then $p^e$ becomes admissible at a later stage.
-- **Closure.** A number $n=\prod_{p\in B} p^{e_p}$ can appear only if each $p$ is already admitted as a base and each $e_p\in S_t$.
+$$
+\kappa(n)
+=
+\min\{\max(a,b): n=a^b,\ a,b\in\mathbb N,\ b\ge 1\}.
+$$
 
-Thus numbers are revealed by causal closure, not by mere size.
+The trivial representation $n=n^1$ is always allowed, so $\kappa(n)\le n$.
 
-### Temporal Partial Order
+Examples:
 
-Define $m\prec n$ if $m$ is required as a base or exponent in the construction of $n$. This yields a transitive, acyclic relation — a **causal set** on $\mathbb N$.
+$$
+\kappa(4)=2,
+\qquad
+\kappa(8)=3,
+\qquad
+\kappa(16)=4,
+\qquad
+\kappa(64)=4,
+$$
+
+since
+
+$$
+4=2^2,\quad 8=2^3,\quad 16=2^4=4^2,\quad 64=2^6=4^3=8^2.
+$$
+
+### Era function
+
+Define $\tau:\mathbb N\to\mathbb Z_{\ge 1}$ recursively by
+
+$$
+\tau(1)=1,
+$$
+
+and for $n>1$,
+
+$$
+\tau(n)
+=
+\min\left(
+\kappa(n),
+\min_{\substack{ab=n\\1<a<n\\\gcd(a,b)=1}}
+\max(\tau(a),\tau(b))
+\right).
+$$
+
+If no nontrivial coprime factorization exists, the inner minimum is omitted.
+
+This definition says:
+
+1. An integer can appear directly as a power event, with cost $\kappa(n)$.
+2. It can also appear by recombining previously generated coprime blocks.
+3. Its era is the earliest moment either route becomes available.
+
+The coprime condition prevents repeated splitting of a single prime channel.
+For example, $16$ is not treated as $2\cdot 2\cdot 2\cdot 2$ at era $2$.
+Instead it appears through the power channel $2^4$ or $4^2$, both of which
+place it in era $4$.
 
 
-## Derivation: Onion Avalanche Process
+## Basic Properties
 
-The onion avalanche grows $\mathbb N$ as follows:
+### Well-definedness
 
-1. **Seed.** Begin with $1$.
-2. **Prime step.** Introduce the next prime $p$, add $p=p^1$.
-3. **Exponentiation step.** Whenever a new exponent $e$ enters, powers $p^e$ for all known bases $p$ become eligible.
-4. **Priority.** Eligible numbers are released in increasing prime-order and exponent depth.
+The recursion is well-founded. In every coprime factorization $n=ab$ with
+$1<a<n$, both $a$ and $b$ are smaller than $n$. So $\tau(n)$ is computed from
+previously known values of $\tau$ together with the explicit finite quantity
+$\kappa(n)$.
 
-This process enforces that $4=2^2$ appears before $3$ (since base $2$ and exponent $2$ exist), but $16=2^4$ must wait until $4$ appears.
+### Primes
+
+If $p$ is prime, then it has no nontrivial coprime factorization. Hence
+
+$$
+\tau(p)=\kappa(p)=p.
+$$
+
+So primes are forced to appear at their own eras.
+
+### Prime-power channels
+
+If
+
+$$
+n=\prod_{i=1}^r p_i^{e_i}
+$$
+
+is the prime factorization of $n$, then the coprime factorization rule implies
+that different prime channels recombine by taking the maximum of their
+individual eras. In practice,
+
+$$
+\tau(n)=\max_i \tau(p_i^{e_i}),
+$$
+
+where each prime-power era $\tau(p^e)$ is determined by the power-cost rule.
+
+So the era of a general integer is the latest era among its prime-power
+channels.
 
 
 ## Results
 
-### First Numbers
+### First eras
 
-The sequence begins:
+The first era sets are:
+
 $$
-1,\ 2,\ 4,\ 3,\ 8,\ 16,\ 9,\ 27,\ 81,\ 5,\ 32,\ 243,\ 25,\ 125,\ 625,\ 3125,\ 7,\ 49,\ 343,\dots
+E_k=\{n\in\mathbb N:\tau(n)=k\}.
 $$
 
-### Properties
+For the first few eras:
 
-1. **Causality.** Every integer has causal parents: its prime bases and its exponents.
-2. **No premature composites.** A number cannot use a prime or exponent not yet introduced.
-3. **Temporal stratification.** Numbers appear in onion-like layers; exponent depth corresponds to temporal depth.
-4. **Causal set structure.** The relation $\prec$ is a partial order, locally finite, and aligns with causal set theory.
-5. **Computability.** The enumeration is algorithmic: each new event is determined by closure rules.
+$$
+E_1=\{1\},
+$$
+
+$$
+E_2=\{2,4\},
+$$
+
+$$
+E_3=\{3,6,8,9,12,18,24,27,36,54,72,108,216\},
+$$
+
+$$
+E_4=\{16,48,64,81,144,162,192,256,324,432,576,648,768,1296,1728,\dots\}.
+$$
+
+The important phenomenon is already visible:
+
+- primes are sparse frontier events,
+- prime powers can appear much earlier than their numerical value,
+- large integers may belong to low eras if their generators are simple.
+
+### Interpretation
+
+The natural order by size and the causal order by era are fundamentally
+different. For example,
+
+$$
+\tau(64)=4
+\qquad\text{while}\qquad
+64\gg 4.
+$$
+
+So $\tau$ measures generative accessibility, not magnitude.
 
 
 ## Discussion
 
-This causal interpretation reframes $\mathbb N$ not as a static set ordered by size, but as a **history of events**. Primes are causal sources, exponents are signals, and each composite integer is an outcome. The onion avalanche embodies:
+This definition isolates the part of the original idea that is mathematically
+salvageable: not a privileged display sequence, but a canonical era grading.
 
-- **Recursion:** exponents are numbers, so the process is self-similar.
-- **Causality:** nothing can appear without its antecedents.
-- **Temporal growth:** $\mathbb N$ is built in time, not revealed at once.
+Any list of integers that respects increasing $\tau$ is secondary. The primary
+object is the function $\tau$ itself and the induced stratification
 
-This structure parallels discrete spacetime models in physics. Just as spacetime can be modeled as a causal set, so too the integers can be modeled as a causal set under exponentiation.
+$$
+\mathbb N = \bigsqcup_{k\ge 1} E_k.
+$$
+
+This makes the causal claim precise:
+
+- primes are forced frontier events,
+- powers are primitive generation steps,
+- composites appear when their prime-power channels can be recombined.
+
+The next natural question is whether familiar arithmetic observables can be
+recovered from this grading. In particular, if one sorts the generated integers
+back into the usual order on $\mathbb N$, the frontier behavior of the primes
+can be studied as a histogram on the era process rather than as an independent
+random irregularity.
 
 
 ## Conclusion
 
-We have defined a causal generative law for $\mathbb N$: integers appear only when both their primes and exponents have already appeared. The resulting onion avalanche ordering yields a temporal partial order and a constructive enumeration. This view highlights a deep analogy between number theory and causality in physics: natural numbers can be seen as a causal set, not just an ordered set by size.
+We have defined a canonical era function on $\mathbb N$ by withholding integers
+until they can be generated from admitted integer labels through powers and
+coprime recombination. This yields a well-founded dependency order distinct
+from the ordinary order by size. The resulting structure is computable and
+gives a concrete notion of generational appearance for the integers.
 
 
 ## Next Work
 
-1. Formalize the onion avalanche as a labeled causal set and study its asymptotics.
-2. Investigate whether causal invariants (growth rates, dimensional estimators) align with known arithmetic densities.
-3. Explore connections to computational complexity: causal precedence as resource constraints.
-4. Study analogues in algebraic structures (e.g., polynomial rings with exponent causality).
-5. Compare with causal set theory in physics, probing analogies between number growth and discrete spacetime growth.
+1. Compute the era sets $E_k$ at larger cutoffs and study their asymptotic
+   growth.
+2. Sort the cumulative generated set back into the ordinary order and compare
+   its prime frontier with $\pi(x)$.
+3. Investigate whether the era grading explains the jaggedness of prime
+   counting as a deterministic generational effect.
+4. Compare this era process with other dependency orders on factorization data.
 
 
 ## Corresponding author(s)
@@ -104,8 +259,7 @@ Aurey Hyppa: aurey.hyppa@proton.example
 
 ## References
 
-1. Bombelli, L., Lee, J., Meyer, D., & Sorkin, R. D. (1987). Space-time as a causal set. *Physical Review Letters*, 59(5), 521–524. DOI:[10.1103/PhysRevLett.59.521](https://doi.org/10.1103/PhysRevLett.59.521)
-
-2. Hardy, G. H., & Wright, E. M. (2008). *An Introduction to the Theory of Numbers* (6th ed.). Oxford University Press.
-
-3. Tenenbaum, G. (2015). *Introduction to Analytic and Probabilistic Number Theory* (3rd ed.). American Mathematical Society.
+1. Hardy, G. H., & Wright, E. M. (2008). *An Introduction to the Theory of
+   Numbers* (6th ed.). Oxford University Press.
+2. Tenenbaum, G. (2015). *Introduction to Analytic and Probabilistic Number
+   Theory* (3rd ed.). American Mathematical Society.
